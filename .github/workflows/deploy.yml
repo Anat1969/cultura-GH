@@ -33,6 +33,13 @@ jobs:
 
       - run: npm ci
 
+      # Ship the library inside the build. The articles are then on screen as
+      # soon as the page is, instead of depending on a request each visitor has
+      # to make successfully first. A failure here is not fatal: the copy
+      # committed to the repo is already valid.
+      - name: Refresh the bundled library
+        run: node scripts/export-library.mjs || echo "keeping the committed copy"
+
       - run: npm run build
         env:
           VITE_BASE: /${{ github.event.repository.name }}/

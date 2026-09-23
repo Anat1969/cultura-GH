@@ -1,1 +1,1970 @@
-[]
+[
+  {
+    "id": "36a25d94-454c-433a-be51-029c1eeb9352",
+    "concept": "היגה",
+    "createdAt": "2026-09-23T22:14:48.48+00:00",
+    "updatedAt": "2026-09-23T22:14:47.256794+00:00",
+    "tags": [
+      "דנמרק",
+      "מנוחה"
+    ],
+    "dimensions": {
+      "lede": "בארץ עם שישה חודשי חושך, הדנים המציאו נוסחה למצוא אור מבפנים.",
+      "insight": "המילה מקורה בנורווגית עתיקה שפירושה 'רווחה' או 'הגנה', והדנים אימצו אותה לתיאור תחושת חמימות ביתית פשוטה. היא מתגלמת בנרות דולקים באמצע היום, שמיכת צמר על הספה, וחברים סביב שולחן עץ בלי טלפונים. הצורך שהיא משרתת הוא בריחה מהביצועיות של החיים המודרניים אל רגע שאין בו שום דבר להוכיח.",
+      "spaceName": "פינת האור הרך",
+      "proverb": "נר אחד דולק שווה יותר מתאורה שלמה שלא הודלקה מרצון",
+      "interpretation": [
+        "בישראל יש 'בית חם' אבל הוא תמיד מלא רעש ואורחים",
+        "היגה מלמדת שאפשר חום גם בשקט, בלי אירוח פעיל",
+        "כאן הנוחות היא לרוב חברתית, שם היא פנימית וסולitarית",
+        "זה מזמין לוותר על הצורך להוכיח ארוחה מושלמת"
+      ],
+      "humanNeed": "מנוחה",
+      "origin": {
+        "script": "Hygge",
+        "culture": "דנמרק",
+        "literal": "נחת חמימה",
+        "region_en": "Denmark",
+        "transliteration": "Hygge"
+      },
+      "practice": {
+        "how": "הדלק נר אחד בשעת ערב קבועה בלי טלפון בסביבה.",
+        "why": "לתת לגוף ולנפש רגע ללא ביצוע וללא מטרה.",
+        "when": "בערבי חורף, אחרי יום עמוס, כשצריך להאט בלי הסבר.",
+        "where": "עץ טבעי, אור נר חם, שמיכות צמר, פינה קטנה וסגורה."
+      },
+      "imagePrompts": {
+        "exterior": "A small wooden cottage in rural Denmark at dusk, warm candlelight glowing through frost-covered windows, thick snow on the roof, smoke rising from a chimney, surrounded by bare birch trees, soft golden interior light contrasting with deep blue winter twilight. Documentary realism, professional architecture photography, 16:9, natural light, no people in focus, no text, no words, no writing, no frame divisions",
+        "interior": "A quiet reading nook in a stone house in the Galilee, thick wool blankets draped over a low wooden bench, a single oil lamp casting warm light on rough plastered walls, small window overlooking olive trees at dusk, textures of raw linen and aged timber, an atmosphere of stillness and shelter. Documentary realism, professional architecture photography, 16:9, natural light, no people in focus, no text, no words, no writing, no frame divisions"
+      }
+    },
+    "images": {
+      "exterior": null,
+      "interior": null
+    },
+    "videos": {
+      "exterior": null,
+      "interior": null
+    }
+  },
+  {
+    "id": "d65ea1d2-a124-4d47-b7c3-ea3e3491fa07",
+    "concept": "סאודאדה",
+    "createdAt": "2026-09-23T21:54:26.008+00:00",
+    "updatedAt": "2026-09-23T21:54:24.771326+00:00",
+    "tags": [
+      "פורטוגל",
+      "געגוע"
+    ],
+    "dimensions": {
+      "lede": "מילה אחת מכילה געגוע לדבר שאולי לא היה קיים מעולם.",
+      "insight": "סאודאדה היא מילה פורטוגזית שמקורה מתועד עוד במאה השלוש עשרה, ומקצת חוקרי הלשון חולקים על הקישור המקובל שלה לפועל הלטיני 'solitas' - בדידות. היא מככבת בשירת הפאדו, בבתי קפה של ליסבון ובמכתבי מהגרים שיצאו לימים בים ולא חזרו, כערגה לאדם, למקום או לזמן שאבד. היא נותנת שם למרחב הרגשי שבין אבל לתקווה, ומרגיעה את הצורך להכיל געגוע מבלי להיתלות בפתרון שלו.",
+      "spaceName": "חדר הצליל הרחוק",
+      "proverb": "מי שיודע להתגעגע נכון, יודע גם לחיות נכון.",
+      "interpretation": [
+        "בעברית יש 'געגועים', אך לא מילה שמכילה גם יופי בתוך הכאב",
+        "סאודאדה מוסיפה הכרה שהגעגוע עצמו יכול להיות שלם ולא רק חסר",
+        "היהדות דוחפת לפעולה ולתיקון, סאודאדה מזמינה לשהות בתוך התחושה",
+        "היא מבקשת מהישראלי לעצור, לא לפתור ולא לברוח מהעצב"
+      ],
+      "humanNeed": "געגוע",
+      "origin": {
+        "script": "Saudade",
+        "culture": "פורטוגל",
+        "literal": "געגוע מתמשך",
+        "region_en": "Portugal",
+        "transliteration": "Saudade"
+      },
+      "practice": {
+        "how": "להקדיש כמה דקות ביום להאזין לשיר או לריח שמזכיר משהו שאבד",
+        "why": "לתת מקום לגעגוע מבלי להיאבק בו או למהר לרפא אותו",
+        "when": "בערבים שקטים, בימי שינוי גדול או בעת פרידה ממקום ואדם",
+        "where": "פינה עם אור עמום, טקסטיל כבד וקיר ישן שנושא סימני זמן"
+      },
+      "imagePrompts": {
+        "exterior": "A weathered stone alley in Alfama, Lisbon, Portugal, at dusk, faded pastel facades with peeling paint, wrought-iron balconies draped with drying laundry, a single lit window glowing warm against deep blue twilight, cobblestones worn smooth by generations, distant sound of fado implied through empty quiet streets, atmosphere of tender melancholy. Documentary realism, professional architecture photography, 16:9, natural light, no people in focus, no text, no words, no writing, no frame divisions",
+        "interior": "A small reading nook in a stone house in the Galilee, Israel, with a deep-set window overlooking terraced olive groves at golden hour, thick rammed-earth walls holding the day's warmth, a heavy woven wool blanket folded on a worn wooden bench, an old brass oil lamp unlit beside a stack of letters, soft dust-filled light falling across a cracked plaster wall, quiet and unresolved atmosphere. Documentary realism, professional architecture photography, 16:9, natural light, no people in focus, no text, no words, no writing, no frame divisions"
+      }
+    },
+    "images": {
+      "exterior": null,
+      "interior": null
+    },
+    "videos": {
+      "exterior": null,
+      "interior": null
+    }
+  },
+  {
+    "id": "6d925010-452b-4136-aedb-bd79dc97113c",
+    "concept": "וינפש",
+    "createdAt": "2026-09-23T21:29:36.155+00:00",
+    "updatedAt": "2026-09-23T21:29:34.904476+00:00",
+    "tags": [
+      "עברית מקראית",
+      "מנוחה"
+    ],
+    "dimensions": {
+      "lede": "מילה אחת בתורה טוענת שגם האל היה צריך לנשום עם השבת.",
+      "insight": "המילה מופיעה בספר שמות בתיאור מנוחת השבת, ומקורה בשורש נפ״ש - נפש, כאילו המנוחה מחזירה נשימה לגוף שנעצר. בפועל היא התגלגלה למנהג חז\"לי של 'עונג שבת' - שולחן, ניגון, שתיקה מהסוג שאינו דורש דיבור. היא עונה לצורך האנושי הפשוט שבין עבודה לעבודה: לא רק לנוח מהגוף, אלא לתת לנפש לחזור למקומה.",
+      "spaceName": "חדר ההשבה",
+      "proverb": "מי שלא נחה מהעולם, לא באמת עזב אותו.",
+      "interpretation": [
+        "מקביל ל'מנוחת הנפש' היהודית אך מדגיש חזרה פיזית ולא רק הפסקת מלאכה",
+        "מוסיף תחושה שהמנוחה היא פעולה אקטיבית ולא ריק שבין מטלות",
+        "נפרד מהמושג הישראלי של 'פנאי' שנצבע היום בעומס תוכן ומסכים",
+        "דורש מהאדם כאן לתרגל עצירה בלי הישג, גם כשהשעון ממשיך לרוץ"
+      ],
+      "humanNeed": "מנוחה",
+      "origin": {
+        "script": "וַיִּנָּפַשׁ",
+        "culture": "עברית מקראית",
+        "literal": "ונפשו שבה אליו",
+        "region_en": "Ancient Israel, Judea",
+        "transliteration": "Vayinafash"
+      },
+      "practice": {
+        "how": "לקבוע שעה קבועה בשבוע ללא מסך, טלפון או משימה",
+        "why": "להחזיר לגוף תחושת שהות אחרי ריצה מתמדת",
+        "when": "אחרי ימי עומס, מעברים, או כשהדעת מפוזרת בין דברים",
+        "where": "אור נר, בד פשתן, שולחן עץ פשוט בלי חפצים מיותרים"
+      },
+      "imagePrompts": {
+        "exterior": "A stone courtyard at dusk in Jerusalem's Old City, warm oil lamps beginning to glow along a low wall, olive tree casting long shadow, worn limestone steps leading to a closed wooden door, soft golden hour light settling over rooftops, sense of a threshold between labor and rest. Documentary realism, professional architecture photography, 16:9, natural light, no people in focus, no text, no words, no writing, no frame divisions",
+        "interior": "A quiet retreat room in the Judean foothills, thick lime-plastered walls holding the day's warmth, a low wooden table set with linen cloth and a single unlit candle, west-facing window framing terraced hills at golden hour, woven wool rug on stone floor, no clutter, air still. Documentary realism, professional architecture photography, 16:9, natural light, no people in focus, no text, no words, no writing, no frame divisions"
+      }
+    },
+    "images": {
+      "exterior": null,
+      "interior": null
+    },
+    "videos": {
+      "exterior": null,
+      "interior": null
+    }
+  },
+  {
+    "id": "e8c4a029-b88c-4392-8537-cd9076167b60",
+    "concept": "לאגום",
+    "createdAt": "2026-09-23T21:28:59.979+00:00",
+    "updatedAt": "2026-09-23T21:28:58.819148+00:00",
+    "tags": [
+      "שוודיה",
+      "איזון"
+    ],
+    "dimensions": {
+      "lede": "לא מעט ולא הרבה - שוודיה בנתה תרבות שלמה על הנקודה שבאמצע.",
+      "insight": "המילה מקורה בשוודית ומקובל לקשור אותה לביטוי הישן 'laget om' - 'סביב לקבוצה', כמו כד שעובר בין אנשים בלי שאף אחד ישתה יותר מחלקו, אך יש חולקים על האטימולוגיה הזו. בחיי היומיום היא מתגלה בבית שוודי מרוהט בצנעה מחושבת, בארוחה שאין בה עודף ואין בה חסך, ובשיחה שנמנעת מהתפארות כמו מתלונה. הצורך שהיא עונה עליו הוא השקט מהשוואה מתמדת - השאיפה למספיק, לא למקסימום.",
+      "spaceName": "חדר המידה הנכונה",
+      "proverb": "מי שיש לו מספיק, לא צריך יותר משום דבר",
+      "interpretation": [
+        "'שביעות רצון' היהודית קרובה אך טעונה יותר ברגש דתי",
+        "לאגום מוסיף איפוק חברתי שלא תמיד קיים בתרבות הישראלית הרועשת",
+        "בישראל שאפתנות נחשבת ערך, ואילו לאגום חוגג את הממוצע במופגן",
+        "זה מזמין לשאול כמה זה 'מספיק' בחיים שרגילים למדוד הכול בהשוואה"
+      ],
+      "humanNeed": "איזון",
+      "origin": {
+        "script": "Lagom",
+        "culture": "שוודיה",
+        "literal": "בדיוק הכמות הנכונה",
+        "region_en": "Sweden",
+        "transliteration": "Lagom"
+      },
+      "practice": {
+        "how": "בכל קנייה או בקשה שאל את עצמך אם זה 'מספיק' ולא 'הכי'",
+        "why": "לשקוט מהשוואה תמידית בין 'יש לי' ל'יש לאחרים'",
+        "when": "מועיל כשמרגישים לחץ להרשים, לצבור או להתבלט",
+        "where": "חלל בהיר ומרוהט בדלות, עץ בהיר, קווים נקיים, בלי עודף קישוט"
+      },
+      "imagePrompts": {
+        "exterior": "A modest Swedish wooden house by a lake in Dalarna, Sweden, painted in muted Falu red, surrounded by birch trees and simple unadorned garden furniture, everything proportionate and unpretentious, soft overcast Nordic light emphasizing quiet balance and restraint. Documentary realism, professional architecture photography, 16:9, natural light, no people in focus, no text, no words, no writing, no frame divisions",
+        "interior": "A minimalist living space in the Galilee, Israel, built with pale local stone and light oak furniture, deliberately sparse and proportionate, a single wide window framing olive terraces, natural linen textures and uncluttered surfaces expressing calm sufficiency rather than austerity, soft afternoon light. Documentary realism, professional architecture photography, 16:9, natural light, no people in focus, no text, no words, no writing, no frame divisions"
+      }
+    },
+    "images": {
+      "exterior": null,
+      "interior": null
+    },
+    "videos": {
+      "exterior": null,
+      "interior": null
+    }
+  },
+  {
+    "id": "81d13cd6-1104-4a1c-9188-218bdc402c00",
+    "concept": "אובונטו",
+    "createdAt": "2026-09-23T21:28:16.506+00:00",
+    "updatedAt": "2026-09-23T21:28:15.262294+00:00",
+    "tags": [
+      "שפות נגוני",
+      "קהילה"
+    ],
+    "dimensions": {
+      "lede": "באפריקה הדרומית אומרים שאדם בודד אינו אדם - הוא נולד מתוך אחרים.",
+      "insight": "אובונטו הוא מילה בשפות זולו וקוסה שמקורה בביטוי 'אומונטו נגומונטו נגבאנטו' - אדם הוא אדם באמצעות אנשים אחרים. הוא מתגלה בטקסי אבל, בחלוקת אוכל בין שכנים, ובנוהג שאורח שנכנס לבית זכאי לאוכל בלי לשאול. הוא עונה על הצורך להרגיש שהזהות שלי לא נגמרת בגוף שלי, ומרגיע את הבדידות של מי שחושב שהוא צריך לשרוד בכוחות עצמו.",
+      "spaceName": "חצר המשותפים",
+      "proverb": "כשאתה שותה, תן לכוס לעבור ליד אחרת לפני שתחזור אליך",
+      "interpretation": [
+        "'כל ישראל ערבים זה בזה' - אחריות הדדית שמקבילה לרעיון האובונטו",
+        "אובונטו מרחיב את הערבות מזהות משפחתית-לאומית לכל אדם באשר הוא",
+        "ביהדות הזהות נשענת גם על ברית וגבול, באובונטו הגבול נזיל יותר",
+        "זה מבקש מהישראלי לראות בזר לא איום אלא חלק מהעצמי"
+      ],
+      "humanNeed": "קהילה",
+      "origin": {
+        "script": "Ubuntu",
+        "culture": "שפות נגוני",
+        "literal": "אני כי אנחנו",
+        "region_en": "Southern Africa (Zulu and Xhosa cultures)",
+        "transliteration": "Ubuntu"
+      },
+      "practice": {
+        "how": "שאל שכן איך הוא מרגיש, וחכה בסבלנות לתשובה האמיתית",
+        "why": "כדי לזכור שהעצמי שלי שלם רק בתוך רשת של אחרים",
+        "when": "עוזר בזמנים של אבל, מחלה, או כשמישהו נדחק לשוליים",
+        "where": "חלל פתוח, ספסלי אבן במעגל, אדמה חשופה מתחת לכפות רגליים"
+      },
+      "imagePrompts": {
+        "exterior": "A rural homestead courtyard in KwaZulu-Natal, South Africa, with circular thatched huts arranged around a shared open earth yard, low afternoon light casting long shadows across packed clay ground, communal fire pit at the center, woven grass mats and clay pots resting near doorways, distant rolling green hills of the Drakensberg foothills, warm ochre and terracotta tones of sun-baked walls. Documentary realism, professional architecture photography, 16:9, natural light, no people in focus, no text, no words, no writing, no frame divisions",
+        "interior": "A communal gathering room in a stone house in the Galilee, Israel, built around a low circular seating pit carved into a wide terracotta floor, walls of rough local limestone left textured and unpolished, a single skylight pouring soft midday light onto a shared low wooden table, no clear head of the room, doorway left open with no threshold barrier connecting to an olive grove outside, warm neutral tones of clay, stone and aged olive wood. Documentary realism, professional architecture photography, 16:9, natural light, no people in focus, no text, no words, no writing, no frame divisions"
+      }
+    },
+    "images": {
+      "exterior": null,
+      "interior": null
+    },
+    "videos": {
+      "exterior": null,
+      "interior": null
+    }
+  },
+  {
+    "id": "a18b688c-f9a9-4bd1-a34e-565531ff4607",
+    "concept": "מא",
+    "createdAt": "2026-09-23T21:27:28.126+00:00",
+    "updatedAt": "2026-09-23T21:27:26.908909+00:00",
+    "tags": [
+      "יפן",
+      "מנוחה"
+    ],
+    "dimensions": {
+      "lede": "החלל הריק בין שני קירות שוקל יותר מהקירות עצמם.",
+      "insight": "מא הוא מושג יפני שמציין את המרווח, ההפסקה או הריק המשמעותי בין דברים - לא חלל ריק וחסר תוכן, אלא מרחב פעיל שמעניק צורה למה שסביבו. הוא נוכח בסידור החדר היפני המסורתי, בהפסקה השקטה בשיחה, בקצב האיטי של טקס התה ובמרווח הריק שבין קווי מכחול בציור סומי-אה. הוא עונה על הצורך להשתחרר מדחיסות ומרעש מתמיד, ומעניק לגיטימציה לריק כערך בפני עצמו.",
+      "spaceName": "חדר הנשימה",
+      "proverb": "מה שלא נאמר, לפעמים, הוא הדבר החשוב ביותר בחדר",
+      "interpretation": [
+        "בעברית 'הפסקה' היא תקלה, ב'מא' היא מהות",
+        "היהדות מכירה בשבת כזמן ריק מקודש, אך פחות בחלל ריק פיזי",
+        "אנחנו ממלאים כל קיר וכל שתיקה מפחד מהריק",
+        "הישראלי מוזמן להשאיר משהו לא גמור, ולסבול מזה בשקט"
+      ],
+      "humanNeed": "מנוחה",
+      "origin": {
+        "script": "間",
+        "culture": "יפן",
+        "literal": "מרווח, הפסקה",
+        "region_en": "Japan",
+        "transliteration": "Ma"
+      },
+      "practice": {
+        "how": "השאר פינה אחת בבית ריקה לגמרי, בלי חפצים.",
+        "why": "לתת לנפש מרחב לנשום בין גירוי לגירוי.",
+        "when": "בעומס יומיומי, בשיחה קשה, כשהראש עמוס.",
+        "where": "קיר בהיר וריק, אור טבעי רך, רצפת עץ פשוטה."
+      },
+      "imagePrompts": {
+        "exterior": "A traditional Japanese engawa veranda in Kyoto, wooden sliding shoji screens partially open, empty tatami room visible beyond, a single stone lantern in a raked gravel garden, soft diffused morning light, vast negative space between architectural elements, minimal furnishings, muted natural wood tones. Documentary realism, professional architecture photography, 16:9, natural light, no people in focus, no text, no words, no writing, no frame divisions",
+        "interior": "A minimalist living room in the Judean foothills, thick limestone walls, one deliberately bare wall left untouched by decoration, a low wooden bench facing a large window onto olive terraces, wide empty floor space between sparse furniture, soft late-afternoon light casting long shadows, raw plaster texture, restrained material palette of stone and pale wood. Documentary realism, professional architecture photography, 16:9, natural light, no people in focus, no text, no words, no writing, no frame divisions"
+      }
+    },
+    "images": {
+      "exterior": null,
+      "interior": null
+    },
+    "videos": {
+      "exterior": null,
+      "interior": null
+    }
+  },
+  {
+    "id": "f725e786-dcfc-4564-9e08-dd8d800c24e9",
+    "concept": "אומוטנאשי",
+    "createdAt": "2026-09-23T20:14:49.356+00:00",
+    "updatedAt": "2026-09-23T20:14:48.16984+00:00",
+    "tags": [
+      "יפן",
+      "אירוח"
+    ],
+    "dimensions": {
+      "lede": "אירוח שבו המארח נעלם, כדי שהאורח ירגיש שהמקום עצמו דאג לו.",
+      "insight": "המילה נגזרת מ'לשאת דבר' ומ'חזית ללא הסתרה', ויש חוקרים שרואים בה גם רמז ל'בלי פנים כפולות' - כנות בלי העמדת פנים. ביפן היא מתבטאת בתה שהוגש בדיוק בטמפרטורה הנכונה, בפרח שהונח בזווית שרק האורח יבחין בה, בשירות שמקדים כל בקשה עוד לפני שנאמרה. היא עונה לצורך האנושי בתחושה שמישהו חשב עליך לפני שביקשת - ומרגיעה את החרדה מלהיות נטל.",
+      "spaceName": "חדר הציפייה השקטה",
+      "proverb": "האירוח האמיתי הוא זה שהאורח לא ידע שהתרחש.",
+      "interpretation": [
+        "הכנסת אורחים היהודית גלויה ומוצהרת, אומוטנאשי מסתתרת בפרטים",
+        "היהדות מברכת את האורח בקול, יפן מארחת אותו בשתיקה",
+        "כאן האירוח הוא מצווה חברתית, שם הוא איפוק אישי כמעט סמוי",
+        "זה מבקש מהמארח הישראלי לוותר על הצורך שיראו כמה הוא נותן"
+      ],
+      "humanNeed": "אירוח",
+      "origin": {
+        "script": "おもてなし",
+        "culture": "יפן",
+        "literal": "אירוח מהלב",
+        "region_en": "Japan",
+        "transliteration": "Omotenashi"
+      },
+      "practice": {
+        "how": "הכן דבר קטן מראש מבלי להזכיר זאת בפה",
+        "why": "לתת לאורח תחושת ביטחון בלי שירגיש בחוב",
+        "when": "כשמארחים מישהו פגיע, אבל או חדש במקום",
+        "where": "עץ בהיר, אור עקיף, חפצים מסודרים בשקט ובמינימליזם"
+      },
+      "imagePrompts": {
+        "exterior": "A traditional Japanese ryokan entrance in Kyoto, Japan, with a raked gravel path leading to a low wooden gate, moss-covered stones, a single maple branch trimmed to frame the doorway, soft diffused morning light filtering through cedar trees, worn wooden threshold polished by decades of bare feet. Documentary realism, professional architecture photography, 16:9, natural light, no people in focus, no text, no words, no writing, no frame divisions",
+        "interior": "A quiet guest room in a stone house in the Galilee, Israel, with a low wooden bench, a single olive branch in a clay vase placed near a window, pale limestone walls, linen curtains diffusing afternoon light, a small tray with water left unobtrusively by the entrance, minimal furniture arranged to anticipate a guest's comfort without display. Documentary realism, professional architecture photography, 16:9, natural light, no people in focus, no text, no words, no writing, no frame divisions"
+      }
+    },
+    "images": {
+      "exterior": null,
+      "interior": null
+    },
+    "videos": {
+      "exterior": null,
+      "interior": null
+    }
+  },
+  {
+    "id": "17203858-dda3-447a-a6ee-ca09c61b1b2a",
+    "concept": "תיקון",
+    "createdAt": "2026-09-23T20:10:44.89+00:00",
+    "updatedAt": "2026-09-23T20:10:43.651919+00:00",
+    "tags": [
+      "יהדות",
+      "משמעות"
+    ],
+    "dimensions": {
+      "lede": "עולם שנשבר לרסיסים של אור, וכל מעשה קטן שלך מלקט ניצוץ אחד בחזרה.",
+      "insight": "המושג נולד במאה ה-16 בצפת, בתורת האר\"י, שמתארת כלים אלוהיים שנשברו ופיזרו ניצוצות קדושה בתוך החומר הגס של העולם. הוא מתבטא בטקס תיקון ליל שבועות, בכוונות תפילה, במעשה צדקה שנעשה מתוך מודעות שהוא מתקן משהו מעבר לעצמו. הוא עונה לצורך להעניק משמעות קוסמית לפעולה היומיומית הקטנה ביותר, ומשקיט את התחושה שהמאמץ הפרטי חסר ערך.",
+      "spaceName": "חדר הניצוצות",
+      "proverb": "כל שבר נושא בתוכו את מפת התיקון שלו",
+      "interpretation": [
+        "תיקון עולם הפך בישראל לסיסמה חברתית, וכמעט איבד את הממד המיסטי שלו",
+        "הגרסה הקבלית מוסיפה עומק קוסמי למה שהפך אצלנו לפעילות התנדבותית גרידא",
+        "המתח האמיתי הוא בין תיקון כמעשה פרטי-רוחני לתיקון כפרויקט פוליטי קולקטיבי",
+        "המושג מבקש מהאדם כאן לראות בכל מעשה קטן שלו חלק מסדר גדול יותר"
+      ],
+      "humanNeed": "משמעות",
+      "origin": {
+        "script": "תיקון",
+        "culture": "יהדות",
+        "literal": "תיקון של העולם",
+        "region_en": "Safed, Galilee, Israel",
+        "transliteration": "Tikkun"
+      },
+      "practice": {
+        "how": "בחר פעולה יומיומית אחת ובצע אותה מתוך כוונה מודעת לתיקון",
+        "why": "לתת למעשה הקטן משקל שמעבר לתוצאה המיידית שלו",
+        "when": "עוזר במיוחד ברגעי חוסר אונים מול בעיות גדולות מדי לפתרון",
+        "where": "פינה עם חומר שבור ומאוחה, אור נמוך ורך, סף מעבר בין חוץ לפנים"
+      },
+      "imagePrompts": {
+        "exterior": "A narrow stone alley in the old Kabbalistic quarter of Safed, Galilee, Israel, weathered blue-painted doorways, cracked plaster walls repaired with visible mortar seams, golden late-afternoon light falling across ancient stone steps, a small synagogue courtyard glimpsed through an arched opening, textures of aged limestone and iron gates. Documentary realism, professional architecture photography, 16:9, natural light, no people in focus, no text, no words, no writing, no frame divisions",
+        "interior": "A minimalist living space on a hillside in the Judean foothills, Israel, where a cracked concrete wall has been intentionally repaired with a seam of poured bronze resin, exposed stone floor, a single skylight casting a shaft of warm light onto a low wooden table made from reclaimed olive wood with visible mended joints, muted earth-toned textiles, a threshold of rough-hewn local stone leading to an open view of terraced hills. Documentary realism, professional architecture photography, 16:9, natural light, no people in focus, no text, no words, no writing, no frame divisions"
+      }
+    },
+    "images": {
+      "exterior": null,
+      "interior": null
+    },
+    "videos": {
+      "exterior": null,
+      "interior": null
+    }
+  },
+  {
+    "id": "c6bd80a0-c694-4683-ae83-7c409877bdc3",
+    "concept": "פנג שואי",
+    "createdAt": "2026-09-23T20:10:37.186+00:00",
+    "updatedAt": "2026-09-23T20:10:35.953812+00:00",
+    "tags": [
+      "סין",
+      "איזון"
+    ],
+    "dimensions": {
+      "lede": "בסין עתיקה קבעו כיוון של קיר לפי זרימת נהר שאיש לא רואה מהבית.",
+      "insight": "פנג שואי, מילולית 'רוח ומים', היא שיטה סינית עתיקה לסידור מרחב בהתאם לזרימת אנרגיית צ'י דרך הנוף והבית. בפועל היא קובעת מיקום דלת כניסה, כיוון מיטה ומקום שולחן עבודה כך שלא יפנו גב לפתח ולא יחסמו זרימה. היא עונה לצורך האנושי בתחושת שליטה וביטחון מול מרחב שנדמה אקראי, ומרגיעה את החרדה מפני הבלתי נראה.",
+      "spaceName": "חדר הזרימה השקטה",
+      "proverb": "קיר שיודע לאן פונה הנהר, לא יפריע לשינה",
+      "interpretation": [
+        "מזוזה בפתח דומה בתפקידה לשמירה על סף הבית מרוח רעה",
+        "פנג שואי מוסיפה תשומת לב לגיאומטריה של המרחב, לא רק לסמל שעליו",
+        "ביהדות הקדושה בטקסט ובמצווה, בפנג שואי היא בזרימה הפיזית עצמה",
+        "היא מבקשת מאיתנו לשים לב למקום הכיסא לפני שנשים לב לתוכן השיחה"
+      ],
+      "humanNeed": "איזון",
+      "origin": {
+        "script": "風水",
+        "culture": "סין",
+        "literal": "רוח ומים",
+        "region_en": "China",
+        "transliteration": "Fēng Shuǐ"
+      },
+      "practice": {
+        "how": "הזז את המיטה כך שתראה את הדלת בלי לישון ישר מולה.",
+        "why": "הצבה נכונה של חפצים מפחיתה תחושת אי-שקט לא מוסברת בבית.",
+        "when": "מועיל בזמן מעבר דירה, שיפוץ או תחושת חוסר מנוחה מתמשכת.",
+        "where": "עץ, מים זורמים, אור טבעי רך ומעברים פתוחים בין חדרים."
+      },
+      "imagePrompts": {
+        "exterior": "A traditional courtyard house in Suzhou, China, oriented according to feng shui principles, with a curved stone pathway leading away from the entrance to deflect direct wind, a still koi pond reflecting sky light, grey tiled roofs with upturned eaves, mature bamboo softening the northern wall, morning mist settling over the water. Documentary realism, professional architecture photography, 16:9, natural light, no people in focus, no text, no words, no writing, no frame divisions",
+        "interior": "A serene home interior in the Galilee hills, Israel, built into a gentle slope with the entrance angled away from prevailing winds, a shallow water channel running along a stone threshold, warm limestone floors, an olive wood bed positioned to face the doorway without blocking it, large windows framing terraced hillsides, soft afternoon light filtering through a linen curtain. Documentary realism, professional architecture photography, 16:9, natural light, no people in focus, no text, no words, no writing, no frame divisions"
+      }
+    },
+    "images": {
+      "exterior": null,
+      "interior": null
+    },
+    "videos": {
+      "exterior": null,
+      "interior": null
+    }
+  },
+  {
+    "id": "6ea57c5d-41f9-4566-b626-b5de1c07dd4d",
+    "concept": "בַּרַכָּה",
+    "createdAt": "2026-09-23T20:10:13.987+00:00",
+    "updatedAt": "2026-09-23T20:10:12.753403+00:00",
+    "tags": [
+      "ערבית",
+      "משמעות"
+    ],
+    "dimensions": {
+      "lede": "יש אנשים שנוכחותם לבדה משנה חדר, ולערבית יש מילה בדיוק בשביל זה.",
+      "insight": "בַּרַכָּה היא מילה ערבית שמקורה בשורש הקשור לברכה ולשפע, ומציינת כוח רוחני חיובי השוכן באדם, במקום או בחפץ. היא מתגלה בביקור אצל קברי צדיקים, בנשיקת יד מבוגר, בסירוב לזרוק פירורי לחם, ובאמונה שיד של אדם מסוים 'עושה טוב' לכל מה שהיא נוגעת בו. היא עונה על הצורך להאמין שהעולם החומרי חדור במשהו שאינו נמדד, ומשקיטה את הפחד מריקנות שבה הכול הוא רק חומר.",
+      "spaceName": "חדר השפע השקט",
+      "proverb": "מה שנוגעים בו ביראה, נשאר קדוש גם אחרי שעוזבים.",
+      "interpretation": [
+        "גם ביהדות יש 'ברכה' - אך שם היא נאמרת, כאן היא נישאת בגוף",
+        "הברכה היהודית תלויה במילה, הברכה הערבית תלויה בנוכחות",
+        "אצלנו הקדושה זקוקה לטקס; בברכה היא זולגת מעצמה",
+        "זה מבקש מאיתנו להאט ולהרגיש נוכחות לפני שנברך אותה במילים"
+      ],
+      "humanNeed": "משמעות",
+      "origin": {
+        "script": "بركة",
+        "culture": "ערבית",
+        "literal": "ברכה, שפע רוחני",
+        "region_en": "North Africa and the Levant",
+        "transliteration": "Baraka"
+      },
+      "practice": {
+        "how": "גע בכוונה בחפץ או במקום שיש לו היסטוריה משפחתית לפני שימוש בו",
+        "why": "לתת מקום לתחושה שדברים מסוימים חורגים מהסבר רציונלי",
+        "when": "ברגעי מעבר, אבל, לידה או כניסה לבית חדש",
+        "where": "אור רך, עץ ישן, קיר שנשען עליו דורות של ידיים"
+      },
+      "imagePrompts": {
+        "exterior": "A weathered white koubba shrine under a fig tree in the Moroccan Atlas foothills, its dome softly rounded, walls stained by decades of hands touching the entrance, faded green cloth tied to an iron grille, dry earth courtyard swept clean, late afternoon light raking across the stone. Documentary realism, professional architecture photography, 16:9, natural light, no people in focus, no text, no words, no writing, no frame divisions",
+        "interior": "A small stone alcove built into a thick limestone wall in a Judean foothills home, holding a single olive-wood bowl passed through generations, worn smooth at its rim, morning light entering through a narrow deep-set window, plaster walls the color of dust, a woven wool rug faded from use, silence held in the thickness of the wall itself. Documentary realism, professional architecture photography, 16:9, natural light, no people in focus, no text, no words, no writing, no frame divisions"
+      }
+    },
+    "images": {
+      "exterior": null,
+      "interior": null
+    },
+    "videos": {
+      "exterior": null,
+      "interior": null
+    }
+  },
+  {
+    "id": "91137506-c518-45cf-8471-d9145f185cb7",
+    "concept": "מראקי",
+    "createdAt": "2026-09-23T20:10:11.52+00:00",
+    "updatedAt": "2026-09-23T20:10:10.303901+00:00",
+    "tags": [
+      "יוון",
+      "משמעות"
+    ],
+    "dimensions": {
+      "lede": "היוונים קוראים לזה מילה אחת: לשים את הנשמה בתוך הקפה שאתה מכין למישהו.",
+      "insight": "מראקי היא מילה יוונית שמקורה כנראה בטורקית העות'מאנית, ומתארת עשייה שבה האדם משקיע חלק מעצמו, לא רק זמן וכישרון. היא מופיעה בדרך שסבתא יוונית מסדרת צלחת, בדרך שבעל מסעדה קטנה בוחר צבע למפה, בשיר שמישהו כותב בלי שיפרסם אותו. היא עונה לצורך להשאיר טביעת אצבע אישית בעולם שדוחף לייצור מהיר וזהה לעצמו.",
+      "spaceName": "חדר הידיים הפועלות",
+      "proverb": "מה שנוגעות בו ידיים אוהבות, נשאר אחרי שהידיים הלכו",
+      "interpretation": [
+        "בעברית זה קרוב ל'לעשות בשמחה' אבל בלי הממד הרוחני",
+        "ליהדות יש 'הידור מצווה' - מראקי מרחיב את זה לחיי החול",
+        "העברית נוטה להעריך תוצאה, מראקי מעריך את הרגע שבו נוצרה",
+        "זה דורש מאיתנו להאט מספיק כדי שהיד תזכור מה היא עושה"
+      ],
+      "humanNeed": "משמעות",
+      "origin": {
+        "script": "Μεράκι",
+        "culture": "יוון",
+        "literal": "לעשות מנשמה",
+        "region_en": "Greece",
+        "transliteration": "Meraki"
+      },
+      "practice": {
+        "how": "בחר פעולה יומיומית אחת - בישול, כתיבה, סידור - ועשה אותה לאט יותר",
+        "why": "כדי להרגיש שהעשייה היומיומית שלך שייכת לך ולא רק למשימה",
+        "when": "כשהיום מרגיש מכני ומרוקן מתוכן",
+        "where": "שולחן עץ גולמי, אור נמוך ורך, חפצים עם סימני שימוש ולא חדשים"
+      },
+      "imagePrompts": {
+        "exterior": "A small whitewashed taverna courtyard on a Greek island such as Crete, terracotta pots with herbs, a hand-painted wooden sign, worn stone steps polished by decades of footsteps, blue shutters slightly open, late afternoon golden light raking across textured plaster walls. Documentary realism, professional architecture photography, 16:9, natural light, no people in focus, no text, no words, no writing, no frame divisions",
+        "interior": "A quiet studio corner in a stone house in the Galilee, a wide oak worktable scarred with use, unglazed ceramic bowls drying on an open shelf, raw linen cloth folded loosely, a single skylight casting soft directional light across handmade textures, walls in warm local limestone plaster. Documentary realism, professional architecture photography, 16:9, natural light, no people in focus, no text, no words, no writing, no frame divisions"
+      }
+    },
+    "images": {
+      "exterior": null,
+      "interior": null
+    },
+    "videos": {
+      "exterior": null,
+      "interior": null
+    }
+  },
+  {
+    "id": "7f8adf75-cc82-4e28-b2ce-7cd7f0c98003",
+    "concept": "קרנסיה",
+    "createdAt": "2026-09-23T20:10:10.864+00:00",
+    "updatedAt": "2026-09-23T20:10:09.647533+00:00",
+    "tags": [
+      "ספרד",
+      "חוסן"
+    ],
+    "dimensions": {
+      "lede": "בזירת השוורים יש פינה אחת שבה הפר בוחר לעמוד - ומשם הוא הכי מסוכן.",
+      "insight": "קרנסיה היא מילה ספרדית שמקורה בפועל 'querer', לרצות או לאהוב, ובשפת הטוריאדורים היא מציינת את הפינה בזירה שבה השור מרגיש בטוח ביותר. משם, מתוך תחושת המוגנות, הוא אוסף את הכוח החזק ביותר להתמודדות. בהשאלה לחיים, קרנסיה הוא כל מקום - פינה בבית, שביל, כיסא - שאליו אדם חוזר כדי להתייצב מחדש מול העולם, והמילה עונה על הצורך לדעת שיש מקום אחד בעולם ששייך לך בלבד.",
+      "spaceName": "פינת העוגן",
+      "proverb": "מי שיודע לאן הוא חוזר, יודע גם כמה רחוק ללכת",
+      "interpretation": [
+        "בעברית זה קרוב ל'פינה חמה' אך פחות טעון מיתולוגית",
+        "קרנסיה מוסיפה את הזיקה לכוח ולא רק לנחמה",
+        "כאן המרחב הציבורי חסר במובהק פינות שכאלה",
+        "זה דורש מהאדם לתבוע לעצמו פינה קבועה ולא זמנית"
+      ],
+      "humanNeed": "חוסן",
+      "origin": {
+        "script": "Querencia",
+        "culture": "ספרד",
+        "literal": "מקום מבטחים",
+        "region_en": "Andalusia, Spain",
+        "transliteration": "Kerensia"
+      },
+      "practice": {
+        "how": "בחר פינה אחת בבית וחזור אליה כל יום באותה שעה.",
+        "why": "לתת לגוף ולנפש נקודת עיגון קבועה שממנה שואבים כוח.",
+        "when": "לפני החלטה קשה או אחרי עימות מתיש.",
+        "where": "כיסא יחיד, אור נמוך וצדדי, משטח עץ מחוספס למגע."
+      },
+      "imagePrompts": {
+        "exterior": "A sun-baked corner of an Andalusian bullring arena wall, Spain, where packed ochre sand meets weathered wooden barrera boards, late afternoon light raking across the texture, a faint worn patch on the ground marking a favored standing spot, dust particles suspended in golden light, empty stands blurred in deep background. Documentary realism, professional architecture photography, 16:9, natural light, no people in focus, no text, no words, no writing, no frame divisions",
+        "interior": "A small reading nook built into a thick stone wall in a Judean foothills home, single carved stone bench with a raw wool blanket, low afternoon sun entering through a narrow deep-set window, rough plaster walls in warm ochre tones, one worn leather cushion, silence implied by the stillness of dust in the light beam. Documentary realism, professional architecture photography, 16:9, natural light, no people in focus, no text, no words, no writing, no frame divisions"
+      }
+    },
+    "images": {
+      "exterior": null,
+      "interior": null
+    },
+    "videos": {
+      "exterior": null,
+      "interior": null
+    }
+  },
+  {
+    "id": "05830539-8e30-4d1b-9dfc-c84139dc2942",
+    "concept": "טוסקה",
+    "createdAt": "2026-09-23T20:07:50.574+00:00",
+    "updatedAt": "2026-09-23T20:07:49.357519+00:00",
+    "tags": [
+      "רוסיה",
+      "געגוע"
+    ],
+    "dimensions": {
+      "lede": "מילה אחת שנבוקוב טען שאין לה תרגום - כאב נפש בלי שום סיבה מסוימת.",
+      "insight": "טוסקה היא מילה רוסית עתיקה לתחושת מועקה נפשית עמומה, געגוע לדבר-מה שאין לו שם ולעיתים אין לו כלל קיום. היא עולה בערבים ארוכים ליד החלון, בשירה ובספרות הרוסית, ברגעים של שקט שבהם אין אירוע חיצוני שמסביר את הכאב. היא נותנת מקום לעצב שאינו תוצאה של אובדן קונקרטי, ומרגיעה את הדחף למצוא לו הסבר או פתרון.",
+      "spaceName": "חדר הערפל השקט",
+      "proverb": "לא כל עצב מבקש תשובה, יש כזה שרק מבקש חלון.",
+      "interpretation": [
+        "מקביל בעברית ל'געגוע' אך בלי אובייקט - קרוב יותר ל'תוגה' המקראית",
+        "העברית מכוונת עצב תמיד למישהו או למשהו, טוסקה משחררת אותו מזה",
+        "בתרבות ישראלית עצב חסר סיבה נתפס כתקלה שיש לתקן or להסביר",
+        "מזמין הכרה שאפשר לשבת בעצב בלי לתייג אותו כדיכאון או כישלון"
+      ],
+      "humanNeed": "געגוע",
+      "origin": {
+        "script": "Тоска",
+        "culture": "רוסיה",
+        "literal": "געגוע חסר מושא",
+        "region_en": "Russia",
+        "transliteration": "Toska"
+      },
+      "practice": {
+        "how": "לשבת בשקט מול חלון עשר דקות בלי טלפון ובלי משימה",
+        "why": "לתת מקום לעצב עמום בלי לדרוש ממנו סיבה או פתרון",
+        "when": "בערבים חורפיים ארוכים או ברגעי מעבר בין עונות חיים",
+        "where": "חלון גדול, אור אפור-כחלחל, כורסה יחידה קרובה לזגוגית"
+      },
+      "imagePrompts": {
+        "exterior": "A wooden dacha on the edge of a birch forest in the Russian countryside near Moscow, late autumn, low grey sky, bare white birch trunks reflecting in a still pond, thin mist hanging over open fields, a single smoking chimney, muted earth tones of brown and silver-grey. Documentary realism, professional architecture photography, 16:9, natural light, no people in focus, no text, no words, no writing, no frame divisions",
+        "interior": "A quiet stone house in the Galilee hills at dusk, one deep-set window facing an empty valley, thick plastered walls in pale grey-blue, a single wooden chair angled toward the glass, worn wool blanket, soft indirect light with no artificial fixtures visible, silence embedded in the stillness of the room. Documentary realism, professional architecture photography, 16:9, natural light, no people in focus, no text, no words, no writing, no frame divisions"
+      }
+    },
+    "images": {
+      "exterior": null,
+      "interior": null
+    },
+    "videos": {
+      "exterior": null,
+      "interior": null
+    }
+  },
+  {
+    "id": "09034d65-6bae-4c56-bef6-3fadeb2ac1d6",
+    "concept": "הירָאת׳",
+    "createdAt": "2026-09-23T20:07:42.878+00:00",
+    "updatedAt": "2026-09-23T20:07:41.652103+00:00",
+    "tags": [
+      "וילס",
+      "געגוע"
+    ],
+    "dimensions": {
+      "lede": "געגוע למקום שאולי מעולם לא היה קיים בדיוק כפי שהוא נזכר.",
+      "insight": "המילה הוולשית נגזרת משורש קלטי הקשור לצער וגעגוע, ואין לה תרגום מדויק לאנגלית או לעברית. היא מתארת כמיהה למולדת, לנוף או לתקופה שאבדו, ולעיתים לכאלה שמעולם לא היו קיימים כפי שהזיכרון מציירם - מושר בבלדות עם, נישא בשמות בתי קפה ובתי דואר של מהגרים וולשים. הצורך שהיא עונה עליו הוא הזכות להתאבל על שייכות שאין לה מקום פיזי, בלי לתרגם את הכאב לפתרון.",
+      "spaceName": "חדר הגעגוע השקט",
+      "proverb": "מותר להתגעגע לבית שלא היה, כל עוד מודים שהוא לא היה",
+      "interpretation": [
+        "בעברית יש 'געגועים לציון' - אך שם תמיד יש כתובת מדויקת לחזור אליה",
+        "הירָאת' מרשה לגעגוע להישאר בלי פתרון, בלי עלייה ובלי שיבה",
+        "בתרבות ישראלית הגעגוע נועד להניע פעולה - כאן הוא מטרה בפני עצמו",
+        "זה מזמין לשאת אובדן מקום מבלי למהר לבנות אותו מחדש"
+      ],
+      "humanNeed": "געגוע",
+      "origin": {
+        "script": "Hiraeth",
+        "culture": "וילס",
+        "literal": "געגוע לבית אבוד",
+        "region_en": "Wales",
+        "transliteration": "Hiraeth"
+      },
+      "practice": {
+        "how": "לכתוב פעם בשבוע תיאור חושי של מקום שאבד, בלי לנסות לשחזר אותו.",
+        "why": "לתת מקום לאבל על שייכות שאין לה כתובת פיזית.",
+        "when": "בזמן מעבר דירה, אבל, או שיבה למקום ילדות שהשתנה.",
+        "where": "פינה עם חלון צר, אור עמום, וחומר גולמי אחד שמזכיר בית."
+      },
+      "imagePrompts": {
+        "exterior": "A solitary stone cottage ruin on a misty Welsh hillside in Snowdonia, weathered gray slate and moss-covered walls, sheep grazing in the distance, low clouds drifting over green valleys, a narrow overgrown path leading to the abandoned threshold, golden late-afternoon light breaking through fog. Documentary realism, professional architecture photography, 16:9, natural light, no people in focus, no text, no words, no writing, no frame divisions.",
+        "interior": "A quiet reading nook in a stone house in the Galilee, narrow deep-set window framing distant terraced hills, rough limestone wall left partially exposed, a single worn wooden bench, dried wildflowers in an old tin can, soft afternoon light casting long shadows across a bare earthen floor. Documentary realism, professional architecture photography, 16:9, natural light, no people in focus, no text, no words, no writing, no frame divisions."
+      }
+    },
+    "images": {
+      "exterior": null,
+      "interior": null
+    },
+    "videos": {
+      "exterior": null,
+      "interior": null
+    }
+  },
+  {
+    "id": "87f36d4c-537d-4516-b223-d2553aa1a4fa",
+    "concept": "יין ויאנג",
+    "createdAt": "2026-09-23T20:07:26.075+00:00",
+    "updatedAt": "2026-09-23T20:07:24.826857+00:00",
+    "tags": [
+      "סין",
+      "איזון"
+    ],
+    "dimensions": {
+      "lede": "שני נחשים אוחזים בזנב זה של זה ומסתחררים לעולם שלם.",
+      "insight": "המושג נולד בפילוסופיה הסינית העתיקה ומתאר במקור את הצד המוצל והמוצף אור של הר אחד, לא שני כוחות נפרדים.",
+      "spaceName": "חדר הגלגול המתמיד",
+      "proverb": "מה שנח בך היום, יתעורר בך מחר.",
+      "interpretation": [
+        "שבת ומלאכה הן צמד יין-יאנג יהודי מובהק",
+        "היהדות מוסיפה זמן קבוע לוויתור העדין הזה, לא רק תחושה",
+        "יין ויאנג לא מבקש איזון סטטי אלא תנועה מתמדת בין הקצוות",
+        "זה דורש מאיתנו להפסיק לחפש נקודת מנוחה אחת קבועה"
+      ],
+      "humanNeed": "איזון",
+      "origin": {
+        "script": "陰陽",
+        "culture": "סין",
+        "literal": "צל ואור",
+        "region_en": "China",
+        "transliteration": "Yīnyáng"
+      },
+      "practice": {
+        "how": "סיים כל יום פעיל בעשר דקות דממה מוחלטת ללא מסך",
+        "why": "כדי להכיר שכל תכונה נושאת בתוכה את הפכה הנסתר",
+        "when": "מועיל בזמני קיצון - עומס עבודה קיצוני או שיממון ממושך",
+        "where": "שולחן עץ כהה מול חלון פתוח, אור משתנה עם השעה"
+      },
+      "imagePrompts": {
+        "exterior": "A traditional Chinese courtyard garden in Suzhou, China, with a still dark pond reflecting pale sky, black volcanic rock formations beside white gravel paths, a curved moon gate dividing shaded bamboo grove from sunlit lotus terrace, weathered grey roof tiles catching afternoon light, mist drifting between contrasting zones of deep shadow and bright stone. Documentary realism, professional architecture photography, 16:9, natural light, no people in focus, no text, no words, no writing, no frame divisions",
+        "interior": "A minimalist stone house in the Judean foothills, Israel, where one long room is split by a change in floor material - rough dark basalt on one side, pale smoothed limestone on the other, a single skylight casting a moving line of sun between them through the day, olive wood beams overhead, a low water channel running the threshold between the two textures. Documentary realism, professional architecture photography, 16:9, natural light, no people in focus, no text, no words, no writing, no frame divisions"
+      }
+    },
+    "images": {
+      "exterior": null,
+      "interior": null
+    },
+    "videos": {
+      "exterior": null,
+      "interior": null
+    }
+  },
+  {
+    "id": "c975a68f-b9ac-4336-ad85-f54d27cf5c76",
+    "concept": "וו-ויי",
+    "createdAt": "2026-09-23T20:07:16.377+00:00",
+    "updatedAt": "2026-09-23T20:07:15.163496+00:00",
+    "tags": [
+      "סין",
+      "מנוחה"
+    ],
+    "dimensions": {
+      "lede": "הנהר לא מתאמץ לזרום סביב האבן, והוא תמיד מגיע לים ראשון.",
+      "insight": "וו-ויי הוא מושג טאואיסטי עתיק המתורגם 'אי-עשייה', אך אינו מציין חוסר מעש אלא פעולה שאינה נאבקת בטבע הדברים. בציור סיני, בגינון, ובאמנויות לחימה כמו טאי צ'י, המורה מלמד את התלמיד לוותר על מאמץ עודף - היד שמצוירת בלי לחשוב, הגוף שנופל בלי להיאבק בנפילה. הוא עונה לצורך להפסיק להילחם בזרם ולתת לכוחות גדולים ממך לעשות חלק מהעבודה.",
+      "spaceName": "חדר הזרימה השקטה",
+      "proverb": "מי שדוחף את הנהר, מתעייף לפני הנהר",
+      "interpretation": [
+        "'בלי נדר' היהודי מכיר בגבול הרצון האנושי מול הגורל",
+        "וו-ויי מוסיף ויתור על שליטה, לא רק דחיית התחייבות",
+        "היהדות מקדשת מעשה ומצווה, וו-ויי מקדש הימנעות ממעשה",
+        "כאן זה דורש לבטוח שהעולם ימשיך להתקדם גם בלי דחיפה שלך"
+      ],
+      "humanNeed": "מנוחה",
+      "origin": {
+        "script": "無為",
+        "culture": "סין",
+        "literal": "אי-עשייה",
+        "region_en": "China",
+        "transliteration": "Wu wei"
+      },
+      "practice": {
+        "how": "פעם ביום לעצור באמצע פעולה ולשאול אם המאמץ באמת נחוץ.",
+        "why": "להפסיק לבזבז כוח על מאבק בדברים שאינם ניתנים לשינוי.",
+        "when": "כשמרגישים תקועים מול בעיה שכל ניסיון לפתור אותה מחמיר אותה.",
+        "where": "מקום עם משטח מים זורמים, אור משתנה לאט, בלי פינות חדות."
+      },
+      "imagePrompts": {
+        "exterior": "A quiet classical Chinese garden in Suzhou, China, with a still pond reflecting weathered rocks and pine trees, a wooden pavilion with curved eaves set among bamboo, morning mist drifting over water, moss-covered stone paths that curve naturally around obstacles rather than cutting through them. Documentary realism, professional architecture photography, 16:9, natural light, no people in focus, no text, no words, no writing, no frame divisions",
+        "interior": "A minimalist home in the Galilee built into a gentle hillside, where a shallow water channel runs through raw stone flooring following the land's natural slope, exposed olive wood beams left in their organic curved form, large unglazed windows framing the terraced landscape without symmetry, soft diffused afternoon light, no straight forced lines. Documentary realism, professional architecture photography, 16:9, natural light, no people in focus, no text, no words, no writing, no frame divisions"
+      }
+    },
+    "images": {
+      "exterior": null,
+      "interior": null
+    },
+    "videos": {
+      "exterior": null,
+      "interior": null
+    }
+  },
+  {
+    "id": "2520b01d-2246-4e3d-9805-fc8ea93d95fd",
+    "concept": "היימאט",
+    "createdAt": "2026-09-23T20:07:04.637+00:00",
+    "updatedAt": "2026-09-23T20:07:03.396966+00:00",
+    "tags": [
+      "גרמניה",
+      "שייכות"
+    ],
+    "dimensions": {
+      "lede": "מילה גרמנית אחת מכילה נוף, ריח וילדות שאי אפשר לתרגם בלי לאבד משהו.",
+      "insight": "היימאט היא מילה גרמנית שמציינת לא רק מולדת גיאוגרפית אלא רקמה שלמה של נוף, ניב מקומי וזיכרון חושי שאדם נושא איתו. היא מתגלמת בטקסים כמו חזרה לכפר המשפחה, בבישול מנות ילדות, בשמירה על ניב אזורי ובקשר עם עצים ושבילים שהכירו הדורות הקודמים. היא עונה על הצורך בהשתייכות שאינה מדינית אלא גופנית - השייכות למקום שבו הגוף עצמו יודע למצוא את דרכו.",
+      "spaceName": "חדר השורשים",
+      "proverb": "מי ששכח את ריח הבית שלו, מחפש אותו בכל דלת שהוא פותח",
+      "interpretation": [
+        "ליהודים 'ארץ' היא לרוב הבטחה, להיימאט אין הבטחה - רק זיכרון",
+        "היימאט מוסיפה חוש מקומי קטן ששייכות לאומית גדולה לא נותנת",
+        "בישראל השורש קשור לתנועה ולפליטות, בגרמניה הוא קשור לקיבעון",
+        "המושג מבקש מהישראלי להכיר גם בכפר הקטן שממנו הגיע, לא רק בארץ"
+      ],
+      "humanNeed": "שייכות",
+      "origin": {
+        "script": "Heimat",
+        "culture": "גרמניה",
+        "literal": "מולדת-בית",
+        "region_en": "Bavaria, Germany",
+        "transliteration": "Haimat"
+      },
+      "practice": {
+        "how": "לבשל פעם בשבוע מנה שקושרת אותך לילדות או למקום ההולדת שלך.",
+        "why": "לעגן זהות במקום קונקרטי ולא רק בסיפור לאומי מופשט.",
+        "when": "בתקופות של ניתוק, הגירה או געגוע לא מזוהה.",
+        "where": "קיר עם עצים ואבנים מקומיות, אור רך של אחר צהריים, ריצוף מחוספס ומוכר."
+      },
+      "imagePrompts": {
+        "exterior": "A traditional Bavarian farmhouse nestled in a green alpine valley, wooden balconies with carved railings, weathered stone foundation, surrounded by orchards and grazing meadows, distant church spire visible, soft morning mist over the hills, warm wooden shutters, geraniums in window boxes. Documentary realism, professional architecture photography, 16:9, natural light, no people in focus, no text, no words, no writing, no frame divisions",
+        "interior": "A stone farmhouse interior in the Galilee hills, thick limewashed walls, exposed old olive-wood beams, a niche holding jars of local herbs and family photographs, worn terracotta floor tiles, a single deep-set window framing terraced hillsides, soft late-afternoon light. Documentary realism, professional architecture photography, 16:9, natural light, no people in focus, no text, no words, no writing, no frame divisions"
+      }
+    },
+    "images": {
+      "exterior": null,
+      "interior": null
+    },
+    "videos": {
+      "exterior": null,
+      "interior": null
+    }
+  },
+  {
+    "id": "fca6c56c-95b4-4a4c-b9b4-e019455647db",
+    "concept": "בילדונג",
+    "createdAt": "2026-09-23T20:07:02.242+00:00",
+    "updatedAt": "2026-09-23T20:07:01.009439+00:00",
+    "tags": [
+      "גרמניה",
+      "חיבור לטבע"
+    ],
+    "dimensions": {
+      "lede": "ספר שנקרא לא כדי להשיג תעודה אלא כדי להיהפך למישהו אחר.",
+      "insight": "בילדונג הוא מושג גרמני מהמאה השמונה־עשרה שמתאר תהליך של גיבוש האישיות דרך ידע, תרבות ורפלקציה עצמית, לא רכישת מקצוע. הוא מתגלם בהרגל הקריאה העצמאית, בטיולי לימוד, ובאמונה הגרמנית הישנה שאדם משכיל הוא אדם שלם יותר. הוא עונה לצורך להתפתח כמטרה בפני עצמה, לא ככלי לתעסוקה או להישג חיצוני.",
+      "spaceName": "חדר ההתהוות השקטה",
+      "proverb": "מי שקורא רק כדי לדעת, לא באמת קורא.",
+      "interpretation": [
+        "מול 'השכלה' העברית שנשארה קרובה לתעודה ולפרנסה",
+        "בילדונג מוסיף את הרעיון שגיבוש הנפש הוא תכלית ולא אמצעי",
+        "בתרבות שמעריצה הישג מדיד, ההתהוות האיטית נתפסת כבזבוז זמן",
+        "הוא מזמין לשאול מה קראת השבוע רק כי רצית להשתנות"
+      ],
+      "humanNeed": "חיבור לטבע",
+      "origin": {
+        "script": "Bildung",
+        "culture": "גרמניה",
+        "literal": "עיצוב עצמי, היווצרות",
+        "region_en": "Germany",
+        "transliteration": "Bildung"
+      },
+      "practice": {
+        "how": "קרא כל יום עשרים דקות בספר שאינו קשור לעבודתך",
+        "why": "לתת מקום לגדילה פנימית שאינה נמדדת בתעודה או בשכר",
+        "when": "בתקופות של שחיקה מקצועית או תחושת קיפאון אישי",
+        "where": "פינת קריאה עם אור טבעי רך, כיסא יחיד, ללא מסכים"
+      },
+      "imagePrompts": {
+        "exterior": "A 19th-century German university town library building in Weimar, Germany, with tall arched windows, weathered sandstone facade, ivy climbing stone walls, a quiet cobblestone courtyard with a single wooden bench beneath old linden trees, soft overcast light suggesting contemplation and slow scholarship. Documentary realism, professional architecture photography, 16:9, natural light, no people in focus, no text, no words, no writing, no frame divisions",
+        "interior": "A minimalist reading room in a stone house in the Judean foothills, Israel, with a deep-set small window framing olive trees outside, rough lime-plastered walls, a low wooden reading bench with a woolen blanket, floor-to-ceiling open shelving holding worn books, warm late-afternoon light falling across a stone floor, an atmosphere of unhurried personal transformation. Documentary realism, professional architecture photography, 16:9, natural light, no people in focus, no text, no words, no writing, no frame divisions"
+      }
+    },
+    "images": {
+      "exterior": null,
+      "interior": null
+    },
+    "videos": {
+      "exterior": null,
+      "interior": null
+    }
+  },
+  {
+    "id": "01bb3f28-c0ea-4070-9c87-16992f1ddf31",
+    "concept": "ולדאיינזאמקייט",
+    "createdAt": "2026-09-23T20:06:48.898+00:00",
+    "updatedAt": "2026-09-23T20:06:47.66858+00:00",
+    "tags": [
+      "גרמניה",
+      "אירוח"
+    ],
+    "dimensions": {
+      "lede": "מילה גרמנית אחת אוצרת את התחושה של עמידה לבד בין עצים גבוהים, שקטה מדי כדי להיבהל ממנה.",
+      "insight": "המילה נטבעה בגרמניה בסוף המאה השמונה עשרה, ומאחדת 'יער' ו'בדידות' לתחושה אחת שאין לה מקבילה מדויקת בשפות אחרות. היא מופיעה בשירה הרומנטית הגרמנית כתיאור של הליכה עצמאית ביער, רגע שבו הדממה בין העצים הופכת לנוכחות ולא לריק. היא עונה על הצורך להיות לבד בלי להרגיש נטוש - בדידות שהיא מלאה, לא חסרה.",
+      "spaceName": "חדר הצל הירוק",
+      "proverb": "מי שיודע לשתוק בין עצים, לא לבד באמת.",
+      "interpretation": [
+        "בדד בהתבודדות היהודית מבקש לדבר אל האל, כאן מבקשים רק לשתוק",
+        "העברית מכירה יחוד אך לא בדידות טובה בפני עצמה",
+        "'התבודדות' דורשת כוונה רוחנית, ואלדאיינזאמקייט מסתפקת בעצים ובזמן",
+        "זה מבקש מהישראלי לוותר לרגע על החברותא ולא להתנצל על כך"
+      ],
+      "humanNeed": "אירוח",
+      "origin": {
+        "script": "Waldeinsamkeit",
+        "culture": "גרמניה",
+        "literal": "בדידות היער",
+        "region_en": "Black Forest, Germany",
+        "transliteration": "Valdainzamkайт"
+      },
+      "practice": {
+        "how": "לצאת להליכה לבד בטבע בלי טלפון ובלי יעד קבוע.",
+        "why": "לאפשר לנפש לנוח מדרישת הנוכחות המתמדת של אחרים.",
+        "when": "אחרי ימים עמוסים במפגשים או בהחלטות משותפות.",
+        "where": "שביל צר בין עצים גבוהים, אור מפוזר, קרקע רכה מעלים."
+      },
+      "imagePrompts": {
+        "exterior": "A narrow forest path deep in the Black Forest, Germany, tall dense pine and fir trees filtering soft diffused daylight, moss-covered ground, mist hanging low between trunks, a sense of solitary depth and quiet enclosure, no clearing visible, muted green and brown tones. Documentary realism, professional architecture photography, 16:9, natural light, no people in focus, no text, no words, no writing, no frame divisions",
+        "interior": "A small stone and timber retreat room in the Judean foothills, Israel, one wall fully open to a view of terraced olive trees and rocky hillside, rough local limestone floor, a single low wooden bench, soft late-afternoon light entering at an angle, deliberate emptiness and quiet material contrast between hewn stone and raw wood. Documentary realism, professional architecture photography, 16:9, natural light, no people in focus, no text, no words, no writing, no frame divisions"
+      }
+    },
+    "images": {
+      "exterior": null,
+      "interior": null
+    },
+    "videos": {
+      "exterior": null,
+      "interior": null
+    }
+  },
+  {
+    "id": "fd7dc657-ca1e-4dca-97c1-dac3940391c9",
+    "concept": "סנקופה",
+    "createdAt": "2026-09-23T20:06:37.679+00:00",
+    "updatedAt": "2026-09-23T20:06:36.433345+00:00",
+    "tags": [
+      "אקאן, גאנה",
+      "קבלת אי-שלמות"
+    ],
+    "dimensions": {
+      "lede": "ציפור שראשה פונה אחורה ורגליה קדימה, נושאת ביצה בפיה - זה כל הרעיון.",
+      "insight": "סנקופה היא מילה מהשפה הטווית של עם האקאן שבגאנה, ומשמעותה המילולית 'חזור וקח את זה' - האמונה שאין בושה לשוב אל העבר כדי לתקן מה שנשכח או ננטש. היא מיוצגת בסמל אדינקרה של ציפור שראשה מסתובב לאחור בעוד רגליה ממשיכות קדימה, וסמל זה חקוק על שערי בתים, על בדים ועל מצבות. הצורך שהיא עונה עליו הוא הפחד מהתקדמות שמנתקת אדם משורשיו - היא מרגיעה את החרדה שקִדמה פירושה שִכחה.",
+      "spaceName": "מרפסת ההיזכרות",
+      "proverb": "מי שלא שב לאסוף, הולך קדימה בידיים ריקות",
+      "interpretation": [
+        "בעברית קרוב לזה 'זכור' - אך שם הציווי הוא לא לשכוח, לא לתקן",
+        "סנקופה מוסיפה תנועה פעילה: לא רק לזכור אלא לחזור ולקחת",
+        "היהדות מקדשת את הזיכרון הקולקטיבי, סנקופה מדגישה את התיקון האישי",
+        "כאן היא שואלת: מה עזבת בדרך שאתה עוד יכול לאסוף"
+      ],
+      "humanNeed": "קבלת אי-שלמות",
+      "origin": {
+        "script": "Sankɔfa",
+        "culture": "אקאן, גאנה",
+        "literal": "לך ובוא לקחת",
+        "region_en": "Ghana",
+        "transliteration": "Sankofa"
+      },
+      "practice": {
+        "how": "פעם בשבוע לשאול את עצמך מה נשכח ולתקן צעד אחד בו.",
+        "why": "כדי לא לאבד חלקים מהזהות תוך כדי ריצה קדימה.",
+        "when": "בתחילת פרויקט חדש, אחרי מעבר דירה, לפני קבלת החלטה גדולה.",
+        "where": "פינה עם חפצי משפחה ישנים, אור רך, מדף פתוח בגובה העין."
+      },
+      "imagePrompts": {
+        "exterior": "A traditional Akan compound house in Kumasi, Ghana, with an adinkra Sankofa symbol carved into a wooden door lintel, weathered red laterite walls, a courtyard with a mango tree casting dappled shade, textured clay surfaces showing age and repair. Documentary realism, professional architecture photography, 16:9, natural light, no people in focus, no text, no words, no writing, no frame divisions",
+        "interior": "A quiet study nook in a stone house in the Judean foothills, a curved reading bench facing both a window looking out to old terraced olive groves and an open shelf holding inherited objects, rammed earth wall texture, soft afternoon light crossing from behind, a single low arch echoing return and continuity. Documentary realism, professional architecture photography, 16:9, natural light, no people in focus, no text, no words, no writing, no frame divisions"
+      }
+    },
+    "images": {
+      "exterior": null,
+      "interior": null
+    },
+    "videos": {
+      "exterior": null,
+      "interior": null
+    }
+  },
+  {
+    "id": "84bdd66b-c35b-4fa0-a950-b58d4290772a",
+    "concept": "גמיטליכקייט",
+    "createdAt": "2026-09-23T20:06:37.019+00:00",
+    "updatedAt": "2026-09-23T20:06:35.774148+00:00",
+    "tags": [
+      "גרמניה",
+      "שייכות"
+    ],
+    "dimensions": {
+      "lede": "חדר קטן, אור חם ובירה חמימה יכולים לעצור את הזמן לגמרי.",
+      "insight": "המילה נגזרת מ'Gemüt' — הנפש או הלב — ומתארת מצב של חמימות, נחת ושייכות שאין לו תרגום מדויק בעברית. היא מתגלמת בפינת ישיבה עמוסת כריות ליד תנור, בפאב שכונתי שבו כולם מכירים את שמך, בשולחן משפחתי שאסור למהר לקום ממנו. היא עונה לצורך בהאטה ובביטחון רגשי, ומשתיקה את החרדה שמייצרת סביבה קרה, זרה או מהוססת.",
+      "spaceName": "פינת החום השקטה",
+      "proverb": "בית שמחבק אותך לא צריך לדבר בקול.",
+      "interpretation": [
+        "'בית חם' העברי דומה, אך מתמקד במשפחה ולא בסביבה עצמה",
+        "גמיטליכקייט דורשת חפצים, אור וריהוט שמייצרים תחושה בלי מילים",
+        "העברית נוטה לחום דרך יחסים; הגרמנית דרך חלל פיזי מתוכנן",
+        "היא מבקשת מאיתנו להשקיע בסביבה עצמה, לא רק במי שבתוכה"
+      ],
+      "humanNeed": "שייכות",
+      "origin": {
+        "script": "Gemütlichkeit",
+        "culture": "גרמניה",
+        "literal": "נעימות של הלב",
+        "region_en": "Bavaria, Germany",
+        "transliteration": "Gemütlichkeit"
+      },
+      "practice": {
+        "how": "הדליקו אור חם נמוך, כבו מסכים, הגישו משהו חמים לשתייה.",
+        "why": "הגוף זקוק לאותות ברורים של ביטחון כדי להירגע באמת.",
+        "when": "בערבי חורף, אחרי יום עמוס, כשצריך לעצור זמן.",
+        "where": "עץ כהה, טקסטיל כבד, אור נר או מנורה נמוכה ליד פינה מוגנת."
+      },
+      "imagePrompts": {
+        "exterior": "A traditional Bavarian gasthaus at dusk in winter, warm golden light spilling from small windows onto snow-covered cobblestones, dark wooden shutters, steam rising from a chimney, cozy interior glow visible through frosted glass, alpine village setting in Bavaria, Germany. Documentary realism, professional architecture photography, 16:9, natural light, no people in focus, no text, no words, no writing, no frame divisions.",
+        "interior": "A small reading nook in a stone house in the Galilee, thick wool textiles and a low wooden bench built into a deep window recess, warm lamp light against cool limestone walls, a woven rug on worn stone floor, olive wood table with a ceramic cup, evening light filtering through an old iron-framed window overlooking terraced hills. Documentary realism, professional architecture photography, 16:9, natural light, no people in focus, no text, no words, no writing, no frame divisions."
+      }
+    },
+    "images": {
+      "exterior": null,
+      "interior": null
+    },
+    "videos": {
+      "exterior": null,
+      "interior": null
+    }
+  },
+  {
+    "id": "1c3fb97c-0969-498a-99c7-dbe86e7874c9",
+    "concept": "הרמבה",
+    "createdAt": "2026-09-23T20:06:23.401+00:00",
+    "updatedAt": "2026-09-23T20:06:22.186686+00:00",
+    "tags": [
+      "סווהילית, קניה",
+      "קהילה"
+    ],
+    "dimensions": {
+      "lede": "מילת קריאה של סבלים על הרציף הפכה לעקרון מדינה שלם.",
+      "insight": "המילה מקורה בקריאת עידוד סווהילית ששימשה פועלי נמל ומשוך משאות כבדים יחד, קצב שמסנכרן כוח פיזי משותף. ג'ומו קניאטה אימץ אותה כסיסמת עצמאות קניה, וכיום היא מככבת בפגישות שכונה, בעבודות בנייה קהילתיות ובאיסופי כספים למען משפחה בצרה. היא עונה לצורך להרגיש שהמאמץ שלך לא בודד, שיש כתפיים נוספות מתחת למשא.",
+      "spaceName": "חצר המשיכה המשותפת",
+      "proverb": "מה שלא זז לבד, זז כשכולם מושכים יחד",
+      "interpretation": [
+        "בישראל יש 'ביחד ננצח' אך זה נולד ממלחמה, הרמבי נולד מעבודה יומיומית",
+        "הרמבי מציע שיתוף פעולה בלי שונא משותף, רק כובד המשא",
+        "בקיבוץ הישן היה דמיון, אך הרמבי לא דורש ויתור על רכוש פרטי",
+        "זה מזמין לשאול: מה אני מוכן למשוך עבור שכן שלא ביקשתי להכיר"
+      ],
+      "humanNeed": "קהילה",
+      "origin": {
+        "script": "Harambee",
+        "culture": "סווהילית, קניה",
+        "literal": "כולנו מושכים יחד",
+        "region_en": "Kenya",
+        "transliteration": "Harambee"
+      },
+      "practice": {
+        "how": "פעם בחודש התארגנו עם שכנים למשימה פיזית אחת בשטח ציבורי.",
+        "why": "מספק תחושת שייכות דרך מאמץ גופני משותף ולא רק דיבור.",
+        "when": "מועיל כשקהילה מרגישה מפורקת אחרי משבר או מעבר דיירים מהיר.",
+        "where": "חצר פתוחה, אבן מקומית גסה, כלי עבודה משותפים תלויים בגלוי."
+      },
+      "imagePrompts": {
+        "exterior": "A communal harvest scene in rural Kenya, a group of hand-hewn wooden poles and ropes used for pulling a heavy cart or building beam, red laterite earth path, acacia trees casting long shadows, worn rope fibers and calloused-looking tool handles resting against a mud-brick granary wall, late afternoon golden light. Documentary realism, professional architecture photography, 16:9, natural light, no people in focus, no text, no words, no writing, no frame divisions.",
+        "interior": "A shared courtyard space in the Galilee, rough local limestone paving, a long communal wooden table built from reclaimed olive wood, coiled ropes and simple hand tools hung on a stone wall, an open iron gate framing terraced hills beyond, warm late-day sun raking across stone, textures of pale plaster and rusted iron hinges. Documentary realism, professional architecture photography, 16:9, natural light, no people in focus, no text, no words, no writing, no frame divisions."
+      }
+    },
+    "images": {
+      "exterior": null,
+      "interior": null
+    },
+    "videos": {
+      "exterior": null,
+      "interior": null
+    }
+  },
+  {
+    "id": "ab5917b9-4cb1-45e6-a2de-01d0c3ced5f0",
+    "concept": "דוקהה",
+    "createdAt": "2026-09-23T20:06:11.914+00:00",
+    "updatedAt": "2026-09-23T20:06:10.681031+00:00",
+    "tags": [
+      "בודהיזם, הודו",
+      "חוסן"
+    ],
+    "dimensions": {
+      "lede": "מילה שמתארת לא כאב אלא גלגל שלא מסתובב חלק - חריקה מתמדת בקיום.",
+      "insight": "דוקהה היא אחת מארבע האמיתות הנאצלות בבודהיזם המוקדם, ומקורה כנראה בתמונה מכנית - ציר גלגל עגלה שאינו ממורכז, כך שהרכיבה חורקת ומטלטלת גם כשהדרך חלקה. בפרקטיקה זה מתורגם למדיטציית תשומת לב שמלמדת להבחין בין הכאב הבלתי נמנע לבין הסבל הנוסף שהמוח מייצר סביבו - התנגדות, השוואה, ציפייה. הצורך שהיא עונה עליו הוא ההשלמה עם חוסר שלמות מבני של הקיום, במקום המלחמה הבלתי פוסקת בו.",
+      "spaceName": "חדר הציר השקט",
+      "proverb": "גם גלגל עקום מגיע ליעד, אם לא נלחמים בחריקה.",
+      "interpretation": [
+        "ביהדות יש 'ייסורים של אהבה' - אך שם הכאב מקבל תכלית, בדוקהה הוא פשוט עובדה",
+        "דוקהה מוסיפה הבחנה חדה בין כאב לסבל שהעברית המסורתית לא תמיד מפרידה",
+        "היהדות נוטה לבקש תיקון ומשמעות, דוקהה מבקשת רק ראייה צלולה בלי פשר",
+        "היא דורשת מהישראלי להפסיק לפרש כל אי-נוחות כבעיה שיש לפתור מיד"
+      ],
+      "humanNeed": "חוסן",
+      "origin": {
+        "script": "दुःख / दुक्ख",
+        "culture": "בודהיזם, הודו",
+        "literal": "ציר גלגל עקום",
+        "region_en": "Northern India / Nepal, Buddhist tradition",
+        "transliteration": "Duḥkha / Dukkha"
+      },
+      "practice": {
+        "how": "לשבת דקה אחת ולשאול: מה כואב באמת, ומה רק מחשבה חוזרת על הכאב.",
+        "why": "להבחין בין כאב שאי אפשר למנוע לבין סבל שהמוח מוסיף עליו מרצונו.",
+        "when": "ברגעי תסכול יומיומי קטן - פקק, איחור, אכזבה שלא הייתה צריכה להכאיב כל כך.",
+        "where": "פינה חשופה עם כיסא יחיד, בלי קישוט שמסיח את הדעת מהנוכחות."
+      },
+      "imagePrompts": {
+        "exterior": "A weathered wooden cart wheel leaning against a stone wall in a rural Himalayan village in Nepal, its axle worn and slightly misaligned, morning mist over terraced fields in the background, dust and cracked earth path, muted earth tones. Documentary realism, professional architecture photography, 16:9, natural light, no people in focus, no text, no words, no writing, no frame divisions",
+        "interior": "A minimalist meditation room in a stone house in the Judean foothills, bare plaster walls with visible imperfections left unrepaired, a single low wooden bench, one small window casting a hard shaft of afternoon light across an uneven clay floor, no rugs, no decoration, raw textures allowed to show age and wear. Documentary realism, professional architecture photography, 16:9, natural light, no people in focus, no text, no words, no writing, no frame divisions"
+      }
+    },
+    "images": {
+      "exterior": null,
+      "interior": null
+    },
+    "videos": {
+      "exterior": null,
+      "interior": null
+    }
+  },
+  {
+    "id": "9e904559-322c-47b2-aac3-aa4c21019469",
+    "concept": "סמסקארה",
+    "createdAt": "2026-09-23T20:06:09.033+00:00",
+    "updatedAt": "2026-09-23T20:06:07.797143+00:00",
+    "tags": [
+      "הודו",
+      "חיבור לטבע"
+    ],
+    "dimensions": {
+      "lede": "כל מעשה משאיר צלקת סמויה על הנפש, וטקס נועד לרפא אותה בכוונה.",
+      "insight": "סמסקארה במסורת ההינדית והבודהיסטית היא גם 'טקס מעבר' וגם 'רושם נפשי' שנחקק בתודעה מכל פעולה שאדם עושה או חווה. במעשה זה מתבטא במעגל של שש עשרה טקסי חיים - מלידה ועד מוות - וגם בתרגול יומיומי של תשומת לב, כדי לא להותיר רשמים לא מטופלים. הצורך העמוק הוא לתת צורה וכיוון לזרם הבלתי נשלט של החוויה, כדי שהעבר לא ישלוט בהווה בלי רשות.",
+      "spaceName": "חדר הרשמים הצלולים",
+      "proverb": "מה שלא סימנת בכוונה, יסמן אותך בלי רשות",
+      "interpretation": [
+        "ביהדות יש 'תיקון' - אך הוא מכוון לעולם, לא לרושם הפנימי עצמו",
+        "סמסקארה מוסיפה שכל פעולה קטנה חורצת סימן, לא רק מעשים גדולים",
+        "היהדות בונה זיכרון קולקטיבי, סמסקארה מבקשת למחוק רושם אישי מיותר",
+        "זה מזמין לבדוק אילו הרגלים יומיומיים משאירים בנו סימן שלא בחרנו בו"
+      ],
+      "humanNeed": "חיבור לטבע",
+      "origin": {
+        "script": "संस्कार",
+        "culture": "הודו",
+        "literal": "עידון, טביעת רושם",
+        "region_en": "India",
+        "transliteration": "Saṃskāra"
+      },
+      "practice": {
+        "how": "בסוף כל יום סמן בקצרה רגע אחד שרצית לחיות אחרת",
+        "why": "כדי לא לצבור רשמים בלתי מודעים שמכתיבים תגובות אוטומטיות",
+        "when": "אחרי אירוע רגשי חזק, מריב עד שמחה גדולה",
+        "where": "פינה שקטה עם משטח עץ חלק ואור נר יחיד"
+      },
+      "imagePrompts": {
+        "exterior": "A traditional open-air samskara ritual courtyard in Varanasi, India, along the Ganges ghats, weathered stone steps descending to the river, a simple stone platform with faint ash marks from past fire rituals, brass water vessels resting in soft morning mist, ancient carved archways framing the river light, textures of worn sandstone and rope, subdued golden dawn light. Documentary realism, professional architecture photography, 16:9, natural light, no people in focus, no text, no words, no writing, no frame divisions",
+        "interior": "A minimalist healing room in the Judean foothills, Israel, with a low stone threshold marking passage from outer terrace to inner chamber, pale limestone walls, a single narrow skylight casting a moving band of light across a smooth clay floor, one small niche holding a bowl of ash-grey pigment and a wooden stylus, no furniture beyond a low bench, textures of raw plaster and olive wood, quiet transitional light at dusk. Documentary realism, professional architecture photography, 16:9, natural light, no people in focus, no text, no words, no writing, no frame divisions"
+      }
+    },
+    "images": {
+      "exterior": null,
+      "interior": null
+    },
+    "videos": {
+      "exterior": null,
+      "interior": null
+    }
+  },
+  {
+    "id": "b5d2607a-e7d3-4ba3-aad5-c130b3ac2780",
+    "concept": "דהרמה",
+    "createdAt": "2026-09-23T20:05:55.668+00:00",
+    "updatedAt": "2026-09-23T20:05:54.440314+00:00",
+    "tags": [
+      "הודו",
+      "שייכות"
+    ],
+    "dimensions": {
+      "lede": "נהר אחד, אלף טקסים, וכל אדם יודע בדיוק מה תפקידו בזרם.",
+      "insight": "המילה מגיעה מהשורש הסנסקריטי \"דהר\" - להחזיק, לתמוך - ומציינת את הסדר הקוסמי ואת התפקיד האישי שכל יצור נושא בתוכו לפי מקומו בעולם. בחיי היומיום זה מתבטא בטקסים קבועים על גדות הגנגס, בחלוקת תפקידים משפחתית ומקצועית שנתפסת כשליחות ולא כעול, ובלוח זמנים יומי שמסמן מתי מתפללים, עובדים ומנוחים. הצורך שהוא עונה עליו הוא הרצון לדעת שיש לך מקום מדויק בסדר גדול יותר, ושהוא משתיק את החרדה מפני חיים חסרי כיוון.",
+      "spaceName": "חדר התפקיד השקט",
+      "proverb": "מי שמכיר את מקומו, אינו נושא את כל העולם על גבו.",
+      "interpretation": [
+        "בעברית יש 'תפקיד' אך לא מושג שמחבר אותו לסדר קוסמי שלם",
+        "דהרמה מוסיפה תחושת שליחות למה שאצלנו נשאר חובה טכנית",
+        "היהדות מדגישה בחירה ומצווה, הדהרמה מדגישה מיקום קבוע מראש",
+        "היא דורשת מהאדם כאן לשאול לא רק מה מותר אלא מה תפקידי הייחודי"
+      ],
+      "humanNeed": "שייכות",
+      "origin": {
+        "script": "धर्म",
+        "culture": "הודו",
+        "literal": "מה שמחזיק ומקיים",
+        "region_en": "Varanasi, India",
+        "transliteration": "Dharma"
+      },
+      "practice": {
+        "how": "כתוב כל בוקר משפט אחד על התפקיד שאתה ממלא היום, לא המשימה אלא השליחות",
+        "why": "למלא את הצורך הבסיסי לדעת שיש לך תפקיד מוגדר וברור בעולם",
+        "when": "בתקופות של בלבול מקצועי, מעבר בחיים או אובדן כיוון",
+        "where": "פינת עץ טבעי ליד חלון מזרחי, אור ראשון, מרקם גס של סיבי במבוק וקש"
+      },
+      "imagePrompts": {
+        "exterior": "A stone ghat descending into the Ganges river at dawn in Varanasi, India, worn steps polished by centuries of ritual bathing, small oil lamps flickering along the water's edge, mist rising from the river surface, ancient temples and shrines lining the bank, saffron-colored cloth draped over a railing, a single brass bell hanging silent. Documentary realism, professional architecture photography, 16:9, natural light, no people in focus, no text, no words, no writing, no frame divisions",
+        "interior": "A meditative study nook in a Galilee stone house, built into a thick limestone wall facing east, morning light spilling across a low wooden desk made of rough-hewn olive wood, a woven wool mat on the floor, one shelf holding a single unlit oil lamp and a stack of blank notebooks, exposed stone texture contrasting with smooth plaster, a narrow threshold framed by an old wooden door left ajar to the hills beyond. Documentary realism, professional architecture photography, 16:9, natural light, no people in focus, no text, no words, no writing, no frame divisions"
+      }
+    },
+    "images": {
+      "exterior": null,
+      "interior": null
+    },
+    "videos": {
+      "exterior": null,
+      "interior": null
+    }
+  },
+  {
+    "id": "f7ad22ba-9559-4ea0-accc-04f1284836bb",
+    "concept": "הכנסת אורחים",
+    "createdAt": "2026-09-23T20:05:41.455+00:00",
+    "updatedAt": "2026-09-23T20:05:40.219045+00:00",
+    "tags": [
+      "יהדות",
+      "קהילה"
+    ],
+    "dimensions": {
+      "lede": "אברהם רץ לקראת שלושה זרים בצהרי יום חם - וכל שולחן שבת מאז נושא את הריצה הזאת.",
+      "insight": "המושג נטבע בפרשת אברהם בספר בראשית, שאוהלו היה פתוח מארבע רוחותיו כדי שעובר אורח יראה תמיד פתח פנוי. במסורת ההלכתית זו לא נדיבות מזדמנת אלא מצווה מוגדרת: להאכיל, להשקות, ללוות את היוצא, ולעיתים אף להפסיק תפילה כדי לארח. היא עונה על הצורך להפוך את הזר לאדם מוכר בטרם נשאלת שאלה אחת עליו.",
+      "spaceName": "אוהל בארבע פינות",
+      "proverb": "פתח ביתך לפני שתשאל מי בא.",
+      "interpretation": [
+        "מקבילה מקומית: שולחן שבת הפתוח לחייל בודד או לעולה חדש",
+        "מה שהמושג הזר מוסיף: מחויבות הלכתית שאינה תלויה במצב רוח",
+        "נקודת הפירוד: הכנסת אורחים יהודית קשורה לזמן קבוע, לא לספונטניות בלבד",
+        "מה זה דורש כאן: לראות באורח לא אורח אלא שותף זמני לשולחן"
+      ],
+      "humanNeed": "קהילה",
+      "origin": {
+        "script": "הַכְנָסַת אוֹרְחִים",
+        "culture": "יהדות",
+        "literal": "הבאת אורחים פנימה",
+        "region_en": "Land of Israel and Jewish diaspora communities",
+        "transliteration": "Hachnasat Orchim"
+      },
+      "practice": {
+        "how": "השאירי תמיד כיסא פנוי אחד וצלחת נוספת על השולחן",
+        "why": "לענות על הבדידות של מי שנמצא מחוץ למעגל המוכר",
+        "when": "בערבי חג, בשבתות, וכשמישהו חדש מגיע לשכונה",
+        "where": "פתח רחב ללא מנעול כבד, אור חם, שולחן עץ ארוך שניתן להאריך"
+      },
+      "imagePrompts": {
+        "exterior": "A traditional stone courtyard house in the Galilee or Jerusalem hills at golden hour, wide open entrance with no gate, a long low table set outdoors under a vine trellis, worn stone steps leading directly from the street into the courtyard, warm lamplight beginning to glow from within, simple woven mats and clay jugs of water left near the threshold for arriving travelers. Documentary realism, professional architecture photography, 16:9, natural light, no people in focus, no text, no words, no writing, no frame divisions",
+        "interior": "A minimalist stone-and-timber home in the Judean foothills, Israel, with a deliberately oversized entrance hall that doubles as a dining space, a long reclaimed-wood table positioned to catch afternoon light through a wide unobstructed doorway, an extra place setting always visible, rough plaster walls in warm ochre, olive trees framing the open threshold outside, no fence or gate interrupting the approach path. Documentary realism, professional architecture photography, 16:9, natural light, no people in focus, no text, no words, no writing, no frame divisions"
+      }
+    },
+    "images": {
+      "exterior": null,
+      "interior": null
+    },
+    "videos": {
+      "exterior": null,
+      "interior": null
+    }
+  },
+  {
+    "id": "5a51326c-e775-4557-a681-2d64607c5e5a",
+    "concept": "תשובה",
+    "createdAt": "2026-09-23T20:05:40.852+00:00",
+    "updatedAt": "2026-09-23T20:05:39.617777+00:00",
+    "tags": [
+      "יהדות",
+      "קבלת אי-שלמות"
+    ],
+    "dimensions": {
+      "lede": "לא כפרה על עבר, אלא כתובת חזרה שקיימת בכל רגע נתון.",
+      "insight": "המילה תשובה נגזרת מהשורש שוב, ובמקורה אינה עונש אלא תנועה - חזרה אל נקודת המוצא של האדם עצמו. בחיי היום־יום היא מתממשת בווידוי, בחשבון נפש שנתי לפני ראש השנה, ובזמן קצוב של עשרה ימים שבו מותר להתחיל מחדש בלי להעמיד פנים שכלום לא קרה. היא עונה על הצורך האנושי להאמין ששום מעשה אינו סופי, ומשקיטה את האימה שהזהות שלנו נעולה במי שהיינו אתמול.",
+      "spaceName": "חדר המדרגה השבה",
+      "proverb": "מי שסוגר דלת מאחוריו, פותח בה חלון לחזרה.",
+      "interpretation": [
+        "בישראל 'להתחיל מחדש' תמיד גלוי לעין, כאן החזרה נעשית פנימה בשקט",
+        "תרבויות מערביות מציעות סליחה עצמית, תשובה דורשת גם תיקון קונקרטי כלפי הזולת",
+        "מתח בין הרעיון שהעבר ניתן למחיקה לבין הזיכרון היהודי שדורש דווקא לזכור",
+        "היא מבקשת מהאדם כאן לא רק לדבר על שינוי אלא לשנות מעשה אחד ממש"
+      ],
+      "humanNeed": "קבלת אי-שלמות",
+      "origin": {
+        "script": "תשובה",
+        "culture": "יהדות",
+        "literal": "שיבה אל המקור",
+        "region_en": "Land of Israel; Jewish tradition",
+        "transliteration": "Teshuva"
+      },
+      "practice": {
+        "how": "רשום כל ערב משפט אחד על מעשה שהיית רוצה לתקן מחר.",
+        "why": "כדי לשחרר אשמה מצטברת ולפתוח מסלול חזרה אמיתי, לא מדומיין.",
+        "when": "בסופי מחזורים - סוף שנה, סוף מריבה, סוף פרויקט שנכשל.",
+        "where": "פינה חשוכה למחצה עם שולחן נמוך ומחברת פתוחה, בלי מסך."
+      },
+      "imagePrompts": {
+        "exterior": "A weathered stone mikveh entrance carved into a hillside in the Judean Desert near the Dead Sea, narrow stone steps descending into shadow, dry ochre rock walls, a single shaft of late afternoon light falling across worn limestone steps, ancient handholds smoothed by generations, sparse desert scrub at the threshold. Documentary realism, professional architecture photography, 16:9, natural light, no people in focus, no text, no words, no writing, no frame divisions",
+        "interior": "A quiet reflection room in a stone house on a Galilee hillside, thick lime-plastered walls in warm ochre, a low wooden writing table beneath a deep-set window facing terraced olive groves, a woven wool rug on cool stone floor, an unlit oil lamp on the sill, soft morning light entering at an angle, the room holding a sense of unfinished return rather than resolution. Documentary realism, professional architecture photography, 16:9, natural light, no people in focus, no text, no words, no writing, no frame divisions"
+      }
+    },
+    "images": {
+      "exterior": null,
+      "interior": null
+    },
+    "videos": {
+      "exterior": null,
+      "interior": null
+    }
+  },
+  {
+    "id": "e90b5112-ccf7-460a-a4d3-d36f339fd10a",
+    "concept": "צַבְּר",
+    "createdAt": "2026-09-23T20:05:12.984+00:00",
+    "updatedAt": "2026-09-23T20:05:11.763589+00:00",
+    "tags": [
+      "ערבית",
+      "חוסן"
+    ],
+    "dimensions": {
+      "lede": "אותו צמח קוצני שנתן לצבר הישראלי את שמו, נקרא בערבית על שם הסבלנות עצמה.",
+      "insight": "صبر (סַבּר) הוא מושג ערבי-אסלאמי מרכזי שפירושו סבלנות פעילה - לא כניעה, אלא עמידה איתנה מול קושי מתוך אמונה שהזמן והאל יגמלו על ההתמדה. הוא מופיע בתפילה, בניחומי אבלים ('אַלְלָּה יְעְטִיכּ אלְ-סַבְּר'), ובשם הצמח העמיד בצל ובחום הקיצוני. הוא עונה לצורך להכיל כאב וחוסר ודאות ממושכים בלי להישבר ובלי לוותר על תקווה.",
+      "spaceName": "חדר ההמתנה השקטה",
+      "proverb": "מה שכואב עכשיו, לא בהכרח יכאב כך מחר; תן לזמן לעבוד.",
+      "interpretation": [
+        "לצבר הישראלי יש קוצניות דומה, אך פחות הכנעה ואמונה שקטה",
+        "סַבְּר מבקש קבלה פעילה, לא רק הישרדות עיקשת כמו 'יהיה בסדר'",
+        "בעברית הסבלנות נתפסת כחולשה זמנית, בערבית - כמידה מוסרית עליונה",
+        "הוא דורש מאיתנו להאט מול צורך תרבותי לפתור הכל מיד"
+      ],
+      "humanNeed": "חוסן",
+      "origin": {
+        "script": "صبر",
+        "culture": "ערבית",
+        "literal": "סבלנות, כוח עמידה",
+        "region_en": "Levant and broader Arab world",
+        "transliteration": "Sabr"
+      },
+      "practice": {
+        "how": "בכל בוקר לומר לעצמך משפט אחד שמזכיר שהמצב הזה חולף",
+        "why": "להכיל תקופות קושי ארוכות בלי להישחק או להתפרק",
+        "when": "בזמן אבל, מחלה, המתנה ממושכת או משבר שאין לו פתרון מיידי",
+        "where": "פינה צלה, בין קירות עבים, עם צמח קוצני עמיד וספסל אבן קריר"
+      },
+      "imagePrompts": {
+        "exterior": "A shaded desert courtyard in a Levantine village, thick limestone walls, a lone aloe and prickly pear cactus growing from cracked earth, worn stone bench in dappled shade, water jug resting nearby, midday heat visible in the haze, muted ochre and dusty green palette. Documentary realism, professional architecture photography, 16:9, natural light, no people in focus, no text, no words, no writing, no frame divisions",
+        "interior": "A minimalist stone dwelling in the Negev desert, thick rammed-earth walls holding cool shade against harsh light, a single deep-set window framing a distant dry riverbed, rough plaster textures, a low wooden bench worn smooth, a native desert succulent growing in a stone niche, sense of stillness and endurance built into the architecture. Documentary realism, professional architecture photography, 16:9, natural light, no people in focus, no text, no words, no writing, no frame divisions"
+      }
+    },
+    "images": {
+      "exterior": null,
+      "interior": null
+    },
+    "videos": {
+      "exterior": null,
+      "interior": null
+    }
+  },
+  {
+    "id": "8273670c-f3c8-4fdf-a5f3-295bd21b35cd",
+    "concept": "שבת",
+    "createdAt": "2026-09-23T20:05:10.221+00:00",
+    "updatedAt": "2026-09-23T20:05:08.992414+00:00",
+    "tags": [
+      "יהדות",
+      "מנוחה"
+    ],
+    "dimensions": {
+      "lede": "פעם בשבוע מכבים את המכונה כולה, בכוונה תחילה, ולא כי נגמר הדלק.",
+      "insight": "שבת היא מצווה יהודית עתיקה שמקורה בסיפור הבריאה, מלשון 'שבת' - חדל, נח ממלאכה. היא מתבטאת בטקס קבוע: הדלקת נרות, ברכה על יין ולחם, איסור מלאכה ויצירת זמן משפחתי וקהילתי מובחן משאר הימים. היא עונה לצורך אנושי בהפסקה מוגנת מהעשייה, ומשתיקה את התחושה שערך האדם נמדד בתפוקתו.",
+      "spaceName": "אי של מנוחה",
+      "proverb": "מי שלא יודע לעצור, לא באמת יודע לרוץ.",
+      "interpretation": [
+        "גם בישראל החילונית שישי-שבת נשאר עוגן זמן משותף",
+        "שבת מציעה איסור ולא רק המלצה, וזה מה שנותן לה כוח לשבש שגרה",
+        "בעולם שבו 'ניתוק דיגיטלי' הוא בחירה אישית, שבת היא מסגרת קהילתית שכופה מנוחה על כולם יחד",
+        "לחיות כאן פירושו להחליט מה 'המלאכה' שלך ואיך תיראה ההפסקה ממנה"
+      ],
+      "humanNeed": "מנוחה",
+      "origin": {
+        "script": "שַׁבָּת",
+        "culture": "יהדות",
+        "literal": "לחדול, להשבית",
+        "region_en": "Israel and the Jewish Diaspora",
+        "transliteration": "Shabbat"
+      },
+      "practice": {
+        "how": "לקבוע שעה קבועה בשבוע שבה נכבים המסכים והמייל נשאר סגור",
+        "why": "לתת לגוף ולנפש הפסקה מוגנת מדרישת התפוקה המתמדת",
+        "when": "בתקופות של שחיקה, עומס עבודה או תחושת ריצה מתמשכת בלי עצירה",
+        "where": "שולחן עץ עם נרות דולקים, אור רך של ערב, מרחב פנוי מציוד טכנולוגי"
+      },
+      "imagePrompts": {
+        "exterior": "A stone courtyard in Jerusalem at dusk on a Friday evening, warm golden light spilling from open windows, a table set with white cloth, wine and bread visible through an arched doorway, old Jerusalem limestone walls glowing amber, quiet empty street beyond, sense of a city settling into stillness. Documentary realism, professional architecture photography, 16:9, natural light, no people in focus, no text, no words, no writing, no frame divisions",
+        "interior": "A minimalist family living space in the Judean foothills, thick stone and plaster walls, a long wooden table with unlit candles and folded white linen waiting for evening, large window facing terraced hills and olive trees, soft late-afternoon light, no screens or devices visible, a sense of a room prepared for pause. Documentary realism, professional architecture photography, 16:9, natural light, no people in focus, no text, no words, no writing, no frame divisions"
+      }
+    },
+    "images": {
+      "exterior": null,
+      "interior": null
+    },
+    "videos": {
+      "exterior": null,
+      "interior": null
+    }
+  },
+  {
+    "id": "2b434ecf-5f6f-4aa1-a358-3f9e98e59a08",
+    "concept": "טַרַב",
+    "createdAt": "2026-09-23T20:05:07.4+00:00",
+    "updatedAt": "2026-09-23T20:05:06.182106+00:00",
+    "tags": [
+      "ערבית",
+      "שייכות"
+    ],
+    "dimensions": {
+      "lede": "יש שיר אחד שאם ינגנו אותו נכון, החדר כולו יתחיל לבכות יחד.",
+      "insight": "טַרַב הוא מונח ערבי-קלאסי שמתאר מצב של התרגשות והתעלות נפשית הנוצר מהאזנה משותפת למוזיקה, בעיקר מוזיקה מקאמית מאולתרת. הוא מתרחש בסהראת בית-קפה או בסלון פרטי, כשזמר חוזר על אותה שורה שוב ושוב עד שהקהל קורא לו בקריאות עידוד ומוביל אותו למקום רגשי חדש. המונח עונה על הצורך בהתמסרות קולקטיבית לרגש בלי מילים ומשתיק את הבדידות של חוויה פנימית שלא שותפים בה.",
+      "spaceName": "חדר ההדהוד",
+      "proverb": "מי שלא נשבר פעם בתוך שיר, לא שמע אותו באמת",
+      "interpretation": [
+        "בישראל יש 'שירה בציבור' אך היא מובנית ומוכתבת מראש",
+        "טרב דורש כניעה לרגע הבלתי צפוי, לא שינון מילים",
+        "בתרבות היהודית ההתעלות קשורה לתפילה, בטרב היא חילונית וגופנית",
+        "המקום כאן שואל: האם נדע להיסחף בלי לשלוט בקצב"
+      ],
+      "humanNeed": "שייכות",
+      "origin": {
+        "script": "طرب",
+        "culture": "ערבית",
+        "literal": "התעלות מוזיקלית",
+        "region_en": "Cairo, Egypt",
+        "transliteration": "Tarab"
+      },
+      "practice": {
+        "how": "להשמיע שיר אחד שוב ושוב ולתת לו לשנות אותך בכל פעם",
+        "why": "לתת מקום להתרגשות משותפת שאין לה מילים מדויקות",
+        "when": "בערבים של אבל, של שמחה גדולה או של בדידות ממושכת",
+        "where": "מרחב חם, שטיחים, תאורה נמוכה, בלי כיסאות קבועים"
+      },
+      "imagePrompts": {
+        "exterior": "A traditional Cairo qahwa (coffeehouse) courtyard at dusk in Old Cairo, Egypt, worn wooden lattice mashrabiya screens casting patterned shadows, low brass tables, empty cushions arranged in a loose circle, oud resting against a wall, warm amber light spilling from hanging lanterns, cracked plaster walls in ochre and rust tones. Documentary realism, professional architecture photography, 16:9, natural light, no people in focus, no text, no words, no writing, no frame divisions",
+        "interior": "A living room in the Galilee hills, Israel, built into a stone hillside with a low wide window facing olive terraces, thick rammed-earth walls, a sunken seating nook with woven wool cushions in muted earth tones, no fixed furniture, a single hanging oil lamp, acoustic curves in the ceiling designed to hold sound, warm late-afternoon light pooling on a rough stone floor. Documentary realism, professional architecture photography, 16:9, natural light, no people in focus, no text, no words, no writing, no frame divisions"
+      }
+    },
+    "images": {
+      "exterior": null,
+      "interior": null
+    },
+    "videos": {
+      "exterior": null,
+      "interior": null
+    }
+  },
+  {
+    "id": "1d6948fb-a84b-4924-ab6b-f49353ce12d5",
+    "concept": "כַּרַם",
+    "createdAt": "2026-09-23T20:04:43.489+00:00",
+    "updatedAt": "2026-09-23T20:04:42.245946+00:00",
+    "tags": [
+      "ערבית",
+      "חיבור לטבע"
+    ],
+    "dimensions": {
+      "lede": "בתרבות שבה כיבוד אורח הוא מבחן אופי, כרם הוא הדבר שנשפט עליו אדם שלם.",
+      "insight": "כַּרַם בערבית הוא לא רק נדיבות אלא אצילות נפש שמתבטאת דרך נתינה בלי חשבון - שורש המילה קשור גם לכרם הגפן, מקום שמניב בשפע. הוא מתגלם בטקס הקפה והתמרים לאורח הבלתי צפוי, בשולחן שמוגש תמיד עשיר מדי, בסירוב לקבל תשלום על עזרה שניתנה משכן. הצורך שהוא עונה עליו הוא הרצון להיות מוכר כאדם שערכו נמדד בנתינה, לא בצבירה - והוא משתיק את הפחד מהיחשבות כקמצן או קטן־נפש.",
+      "spaceName": "אכסניית השפע הפתוח",
+      "proverb": "מי שסוגר את שולחנו סוגר את שמו הטוב.",
+      "interpretation": [
+        "הכנסת אורחים היהודית קרובה לכרם אך מתמקדת במצווה, לא באופי",
+        "כרם דורש נתינה עודפת ומופגנת - הכנסת אורחים מסתפקת בהולם ובצנוע",
+        "בישראל נדיבות נמדדת לרוב בפרטיות, בעוד כרם הוא ציבורי ומוכיח כבוד",
+        "הוא מזמין לוותר על חישוב 'כמה מגיע' ולתת מעבר למצופה"
+      ],
+      "humanNeed": "חיבור לטבע",
+      "origin": {
+        "script": "كرم",
+        "culture": "ערבית",
+        "literal": "נדיבות אצילה",
+        "region_en": "Levant, Arab world",
+        "transliteration": "Karam"
+      },
+      "practice": {
+        "how": "הגש לאורח יותר ממה שביקש, בלי להזכיר את העלות.",
+        "why": "נדיבות פומבית בונה כבוד עצמי וקשרי קהילה עמוקים יותר.",
+        "when": "בביקורי פתע, באבל, בכל רגע שבו אדם זקוק לתמיכה שקטה.",
+        "where": "שולחן נמוך ורחב, כרים על הרצפה, אור פזור וחם."
+      },
+      "imagePrompts": {
+        "exterior": "A traditional stone courtyard house in rural Levant (Syria/Jordan border region), guest majlis with low arched doorway wide open, brass coffee pots arranged near the entrance, a grapevine trellis casting dappled shade over worn stone benches, dates and figs drying on woven trays outside, warm late-afternoon sun. Documentary realism, professional architecture photography, 16:9, natural light, no people in focus, no text, no words, no writing, no frame divisions",
+        "interior": "A guest room in a Galilee hilltop home built from local limestone, deliberately oversized threshold and an unusually wide low table set with abundant, overflowing bowls of fruit and bread, walls in warm ochre plaster, a single olive branch in a clay jug, soft afternoon light pouring through a deep-set window facing terraced hills. Documentary realism, professional architecture photography, 16:9, natural light, no people in focus, no text, no words, no writing, no frame divisions"
+      }
+    },
+    "images": {
+      "exterior": null,
+      "interior": null
+    },
+    "videos": {
+      "exterior": null,
+      "interior": null
+    }
+  },
+  {
+    "id": "d77eee78-be34-4451-a6d5-e515673ddd35",
+    "concept": "סובמסה",
+    "createdAt": "2026-09-23T20:04:14.809+00:00",
+    "updatedAt": "2026-09-23T20:04:13.566996+00:00",
+    "tags": [
+      "ספרד",
+      "קהילה"
+    ],
+    "dimensions": {
+      "lede": "בספרד הארוחה נגמרת רק כשהשיחה שאחריה נגמרת.",
+      "insight": "סוברמסה הוא המונח הספרדי לזמן שנמתח אחרי הארוחה, כשהצלחות כבר ריקות אבל אף אחד לא קם מהשולחן. באנדלוסיה זה יכול להימשך שעה ויותר - כוס יין נוספת, קפה, שיחה בלי מטרה ובלי שעון. הוא עונה לצורך בנוכחות בלתי-פרודוקטיבית, ומשתיק את הדחף למהר הלאה למשימה הבאה.",
+      "spaceName": "חדר של אחרי",
+      "proverb": "מי שממהר לקום מהשולחן, לא באמת ישב בו.",
+      "interpretation": [
+        "בישראל יש 'לשבת על כוס קפה' אבל כמעט תמיד עם שעון פנימי דולק",
+        "סוברמסה מוסיף לגיטימציה לבזבז זמן משותף בלי תירוץ",
+        "בתרבות הישראלית הזמן שאחרי הארוחה שייך כבר למטלה הבאה",
+        "זה דורש מאדם כאן לבחור להישאר גם כשאין עוד מה לאכול"
+      ],
+      "humanNeed": "קהילה",
+      "origin": {
+        "script": "Sobremesa",
+        "culture": "ספרד",
+        "literal": "מעל לשולחן",
+        "region_en": "Andalusia, Spain",
+        "transliteration": "Sobremesa"
+      },
+      "practice": {
+        "how": "להשאיר את הכלים על השולחן ולפתוח שיחה במקום לקום מיד",
+        "why": "כדי לתת לקשר האנושי זמן שלא נמדד בתפוקה",
+        "when": "בסופי שבוע, בארוחות משפחתיות, אחרי אירוח ממושך",
+        "where": "שולחן עץ רחב, תאורה נמוכה וחמה, כיסאות שאפשר לשקוע בהם"
+      },
+      "imagePrompts": {
+        "exterior": "A long wooden table set outdoors in a shaded Andalusian courtyard in southern Spain, late afternoon light filtering through a grapevine trellis, empty wine glasses and half-eaten bread still on the table, terracotta tiles underfoot, whitewashed walls glowing warm gold, chairs pushed back as if people just lingered and left. Documentary realism, professional architecture photography, 16:9, natural light, no people in focus, no text, no words, no writing, no frame divisions",
+        "interior": "A warm dining nook in a stone house in the Judean foothills, Israel, thick limestone walls, a solid wood table with linen napkins left casually, low golden evening light through a small deep-set window, an open door leading to a terrace with olive trees, textures of raw plaster and aged oak, a sense of unhurried time. Documentary realism, professional architecture photography, 16:9, natural light, no people in focus, no text, no words, no writing, no frame divisions"
+      }
+    },
+    "images": {
+      "exterior": null,
+      "interior": null
+    },
+    "videos": {
+      "exterior": null,
+      "interior": null
+    }
+  },
+  {
+    "id": "e2e8e98c-230c-4d0c-9340-32a33baf689b",
+    "concept": "קאירוס",
+    "createdAt": "2026-09-23T20:04:13.524+00:00",
+    "updatedAt": "2026-09-23T20:04:12.383557+00:00",
+    "tags": [
+      "יוון העתיקה",
+      "זמן"
+    ],
+    "dimensions": {
+      "lede": "היוונים חילקו את הזמן לשניים: אחד נמדד בשעון, השני נתפס רק ברגע שהוא חולף.",
+      "insight": "קאירוס הוא זמן איכותי ולא כמותי - הרגע הנכון לפעולה, בניגוד לכרונוס הזורם ברצף אחיד. באמנות תיארו אותו כנער עם בלורית קדמית וקירחת מאחור: אפשר לתפוס אותו רק כשהוא מולך, לא אחרי שחלף. הוא עונה לצורך להבחין בין זמן שעובר לזמן שדורש ממך להחליט עכשיו, ומרגיע את החרדה מפספוס.",
+      "spaceName": "חדר הרגע הפתוח",
+      "proverb": "השעון מודד דקות, הלב מודד את הרגע שבו צריך לפעול.",
+      "interpretation": [
+        "ביהדות יש 'עת לכל חפץ' - קאירוס מוסיף את הדחיפות שבזיהוי הרגע בזמן אמת",
+        "זמן קאירוס דורש קשב לרגע החולף, לא רק אמונה שיש זמן לכל דבר",
+        "הדחיפות היוונית מתנגשת עם הסבלנות היהודית לחכות לעת הנכונה",
+        "הוא מבקש מהאדם כאן לפתח חוש תזמון, לא רק אמונה שהזמן יבוא"
+      ],
+      "humanNeed": "זמן",
+      "origin": {
+        "script": "Καιρός",
+        "culture": "יוון העתיקה",
+        "literal": "הרגע הנכון",
+        "region_en": "Greece",
+        "transliteration": "Kairos"
+      },
+      "practice": {
+        "how": "עצור פעם ביום ושאל: האם זה הרגע לפעול או לחכות",
+        "why": "כדי לתפוס רגעי החלטה שלא חוזרים",
+        "when": "לפני שיחה קשה, החלטה מקצועית, או הזדמנות חד-פעמית",
+        "where": "פינה עם אור משתנה לאורך היום, ללא שעון גלוי"
+      },
+      "imagePrompts": {
+        "exterior": "A weathered ancient Greek sundial and stone threshold at an archaeological site in Delphi, Greece, golden hour light casting a sharp moving shadow across worn marble steps, emphasizing the fleeting quality of a single decisive moment, cypress trees in soft focus background, warm stone textures, Documentary realism, professional architecture photography, 16:9, natural light, no people in focus, no text, no words, no writing, no frame divisions",
+        "interior": "A minimalist meditation nook in a stone house in the Galilee, Israel, with a single deep window opening that channels a moving beam of afternoon light across a rough plaster wall, no visible clock, natural linen cushion on a low wooden bench, threshold between shadow and light marking the passage of a decisive instant, olive wood details, Documentary realism, professional architecture photography, 16:9, natural light, no people in focus, no text, no words, no writing, no frame divisions"
+      }
+    },
+    "images": {
+      "exterior": null,
+      "interior": null
+    },
+    "videos": {
+      "exterior": null,
+      "interior": null
+    }
+  },
+  {
+    "id": "5d2dff1a-c1a7-46ac-8bc3-72fe6bbf4a09",
+    "concept": "פרילופטסליב",
+    "createdAt": "2026-09-23T20:03:49.641+00:00",
+    "updatedAt": "2026-09-23T20:03:48.410985+00:00",
+    "tags": [
+      "נורווגיה",
+      "מנוחה"
+    ],
+    "dimensions": {
+      "lede": "נורווגי אחד מתוך שניים ישן בחורף על מרפסת פתוחה, בכפפות.",
+      "insight": "המילה נטבעה במאה התשע-עשרה מ'פרי' (חופשי) ו'לופט' (אוויר) ו'ליב' (חיים), ומציינת לא ספורט אלא אורח חיים של שהות יומיומית בטבע, ללא ציוד וללא הישג. היא מתגלמת בעגלת תינוקות שמשאירים לישון בחוץ בשלג, בטיול משפחתי של יום ראשון שאין בו יעד, בבקתת עץ פשוטה בלב היער שמשפחות שבות אליה דור אחר דור. הצורך שהיא עונה עליו הוא שחרור מהדימוי העצמי שנבנה סביב תפוקה, והשקט שמגיע כשגוף חשוף למזג האוויר בלי תפקיד להוכיח.",
+      "spaceName": "מרפסת האוויר הפתוח",
+      "proverb": "מי שלא הרטיב את הפנים בגשם, לא באמת יצא מהבית.",
+      "interpretation": [
+        "'טיול בטבע' אצלנו הוא יעד ותמונה, אצלם הוא הרגל שקט בלי מטרה",
+        "החסר המקומי: אצלנו הטבע הוא בריחה מהעיר, לא ברירת מחדל של יום רגיל",
+        "הפער: פרילופטסליב לא מתקשר לחג או לשבת, הוא חול גמור",
+        "זה דורש מאיתנו לצאת בלי תוכנית, בלי תמונה לאינסטגרם, סתם לשהות"
+      ],
+      "humanNeed": "מנוחה",
+      "origin": {
+        "script": "Friluftsliv",
+        "culture": "נורווגיה",
+        "literal": "חיי אוויר פתוח",
+        "region_en": "Norway",
+        "transliteration": "Friluftsliv"
+      },
+      "practice": {
+        "how": "לצאת מדי יום, בכל מזג אוויר, לפחות עשרים דקות בלי יעד",
+        "why": "לשחרר את הגוף מדרישת ההישג ולתת לו סתם להיות בחוץ",
+        "when": "מועיל בעומס נפשי, בעייפות מסך, כשצריך לאפס את קצב הנשימה",
+        "where": "עץ גולמי, אבן קרה, אור אפור וחומרים שסובלים גשם וקור"
+      },
+      "imagePrompts": {
+        "exterior": "A simple wooden hytte cabin on the edge of a Norwegian fjord forest, snow lightly covering a bare wood terrace, a wool blanket draped over an outdoor bench, mist rising off dark water at dawn, tall pines behind, weathered timber cladding, overcast soft light. Documentary realism, professional architecture photography, 16:9, natural light, no people in focus, no text, no words, no writing, no frame divisions",
+        "interior": "A minimalist stone and timber house in the Galilee hills, an open-sided covered porch blurring inside and outside, rough local limestone floor meeting a plain wooden bench, wild oak and pine visible through an unglazed opening, morning light and cool air moving through the space, no imported Scandinavian materials, distinctly Mediterranean hill textures. Documentary realism, professional architecture photography, 16:9, natural light, no people in focus, no text, no words, no writing, no frame divisions"
+      }
+    },
+    "images": {
+      "exterior": null,
+      "interior": null
+    },
+    "videos": {
+      "exterior": null,
+      "interior": null
+    }
+  },
+  {
+    "id": "2a0a0bcd-8f6c-46da-8671-6c662d4878f1",
+    "concept": "סיסו",
+    "createdAt": "2026-09-23T20:03:48.976+00:00",
+    "updatedAt": "2026-09-23T20:03:47.743014+00:00",
+    "tags": [
+      "פינית",
+      "חוסן"
+    ],
+    "dimensions": {
+      "lede": "בפינית יש מילה לרגע שבו כל ההיגיון אומר לוותר ואתה פשוט ממשיך ללכת.",
+      "insight": "סיסו היא מילה פינית עתיקה, קרובה במקורה למילה 'מעיים', שמתארת כוח רצון שמופעל דווקא כשהכוחות הרגילים אוזלים. היא ניכרת בטבילה בקרח שלאחר הסאונה, בהליכה קילומטרים בשלג בלי תלונה, בתרבות עבודה שמעריכה עמידות שקטה יותר מהצלחה רועשת. היא עונה על הצורך להתמודד עם קושי בלתי נמנע - אקלים, חורף, בדידות - בלי לקרוס תחתיו ובלי להפוך אותו לדרמה.",
+      "spaceName": "חדר העמידה השקטה",
+      "proverb": "הכוח האמיתי לא צועק, הוא ממשיך צעד נוסף בשלג.",
+      "interpretation": [
+        "בעברית יש 'התגברות' אך היא נשמעת כמאבק, סיסו היא הליכה שקטה בתוך הקושי",
+        "היהדות מכירה סבל וניצחון עליו, אך סיסו מוותרת על הסיפור הגדול לטובת הרגע הטכני",
+        "כאן מרבים לדבר על החוסן, שם פשוט מתרגלים אותו בלי מילים ובלי הצהרות",
+        "זה מזמין לוותר על הצורך להסביר או להתלונן ופשוט לבצע את הצעד הבא"
+      ],
+      "humanNeed": "חוסן",
+      "origin": {
+        "script": "sisu",
+        "culture": "פינית",
+        "literal": "עוז פנימי",
+        "region_en": "Finland",
+        "transliteration": "Sisu"
+      },
+      "practice": {
+        "how": "לבצע פעולה קטנה ולא נעימה במודע, בלי דיבורים, כל בוקר",
+        "why": "לתת עוגן פנימי כשהנסיבות החיצוניות לא ניתנות לשליטה",
+        "when": "בתקופות עומס, אבל, מזג אוויר קשה או משבר ממושך",
+        "where": "פינה קרה, פשוטה, בלי ריפוד מיותר, עם אור טבעי חד"
+      },
+      "imagePrompts": {
+        "exterior": "A wooden lakeside sauna in rural Finland at dusk, steam rising against dark pine forest, a frozen lake with a cut hole for ice swimming, snow-covered ground, minimal timber structure with weathered dark wood siding, single warm light glowing from a small window. Documentary realism, professional architecture photography, 16:9, natural light, no people in focus, no text, no words, no writing, no frame divisions",
+        "interior": "A minimalist stone and concrete room in the Galilee hills designed for quiet endurance, a narrow slit window facing a rocky slope, raw local limestone walls, a plain wooden bench, cold morning light cutting across the floor, no decoration, a single basin of water in the corner. Documentary realism, professional architecture photography, 16:9, natural light, no people in focus, no text, no words, no writing, no frame divisions"
+      }
+    },
+    "images": {
+      "exterior": null,
+      "interior": null
+    },
+    "videos": {
+      "exterior": null,
+      "interior": null
+    }
+  },
+  {
+    "id": "1c37c870-829b-4509-8c51-3ab81228bfab",
+    "concept": "פילוקסניה",
+    "createdAt": "2026-09-23T20:03:45.727+00:00",
+    "updatedAt": "2026-09-23T20:03:44.508889+00:00",
+    "tags": [
+      "יוון",
+      "שייכות"
+    ],
+    "dimensions": {
+      "lede": "ביוון הזר שנוקש בדלת מקבל את הכיסא הטוב לפני שנשאלת שאלה אחת.",
+      "insight": "פילוקסניה היא מילה יוונית עתיקה המחברת 'פיליה' (אהבה, חברות) ו'קסנוס' (זר, אורח), ומציינת חובה מוסרית לארח את מי שאינו מוכר. במסורת היוונית, כולל אצל הומרוס, האורח קודם לשאלות זהות - מאכילים אותו, מרחיצים אותו ורק אחר כך שואלים לשמו, כי גם אל עשוי להתחפש לזר. הצורך שהיא עונה עליו הוא הביטחון שהאנושיות שלך לא תלויה בזהות מי שעומד מולך.",
+      "spaceName": "סף בלי שאלות",
+      "proverb": "קודם תן כוס מים, אחר כך תשאל שם.",
+      "interpretation": [
+        "הכנסת אורחים היהודית קרובה ברוח אך מותנית לרוב בזיהוי קודם",
+        "פילוקסניה מוסיפה את האהבה לזר עצמו, לא רק למצוותו",
+        "בישראל הפחד מהזר מערער את הפתיחות שהמושג דורש",
+        "הוא תובע מאיתנו לארח לפני שנדע את מי בדיוק"
+      ],
+      "humanNeed": "שייכות",
+      "origin": {
+        "script": "Φιλοξενία",
+        "culture": "יוון",
+        "literal": "אהבת הזר",
+        "region_en": "Greece",
+        "transliteration": "Philoxenia"
+      },
+      "practice": {
+        "how": "השאירו כיסא פנוי וכוס נקייה ליד הדלת בכל יום",
+        "why": "האדם זקוק לדעת שהוא ייקלט גם בלי לזהות אותו קודם",
+        "when": "מועיל כשמגיע אורח בלתי צפוי או זר במצוקה",
+        "where": "ספסל אבן בצל, קרוב לפתח, פתוח לרוח ולעוברים"
+      },
+      "imagePrompts": {
+        "exterior": "A weathered stone courtyard on a Greek island in the Cyclades, whitewashed walls, an open wooden door with a low bench and a jug of water placed just outside it, a grapevine trellis casting dappled shade, worn stone steps leading from a narrow village lane directly to the threshold, late afternoon golden light, sense of an open, waiting welcome. Documentary realism, professional architecture photography, 16:9, natural light, no people in focus, no text, no words, no writing, no frame divisions.",
+        "interior": "A small guest nook built into the entrance of a stone house in the Judean foothills, local limestone walls, a low wooden bench facing the door, a clay water jug and folded blanket resting on it, the front door left ajar to let in soft morning light, olive trees visible through the opening, minimal furnishing, warm textures of wood and stone meeting the coolness of shaded stone floor. Documentary realism, professional architecture photography, 16:9, natural light, no people in focus, no text, no words, no writing, no frame divisions."
+      }
+    },
+    "images": {
+      "exterior": null,
+      "interior": null
+    },
+    "videos": {
+      "exterior": null,
+      "interior": null
+    }
+  },
+  {
+    "id": "232678c4-742a-4414-af11-9dcfd77c611c",
+    "concept": "קושליג",
+    "createdAt": "2026-09-23T20:03:20.499+00:00",
+    "updatedAt": "2026-09-23T20:03:19.260469+00:00",
+    "tags": [
+      "נורווגיה",
+      "מנוחה"
+    ],
+    "dimensions": {
+      "lede": "בחורף שבו השמש שוקעת בשלוש, נורווגים בונים חום מתוך נר אחד ושמיכת צמר.",
+      "insight": "קושליג הוא מילה נורווגית שאין לה תרגום מדויק - תחושת חמימות, קרבה ופשטות שנוצרת בכוונה, לא במקרה. היא מתגלה בטקס יומיומי: הדלקת נרות בשעת בין-ערביים, כוס קקאו, גרביים עבות ואור רך שמחליף את החושך הארוך של החורף הסקנדינבי. הצורך שהיא עונה עליו הוא ההשלמה עם עונה קשה - לא בריחה ממנה אלא הפיכתה לזמן של נחת ושייכות מצומצמת.",
+      "spaceName": "פינת האור החם",
+      "proverb": "החושך לא אויב, הוא רק מזמין נר.",
+      "interpretation": [
+        "בעברית אין מילה מקבילה - יש רק \"נעים\" שמתפוגג מהר מדי",
+        "קושליג מוסיף כוונה - לא נוחות מקרית אלא טקס נבחר מראש",
+        "בישראל האור בחוץ שופע, אז החום הפנימי פחות נדרש ומתעלם",
+        "זה מזמין אותנו לבנות רגעי מפלט גם כשאין חורף שכופה זאת"
+      ],
+      "humanNeed": "מנוחה",
+      "origin": {
+        "script": "Koselig",
+        "culture": "נורווגיה",
+        "literal": "נעים וחמים בפשטות",
+        "region_en": "Norway",
+        "transliteration": "Kuselig"
+      },
+      "practice": {
+        "how": "הדלק/י נר אחד בשעת ערב קבועה ושב/י לידו בלי מסך.",
+        "why": "להעניק לגוף ולנפש הפוגה מתחושת דחיפות מתמדת.",
+        "when": "בערבים קצרים, בעונות מעבר, ואחרי יום עמוס במיוחד.",
+        "where": "פינה קטנה עם אור נר, טקסטיל צמר ומרחק מהדלת הראשית."
+      },
+      "imagePrompts": {
+        "exterior": "A small wooden cabin in rural Norway at dusk, snow-covered roof, warm golden light glowing through frosted windows, thin smoke rising from a chimney, dark pine forest surrounding the structure, soft blue winter twilight contrasting with the amber interior glow. Documentary realism, professional architecture photography, 16:9, natural light, no people in focus, no text, no words, no writing, no frame divisions",
+        "interior": "A cozy reading nook inside a stone house in the Galilee, thick wool blankets folded on a low wooden bench, a single oil lamp casting warm light on rough plaster walls, a small window overlooking dark olive groves at dusk, textured linen cushions, exposed old timber beam above. Documentary realism, professional architecture photography, 16:9, natural light, no people in focus, no text, no words, no writing, no frame divisions"
+      }
+    },
+    "images": {
+      "exterior": null,
+      "interior": null
+    },
+    "videos": {
+      "exterior": null,
+      "interior": null
+    }
+  },
+  {
+    "id": "d547d912-c9be-4c8d-9aa5-ca6e38f882c0",
+    "concept": "איקיגאי",
+    "createdAt": "2026-09-23T20:03:19.979+00:00",
+    "updatedAt": "2026-09-23T20:03:18.744378+00:00",
+    "tags": [
+      "יפן",
+      "שינוי"
+    ],
+    "dimensions": {
+      "lede": "בכפרים באוקינאווה אין מילה בכלל לפרישה, ואנשים בני מאה עדיין קמים למען משהו.",
+      "insight": "איקיגאי נטבע ביפן ומחבר בין שתי מילים - 'איקירו', לחיות, ו'קאי', ערך או תועלת - והוא מציין את הסיבה הקטנה שבשבילה קמים בבוקר, לא ייעוד גדול ורועש. באוקינאווה זה מתבטא ב'מואי', מעגל חברים שנפגש כל שבוע עשרות שנים, ובעבודת גינה או דיג שממשיכים גם בגיל תשעים כי מישהו מצפה לתוצרת. הצורך שהוא עונה עליו הוא הרצון להרגיש נחוץ יום־יומי, לא רק אהוב או מוערך אלא ממש דרוש למישהו אחר.",
+      "spaceName": "פינת הטעם היומי",
+      "proverb": "מי שיש לו למה לקום, לא שואל בשביל מה לחיות",
+      "interpretation": [
+        "בעברית יש 'שליחות', אבל היא כבדה מדי לחיי היום־יום",
+        "איקיגאי מוסיף את הזעיר - העציץ, השכן, המתכון - כמקור משמעות",
+        "בתרבות ישראלית ההצלחה נמדדת בקנה מידה, באיקיגאי בהתמדה",
+        "זה מבקש מאיתנו לוותר על החיפוש אחר ייעוד ולמצוא סיבה קטנה מספיק להישאר בה"
+      ],
+      "humanNeed": "שינוי",
+      "origin": {
+        "script": "生き甲斐",
+        "culture": "יפן",
+        "literal": "טעם לשם קיום",
+        "region_en": "Okinawa, Japan",
+        "transliteration": "Ikigai"
+      },
+      "practice": {
+        "how": "לבחור פעולה קטנה וקבועה שמישהו אחר תלוי בה מדי יום",
+        "why": "לענות על הצורך להרגיש נחוץ למישהו, לא רק פרודוקטיבי",
+        "when": "בתקופות של פרישה, אבטלה או תחושת חוסר תכלית",
+        "where": "שולחן עבודה קרוב לחלון, כלים פשוטים בהישג יד, אור בוקר רך"
+      },
+      "imagePrompts": {
+        "exterior": "A weathered wooden farmhouse on the coast of Okinawa, Japan, surrounded by a small vegetable garden and fruit trees, an elderly resident's simple fishing boat pulled up on the shore nearby, morning mist over green hills in the background, worn stone pathway leading to the door, laundry line with cloth swaying gently, textures of aged wood and volcanic stone. Documentary realism, professional architecture photography, 16:9, natural light, no people in focus, no text, no words, no writing, no frame divisions",
+        "interior": "A small sunlit workroom in a stone house in the Galilee, Israel, with a low wooden table holding pottery tools and fresh herbs in clay pots, a single deep-set window framing olive terraces outside, rough plastered walls in warm ochre tones, a woven wool rug underfoot, morning light falling across handmade objects mid-creation, a worn apron hanging on a hook by the door. Documentary realism, professional architecture photography, 16:9, natural light, no people in focus, no text, no words, no writing, no frame divisions"
+      }
+    },
+    "images": {
+      "exterior": null,
+      "interior": null
+    },
+    "videos": {
+      "exterior": null,
+      "interior": null
+    }
+  },
+  {
+    "id": "9892913b-52a3-4a81-a20e-f0108022aba1",
+    "concept": "קינצוגי",
+    "createdAt": "2026-09-23T20:02:53.684+00:00",
+    "updatedAt": "2026-09-23T20:13:21.604238+00:00",
+    "tags": [
+      "יפן",
+      "קבלת אי-שלמות"
+    ],
+    "dimensions": {
+      "lede": "קערה שנשברה וחוזרת שלמה, עם צלקת מזהב שאי אפשר להתעלם ממנה.",
+      "insight": "קינצוגי היא טכניקה יפנית עתיקה לתיקון כלי קרמיקה שבורים באמצעות לכה מעורבת באבקת זהב, ולא הסתרת הסדק אלא הדגשתו. בבית היפני הכלי המתוקן חוזר לשימוש יומיומי ולעיתים מוצג בגאווה בטקס תה, כעדות לחיים שהיו לו. מאחורי המעשה עומד הצורך לקבל שבר כחלק מהסיפור ולא כפגם שיש למחוק, ולהשקיט את הבושה מהפגיעות.",
+      "spaceName": "חדר התפרים המוזהבים",
+      "proverb": "מה שנסדק פעם נושא אור בתוך הקו שלו",
+      "interpretation": [
+        "ביהדות יש מושג של תיקון, אך הוא מכוון לעולם ולא לחפץ עצמו",
+        "קינצוגי מוסיף מבט חומרי מוחשי, שבו הפגם עצמו הופך ליפה",
+        "בתרבות ישראלית הנטייה היא להחליף מהר ולא לתקן לאט",
+        "הקונספט מבקש מאדם כאן לעצור, להתבונן בסדק ולבחור בו במקום להיפטר ממנו"
+      ],
+      "humanNeed": "קבלת אי-שלמות",
+      "origin": {
+        "script": "金継ぎ",
+        "culture": "יפן",
+        "literal": "חיבור בזהב",
+        "region_en": "Japan",
+        "transliteration": "Kintsugi"
+      },
+      "practice": {
+        "how": "תקנו חפץ שבור בבית בעצמכם, בלי להסתיר את קו השבר",
+        "why": "כדי להפוך פגיעה גלויה למקור ערך במקום למקור בושה",
+        "when": "אחרי אובדן, פרידה או כישלון שקשה להשלים איתם",
+        "where": "משטח עץ בהיר, אור צד רך, כלי חרס עם קו זהב דק וגלוי"
+      },
+      "imagePrompts": {
+        "exterior": "A traditional Japanese ceramics workshop courtyard in Kyoto, Japan, with wooden shelves holding repaired bowls showing visible gold-seamed cracks, soft diffused daylight through paper shoji screens, weathered wood textures, quiet minimalist arrangement of tools and lacquer bowls on a low table. Documentary realism, professional architecture photography, 16:9, natural light, no people in focus, no text, no words, no writing, no frame divisions",
+        "interior": "A serene stone and clay home in the Judean foothills, Israel, with a niche wall built from reclaimed limestone fragments joined by thin brass seams echoing repair rather than concealment, warm late afternoon light entering through a narrow slit window, rough plaster textures beside smooth wood shelving holding mended ceramic vessels. Documentary realism, professional architecture photography, 16:9, natural light, no people in focus, no text, no words, no writing, no frame divisions"
+      }
+    },
+    "images": {
+      "exterior": null,
+      "interior": null
+    },
+    "videos": {
+      "exterior": null,
+      "interior": null
+    }
+  },
+  {
+    "id": "b8dcdf2d-6315-4725-aafe-8f00ee9e7d11",
+    "concept": "ואבי-סאבי",
+    "createdAt": "2026-09-23T20:02:53.429+00:00",
+    "updatedAt": "2026-09-23T20:02:52.205241+00:00",
+    "tags": [
+      "יפן",
+      "קבלת אי-שלמות"
+    ],
+    "dimensions": {
+      "lede": "כוס סדוקה, מוזהבת בקו זהב, שווה יותר מכוס שלמה ומושלמת.",
+      "insight": "וואבי-סאבי הוא צירוף של שתי מילים יפניות עתיקות - וואבי, שתיאר בדידות צנועה, וסאבי, שתיאר בלאי וזִקנה - שהתמזגו למושג אסתטי אחד. הוא מתגלם בטקס התה, בכלי חרס לא סימטריים, בקינצוגי - תיקון סדקים בזהב שמדגיש את הפגם במקום להסתירו. הוא עונה לצורך להשלים עם ארעיות וחוסר שלמות, ומשקיט את הרדיפה המערבית אחרי חדש ומבריק.",
+      "spaceName": "חדר הסדק המוזהב",
+      "proverb": "מה שנסדק ותוקן שווה יותר ממה שמעולם לא נשבר.",
+      "interpretation": [
+        "ביהדות יש 'לב נשבר' שקרוב לאלוהים, אך אין הדרן חזותית לשבר",
+        "וואבי-סאבי מוסיף שפה חומרית - איך להראות פגם ולא רק לקבלו",
+        "בתרבות הישראלית ההישג נמדד בחדש ומבריק, לא בבלוי ומיושן",
+        "זה מבקש מהאדם כאן להפסיק לשפץ כל סדק ולפעמים להזהיב אותו"
+      ],
+      "humanNeed": "קבלת אי-שלמות",
+      "origin": {
+        "script": "侘寂",
+        "culture": "יפן",
+        "literal": "פשטות עצובה, בלאי שקט",
+        "region_en": "Japan",
+        "transliteration": "Wabi-sabi"
+      },
+      "practice": {
+        "how": "תקן חפץ שבור בגלוי במקום לזרוק אותו ולקנות חדש",
+        "why": "להשתחרר מהצורך המתיש בשלמות ובחידוש מתמיד",
+        "when": "אחרי אובדן, כישלון או כשדברים מתבלים ומזדקנים",
+        "where": "עץ לא מלוטש, קרמיקה בעבודת יד, אור עמום ונטול ברק"
+      },
+      "imagePrompts": {
+        "exterior": "A weathered wooden teahouse in the mountains of Kyoto, Japan, with a moss-covered stone path leading to a low doorway, cracked clay walls, an aged cypress roof silvered by decades of rain, autumn leaves scattered on uneven stone steps, soft overcast light emphasizing texture and imperfection. Documentary realism, professional architecture photography, 16:9, natural light, no people in focus, no text, no words, no writing, no frame divisions",
+        "interior": "A quiet stone house in the Judean foothills, Israel, with a wall of raw unpolished local limestone left visibly cracked and repaired with a thin line of golden mortar, a low wooden bench of reclaimed olive wood, a single clay bowl with an uneven rim resting on a rough textile, afternoon light entering through a narrow slit window casting long shadows across the imperfect plaster. Documentary realism, professional architecture photography, 16:9, natural light, no people in focus, no text, no words, no writing, no frame divisions"
+      }
+    },
+    "images": {
+      "exterior": null,
+      "interior": null
+    },
+    "videos": {
+      "exterior": null,
+      "interior": null
+    }
+  },
+  {
+    "id": "c6be91f9-aae2-4a53-819b-7e5aae7b35e1",
+    "concept": "שינרין-יוקו",
+    "createdAt": "2026-09-23T20:02:51.254+00:00",
+    "updatedAt": "2026-09-23T20:02:50.021382+00:00",
+    "tags": [
+      "יפן",
+      "מנוחה"
+    ],
+    "dimensions": {
+      "lede": "ביפן לא מטיילים ביער - טובלים בו, כמו באמבט חם.",
+      "insight": "המונח נטבע ב-1982 בידי משרד החקלאות היפני כדי לעודד ביקורים ביערות כמענה לשחיקה עירונית. בפועל זו הליכה איטית וחסרת מטרה בין עצים, בלי מצלמה ובלי יעד, תוך תשומת לב מכוונת לריח האדמה ולקול העלים. הצורך שהיא עונה עליו הוא ניתוק מגירויי מסך והחזרת הגוף לקצב שאינו נמדד בזמן.",
+      "spaceName": "חדר הנשימה הירוקה",
+      "proverb": "מי שנעצר בין עצים, שומע את עצמו נושם",
+      "interpretation": [
+        "בישראל 'לצאת לטבע' זה סמן פנאי, לא תרגול ריפוי יומיomi",
+        "שינרין-יוקו מוסיף כוונה: לא לכבוש פסגה אלא לשהות במקום",
+        "בתרבות ישראלית מהירה, איטיות ללא הישג נחווית כבזבוז זמן",
+        "זה דורש מאיתנו לוותר על התוצאה ולהישאר רק עם החוויה"
+      ],
+      "humanNeed": "מנוחה",
+      "origin": {
+        "script": "森林浴",
+        "culture": "יפן",
+        "literal": "רחצת יער",
+        "region_en": "Nagano Prefecture, Japan",
+        "transliteration": "Shinrin-yoku"
+      },
+      "practice": {
+        "how": "ללכת עשרים דקות ביער בלי טלפון וללא יעד קבוע",
+        "why": "להרגיע מערכת עצבים עמוסת גירויים דיגיטליים",
+        "when": "בימים של עומס מחשבתי או תשישות מתמשכת",
+        "where": "קרקע אדמה רכה, צל עצים, אור מפוזר בין עלים"
+      },
+      "imagePrompts": {
+        "exterior": "A misty cedar and cypress forest path in Nagano Prefecture, Japan, dense canopy filtering soft diffused morning light, moss-covered stones, damp earth trail winding between ancient tree trunks, faint fog drifting low, no clear destination visible. Documentary realism, professional architecture photography, 16:9, natural light, no people in focus, no text, no words, no writing, no frame divisions",
+        "interior": "A quiet timber pavilion nestled in the Galilee hills, Israel, wide openings framing a view of olive and oak trees, rough local stone floor, unpolished wood beams, dappled natural light falling through a pergola of native vines, a simple low bench facing the greenery, threshold blurring inside and outside. Documentary realism, professional architecture photography, 16:9, natural light, no people in focus, no text, no words, no writing, no frame divisions"
+      }
+    },
+    "images": {
+      "exterior": null,
+      "interior": null
+    },
+    "videos": {
+      "exterior": null,
+      "interior": null
+    }
+  }
+]
