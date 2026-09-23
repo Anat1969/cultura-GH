@@ -197,6 +197,26 @@ export function deleteArticle(id: string): void {
   writeArticles(STORAGE_KEY, JSON.stringify(articles));
 }
 
+/**
+ * Matching is deliberately loose: the suggestion list writes vowel points and a
+ * geresh (הירָאת׳) that nobody types, and spacing varies. Two spellings of the
+ * same concept must not become two articles.
+ */
+export function conceptKey(value: string): string {
+  return (value ?? '')
+    .normalize('NFKD')
+    .replace(/[֑-ׇ]/g, '')
+    .replace(/[^\p{L}\p{N}]+/gu, '')
+    .toLowerCase();
+}
+
+/** The library is the source of truth: a concept is written once and kept. */
+export function findArticleByConcept(concept: string): Article | undefined {
+  const key = conceptKey(concept);
+  if (!key) return undefined;
+  return getArticles().find(a => conceptKey(a.concept) === key);
+}
+
 export function getArticleById(id: string): Article | undefined {
   return getArticles().find(a => a.id === id);
 }

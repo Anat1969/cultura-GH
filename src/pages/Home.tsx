@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { getArticles } from '@/lib/storage';
+import { getArticles, findArticleByConcept } from '@/lib/storage';
 import ArticleCard from '@/components/ArticleCard';
 import { cultureGroups, comparisonQuestions, ConceptSuggestion } from '@/data/cultures';
 
@@ -22,8 +22,16 @@ const HomePage: React.FC = () => {
 
   const go = useCallback(
     (c: string, hint?: string) => {
-      if (!c.trim()) return;
-      navigate('/generate', { state: { concept: c.trim(), hint } });
+      const concept = c.trim();
+      if (!concept) return;
+      // Already written: open it. Writing it again would cost money, take a
+      // minute, and leave two versions of the same concept in the library.
+      const existing = findArticleByConcept(concept);
+      if (existing) {
+        navigate(`/article/${existing.id}`);
+        return;
+      }
+      navigate('/generate', { state: { concept, hint } });
     },
     [navigate]
   );

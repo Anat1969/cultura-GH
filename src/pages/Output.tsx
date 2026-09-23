@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button';
 import Breadcrumbs from '@/components/Breadcrumbs';
 import SkeletonLoader from '@/components/SkeletonLoader';
 import { generateDimensions, generateImages } from '@/lib/ai';
-import { saveArticle } from '@/lib/storage';
+import { saveArticle, findArticleByConcept, syncArticlesFromSupabase } from '@/lib/storage';
 import { Article, buildTags } from '@/types/article';
 
 /**
@@ -25,7 +25,7 @@ const OutputPage: React.FC = () => {
   const hint = state?.hint;
 
   const [error, setError] = useState<string | null>(null);
-  const [stage, setStage] = useState<'text' | 'images'>('text');
+  const [stage, setStage] = useState<'lookup' | 'text' | 'images'>('lookup');
   // React 18 mounts twice in development; one generation per visit is plenty.
   const started = useRef(false);
 
@@ -77,7 +77,26 @@ const OutputPage: React.FC = () => {
     }
     if (started.current) return;
     started.current = true;
-    void generate();
+
+    let cancelled = false;
+    void (async () => {
+      // Someone may click a suggestion before the shared library has finished
+      // loading, so ask the table itself rather than trusting what is in memory.
+      // Writing a concept that already exists would cost money and leave two.
+      await syncArticlesFromSupabase();
+      if (cancelled) return;
+
+      const existing = findArticleByConcept(concept);
+      if (existing) {
+        navigate(`/article/${existing.id}`, { replace: true });
+        return;
+      }
+      await generate();
+    })();
+
+    return () => {
+      cancelled = true;
+    };
   }, [concept, generate, navigate]);
 
   if (!concept) return null;
@@ -98,14 +117,7 @@ const OutputPage: React.FC = () => {
         <div className="rounded-lg border border-destructive/30 bg-destructive/10 p-8 text-center">
           <p className="mb-6 leading-relaxed text-foreground">{error}</p>
           <div className="flex flex-wrap justify-center gap-3">
-            <Button
-              onClick={() => {
-                started.current = true;
-                void generate();
-              }}
-            >
-              נסי שוב
-            </Button>
+            <Button onClick={() => void generate()}>נסי שוב</Button>
             <Button variant="outline" asChild>
               <Link to="/settings">הגדרות</Link>
             </Button>
@@ -117,7 +129,12 @@ const OutputPage: React.FC = () => {
       ) : (
         <div className="space-y-8">
           <p className="text-sm text-muted-foreground">
-            {stage === 'text' ? 'כותב את הכתבה…' : 'מחפש תמונות…'} המאמר נשמר אוטומטית בספרייה.
+            {stage === 'lookup'
+              ? 'בודק אם המושג כבר בספרייה…'
+              : stage === 'text'
+                ? 'כותב את הכתבה…'
+                : 'מחפש תמונות…'}{' '}
+            המאמר נשמר אוטומטית בספרייה.
           </p>
           <SkeletonLoader />
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
