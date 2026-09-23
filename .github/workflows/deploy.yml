@@ -33,13 +33,9 @@ jobs:
 
       - run: npm ci
 
-      # Supabase keys are optional: without them the site builds in demo mode
-      # and the local library still works.
       - run: npm run build
         env:
           VITE_BASE: /${{ github.event.repository.name }}/
-          VITE_SUPABASE_URL: ${{ vars.VITE_SUPABASE_URL }}
-          VITE_SUPABASE_ANON_KEY: ${{ secrets.VITE_SUPABASE_ANON_KEY }}
 
       - uses: actions/configure-pages@v5
 

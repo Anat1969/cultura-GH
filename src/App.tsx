@@ -3,9 +3,8 @@ import { HashRouter, Routes, Route, Navigate, useLocation, Link } from 'react-ro
 import { ThemeProvider } from '@/contexts/ThemeContext';
 import Header from '@/components/Header';
 import Toaster from '@/components/ui/toaster';
-import { isSupabaseConfigured } from '@/integrations/supabase/client';
 import { canGenerate } from '@/lib/ai';
-import { syncArticlesFromGithub, syncArticlesFromSupabase } from '@/lib/storage';
+import { syncArticlesFromGithub } from '@/lib/storage';
 
 import HomePage from '@/pages/Home';
 import OutputPage from '@/pages/Output';
@@ -46,11 +45,8 @@ const App: React.FC = () => {
   const [ready, setReady] = useState(false);
 
   useEffect(() => {
-    // Pull the shared library once on boot; failures fall back to localStorage.
-    const load = isSupabaseConfigured
-      ? syncArticlesFromSupabase().then(() => syncArticlesFromGithub())
-      : syncArticlesFromGithub();
-    load.finally(() => setReady(true));
+    // Pull the published library once on boot; failures fall back to localStorage.
+    syncArticlesFromGithub().finally(() => setReady(true));
   }, []);
 
   return (

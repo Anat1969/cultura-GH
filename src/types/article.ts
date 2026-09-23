@@ -46,7 +46,7 @@ export interface Article {
 }
 
 // Closed list so that comparison grouping stays consistent.
-// Must match HUMAN_NEEDS in supabase/functions/generate-dimensions/index.ts
+// Must match the enum in src/lib/claude.ts, which constrains the model's output
 export const HUMAN_NEEDS = [
   'שייכות',
   'מנוחה',

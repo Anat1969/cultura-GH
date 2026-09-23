@@ -1,12 +1,12 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { v4 as uuid } from 'uuid';
 import Breadcrumbs from '@/components/Breadcrumbs';
 import SkeletonLoader from '@/components/SkeletonLoader';
 import { OriginLine, PracticeBlock } from '@/components/CultureBlocks';
-import { generateDimensions, generateImages } from '@/lib/ai';
+import { generateDimensions, generateImages, canGenerate, canGenerateImages } from '@/lib/ai';
 import { saveArticle } from '@/lib/storage';
 import { Article, GeneratedDimensions, buildTags } from '@/types/article';
 import { useToast } from '@/hooks/use-toast';
@@ -35,6 +35,9 @@ const OutputPage: React.FC = () => {
   const [loadingImages, setLoadingImages] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  // Without a key there is nothing to call: say so rather than failing a request.
+  const needsSetup = !canGenerate();
+
   const generate = useCallback(async () => {
     setLoadingText(true);
     setError(null);
@@ -42,6 +45,8 @@ const OutputPage: React.FC = () => {
       const dims = await generateDimensions(concept, hint);
       setDimensions(dims);
       setLoadingText(false);
+
+      if (!canGenerateImages()) return;
 
       setLoadingImages(true);
       try {
@@ -65,8 +70,12 @@ const OutputPage: React.FC = () => {
       navigate('/');
       return;
     }
+    if (needsSetup) {
+      setLoadingText(false);
+      return;
+    }
     generate();
-  }, [concept, generate, navigate]);
+  }, [concept, generate, navigate, needsSetup]);
 
   const buildArticle = useCallback((): Article | null => {
     if (!dimensions) return null;
@@ -136,6 +145,23 @@ const OutputPage: React.FC = () => {
         </motion.div>
       )}
 
+      {needsSetup && (
+        <div className="bg-card border border-accent/40 rounded-lg p-8 text-center">
+          <h2 className="text-lg font-heading font-bold text-accent mb-3">צריך מפתח Claude</h2>
+          <p className="text-muted-foreground leading-relaxed mb-6 max-w-md mx-auto">
+            התוכן נוצר ישירות מול Claude מהדפדפן שלך. הדבק מפתח פעם אחת, והוא נשמר כאן לתמיד.
+          </p>
+          <div className="flex gap-3 justify-center">
+            <Button asChild size="lg">
+              <Link to="/settings">פתח הגדרות</Link>
+            </Button>
+            <Button variant="ghost" onClick={() => navigate('/')}>
+              חזרה
+            </Button>
+          </div>
+        </div>
+      )}
+
       {error && (
         <div className="bg-destructive/10 border border-destructive/30 rounded-lg p-6 text-center mb-8">
           <p className="text-destructive mb-4">{error}</p>
@@ -146,7 +172,7 @@ const OutputPage: React.FC = () => {
       )}
 
       <div className="space-y-6 mb-10">
-        {loadingText ? (
+        {needsSetup ? null : loadingText ? (
           Array.from({ length: 4 }).map((_, i) => <SkeletonLoader key={i} />)
         ) : (
           dimensions && (
@@ -202,7 +228,7 @@ const OutputPage: React.FC = () => {
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-10">
-        {loadingImages || loadingText ? (
+        {needsSetup ? null : loadingImages || loadingText ? (
           <>
             <SkeletonLoader type="image" />
             <SkeletonLoader type="image" />
@@ -230,9 +256,11 @@ const OutputPage: React.FC = () => {
           <Button onClick={handleSave} size="lg">
             שמור בספרייה
           </Button>
-          <Button onClick={handleRegenerateImages} variant="outline" disabled={loadingImages}>
-            {loadingImages ? 'יוצר תמונות...' : 'צור תמונות מחדש'}
-          </Button>
+          {canGenerateImages() && (
+            <Button onClick={handleRegenerateImages} variant="outline" disabled={loadingImages}>
+              {loadingImages ? 'יוצר תמונות...' : 'צור תמונות מחדש'}
+            </Button>
+          )}
           <Button variant="outline" onClick={handleEdit}>
             ערוך לפני שמירה
           </Button>
