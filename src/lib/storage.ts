@@ -84,9 +84,7 @@ export async function syncArticlesFromSupabase(): Promise<Article[]> {
       if (!shared || String(a.updatedAt) >= String(shared.updatedAt)) byId.set(a.id, a);
     });
 
-    const merged = Array.from(byId.values()).sort((a, b) =>
-      String(b.createdAt).localeCompare(String(a.createdAt))
-    );
+    const merged = collapseByConcept(Array.from(byId.values()));
     writeArticles(STORAGE_KEY, JSON.stringify(merged));
     return merged;
   } catch (error) {
@@ -143,10 +141,29 @@ function normalize(a: Article): Article {
   };
 }
 
+/**
+ * One article per concept, newest kept. A concept is written once, so two rows
+ * for it can only come from an older copy that was never cleaned up - showing
+ * both as separate cards is never what anyone wants.
+ */
+function collapseByConcept(articles: Article[]): Article[] {
+  const byConcept = new Map<string, Article>();
+  for (const article of articles) {
+    const key = conceptKey(article.concept);
+    const existing = byConcept.get(key);
+    if (!existing || String(article.updatedAt) > String(existing.updatedAt)) {
+      byConcept.set(key, article);
+    }
+  }
+  return [...byConcept.values()].sort((a, b) =>
+    String(b.createdAt).localeCompare(String(a.createdAt))
+  );
+}
+
 export function getArticles(): Article[] {
   try {
     const data = localStorage.getItem(STORAGE_KEY);
-    return data ? (JSON.parse(data) as Article[]).map(normalize) : [];
+    return data ? collapseByConcept((JSON.parse(data) as Article[]).map(normalize)) : [];
   } catch {
     return [];
   }
@@ -179,9 +196,7 @@ export async function syncArticlesFromGithub(): Promise<Article[]> {
       if (!shared || String(a.updatedAt) >= String(shared.updatedAt)) byId.set(a.id, a);
     });
 
-    const merged = Array.from(byId.values()).sort((a, b) =>
-      String(b.createdAt).localeCompare(String(a.createdAt))
-    );
+    const merged = collapseByConcept(Array.from(byId.values()));
     writeArticles(STORAGE_KEY, JSON.stringify(merged));
     return merged;
   } catch (error) {
