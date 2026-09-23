@@ -1,0 +1,99 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* CultureArch palette: limestone, ochre and terracotta.
+   Dark is the default, matching the Shephelah wall at late afternoon. */
+@layer base {
+  :root {
+    --background: 38 32% 96%;
+    --foreground: 28 20% 14%;
+    --card: 40 38% 99%;
+    --card-foreground: 28 20% 14%;
+    --muted: 36 20% 90%;
+    --muted-foreground: 30 12% 40%;
+    --border: 34 18% 84%;
+    --input: 34 18% 84%;
+    --ring: 24 38% 34%;
+    --primary: 24 38% 30%;
+    --primary-foreground: 38 32% 97%;
+    --secondary: 36 22% 89%;
+    --secondary-foreground: 28 20% 20%;
+    --accent: 15 52% 40%;
+    --accent-foreground: 38 32% 97%;
+    --destructive: 0 65% 44%;
+    --destructive-foreground: 38 32% 97%;
+    --radius: 0.65rem;
+  }
+
+  .dark {
+    --background: 28 12% 8%;
+    --foreground: 36 24% 92%;
+    --card: 28 11% 12%;
+    --card-foreground: 36 24% 92%;
+    --muted: 28 9% 18%;
+    --muted-foreground: 33 12% 64%;
+    --border: 28 10% 23%;
+    --input: 28 10% 23%;
+    --ring: 36 46% 70%;
+    --primary: 36 46% 72%;
+    --primary-foreground: 28 20% 10%;
+    --secondary: 28 10% 20%;
+    --secondary-foreground: 36 24% 90%;
+    --accent: 18 56% 60%;
+    --accent-foreground: 28 20% 10%;
+    --destructive: 0 62% 52%;
+    --destructive-foreground: 36 24% 94%;
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-background text-foreground font-body antialiased;
+    /* A quiet raking light from the top-left, so empty space is never flat. */
+    background-image:
+      radial-gradient(60rem 40rem at 85% -10%, hsl(var(--accent) / 0.07), transparent 60%),
+      radial-gradient(50rem 35rem at 10% 0%, hsl(var(--primary) / 0.06), transparent 60%);
+    background-attachment: fixed;
+  }
+
+  ::selection {
+    background: hsl(var(--accent) / 0.25);
+  }
+
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: hsl(var(--border));
+    border-radius: 999px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: hsl(var(--muted-foreground) / 0.5);
+  }
+}
+
+@layer utilities {
+  .line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .line-clamp-4 {
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+}
