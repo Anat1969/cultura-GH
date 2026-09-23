@@ -61,7 +61,20 @@ function readKey(): { key?: string; via?: string; seen: string[] } {
 const HUMAN_NEEDS = [
   'שייכות', 'מנוחה', 'געגוע', 'משמעות', 'קהילה', 'אירוח',
   'איזון', 'חוסן', 'שינוי', 'קבלת אי-שלמות', 'חיבור לטבע', 'זמן',
-] as const;
+];
+
+/**
+ * Grouping depends on this staying inside the closed list, but a schema enum is
+ * the wrong place to enforce it: one unlisted word from the model threw away an
+ * otherwise complete article. Five of the first thirty-five failed that way.
+ * Take the value as text and settle it here instead.
+ */
+function settleNeed(value: unknown): string {
+  const raw = String(value ?? '').trim();
+  if (HUMAN_NEEDS.includes(raw)) return raw;
+  const near = HUMAN_NEEDS.find((need) => raw.includes(need) || need.includes(raw));
+  return near ?? 'משמעות';
+}
 
 const IMAGE_STYLE =
   'Documentary realism, professional architecture photography, 16:9, natural light, no people in focus, no text, no words, no writing, no frame divisions';
@@ -85,6 +98,7 @@ Field guidance:
 - spaceName: a poetic Hebrew name for a space embodying the concept, two to four words.
 - proverb: ONE original line in Hebrew written in the spirit of the concept, up to 12 words. Never present it as a real proverb of that culture.
 - interpretation: EXACTLY ${INTERPRETATION_COUNT} short lines in Hebrew, each a distilled reading of the bridge to Israeli or Jewish culture. Each line stands on its own, at most about twelve words, no numbering and no trailing full stop. Give ${INTERPRETATION_COUNT} genuinely different angles — a parallel local concept, what the foreign one adds that the local one lacks, where the two pull apart, and what it asks of a person here — not four rewordings of one sentence.
+- humanNeed: copy EXACTLY one value from this list, character for character, and nothing else: ${HUMAN_NEEDS.join(' | ')}. Pick the closest even when none is a perfect fit.
 - practice.why/how/when/where: ONE short sentence each, at most 14 words. why — the need it serves. how — a concrete daily action. when — the situations it helps most. where — material, light, texture, threshold.
 - imagePrompts.exterior: detailed English prompt for the concept embodied in a real place in its region of origin (name the region). End with: '${IMAGE_STYLE}'
 - imagePrompts.interior: detailed English prompt for a healing living space in Israel (name a landscape — Judean foothills, Galilee, Negev, Mediterranean coast) that translates the concept into material, light, texture and tension without imitating the source culture. End with: '${IMAGE_STYLE}'
@@ -104,7 +118,7 @@ const DimensionsSchema = z.object({
   spaceName: z.string(),
   proverb: z.string(),
   interpretation: z.array(z.string()),
-  humanNeed: z.enum([...HUMAN_NEEDS] as [string, ...string[]]),
+  humanNeed: z.string(),
   practice: z.object({
     why: z.string(),
     how: z.string(),
@@ -208,6 +222,7 @@ Deno.serve(async (req) => {
       return json({ error: 'המודל לא החזיר פרשנות. נסה שוב.' }, 502);
     }
     parsed.interpretation = lines;
+    parsed.humanNeed = settleNeed(parsed.humanNeed);
 
     return json(parsed);
   } catch (error) {
