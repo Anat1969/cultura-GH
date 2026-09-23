@@ -9,6 +9,7 @@
 const ANTHROPIC_KEY = 'culturearch_anthropic_key';
 const IMAGE_KEY = 'culturearch_fal_key';
 const GITHUB_KEY = 'culturearch_github_token';
+const PASSCODE_KEY = 'culturearch_passcode';
 
 /**
  * Copying a key out of a web console can bring along a line break, a stray
@@ -53,6 +54,14 @@ export const hasAnthropicKey = () => getAnthropicKey().length > 0;
 export const getGithubToken = () => read(GITHUB_KEY);
 export const setGithubToken = (v: string) => write(GITHUB_KEY, v);
 export const hasGithubToken = () => getGithubToken().length > 0;
+
+/**
+ * Only needed when APP_PASSCODE is set on the Edge Functions, which is how a
+ * public site stops strangers from spending the account's credits.
+ */
+export const getPasscode = () => read(PASSCODE_KEY);
+export const setPasscode = (v: string) => write(PASSCODE_KEY, v);
+export const hasPasscode = () => getPasscode().length > 0;
 
 export const getImageKey = () => read(IMAGE_KEY);
 export const setImageKey = (v: string) => write(IMAGE_KEY, v);

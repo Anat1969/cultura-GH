@@ -1,4 +1,99 @@
 import { Article, emptyOrigin, emptyPractice } from '@/types/article';
+import { supabase } from '@/integrations/supabase/client';
+
+const TABLE = 'culture_articles';
+
+// The generated Supabase types are not checked in, so the table is untyped.
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const db = () => (supabase as any).from(TABLE);
+
+/** Database row -> Article. */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function fromRow(row: any): Article {
+  return normalize({
+    id: row.id,
+    concept: row.concept,
+    createdAt: row.created_at,
+    updatedAt: row.updated_at,
+    tags: row.tags ?? [],
+    dimensions: {
+      insight: row.insight,
+      spaceName: row.space_name,
+      proverb: row.proverb,
+      interpretation: row.interpretation,
+      humanNeed: row.human_need ?? '',
+      origin: row.origin,
+      practice: row.practice,
+      imagePrompts: {
+        exterior: row.exterior_prompt ?? '',
+        interior: row.interior_prompt ?? '',
+      },
+    },
+    images: { exterior: row.image_exterior, interior: row.image_interior },
+  });
+}
+
+/** Article -> database row. */
+function toRow(article: Article) {
+  const d = article.dimensions;
+  return {
+    id: article.id,
+    concept: article.concept,
+    space_name: d.spaceName,
+    insight: d.insight,
+    proverb: d.proverb,
+    interpretation: d.interpretation,
+    human_need: d.humanNeed,
+    origin: d.origin,
+    practice: d.practice,
+    image_exterior: article.images.exterior,
+    image_interior: article.images.interior,
+    exterior_prompt: d.imagePrompts.exterior,
+    interior_prompt: d.imagePrompts.interior,
+    tags: article.tags,
+    created_at: article.createdAt,
+  };
+}
+
+/**
+ * The shared library. Anything held locally for the same id wins, so an edit
+ * made here is not overwritten by an older copy from the server.
+ */
+export async function syncArticlesFromSupabase(): Promise<Article[]> {
+  const local = getArticles();
+  try {
+    const { data, error } = await db().select('*').order('created_at', { ascending: false });
+    if (error) throw error;
+    if (!Array.isArray(data)) return local;
+
+    const byId = new Map<string, Article>();
+    data.forEach((row: unknown) => {
+      const a = fromRow(row);
+      byId.set(a.id, a);
+    });
+    local.forEach(a => byId.set(a.id, a));
+
+    const merged = Array.from(byId.values()).sort((a, b) =>
+      String(b.createdAt).localeCompare(String(a.createdAt))
+    );
+    writeArticles(STORAGE_KEY, JSON.stringify(merged));
+    return merged;
+  } catch (error) {
+    console.warn('Could not read the shared library.', error);
+    return local;
+  }
+}
+
+/** Pushes one article to the shared table; failures never block local saving. */
+async function pushToSupabase(article: Article): Promise<void> {
+  try {
+    const { error } = await db().upsert([toRow(article)], { onConflict: 'id' });
+    if (error) throw error;
+  } catch (error) {
+    console.warn('Could not save to the shared library.', error);
+  }
+}
+
 
 const STORAGE_KEY = 'culturearch_articles';
 const THEME_KEY = 'culturearch_theme';
@@ -84,6 +179,8 @@ export function saveArticle(article: Article): void {
     articles.unshift(toSave);
   }
   writeArticles(STORAGE_KEY, JSON.stringify(articles));
+
+  void pushToSupabase(toSave);
 }
 
 export function deleteArticle(id: string): void {

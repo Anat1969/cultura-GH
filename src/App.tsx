@@ -4,7 +4,7 @@ import { ThemeProvider } from '@/contexts/ThemeContext';
 import Header from '@/components/Header';
 import Toaster from '@/components/ui/toaster';
 import { canGenerate } from '@/lib/ai';
-import { syncArticlesFromGithub } from '@/lib/storage';
+import { syncArticlesFromGithub, syncArticlesFromSupabase } from '@/lib/storage';
 
 import HomePage from '@/pages/Home';
 import OutputPage from '@/pages/Output';
@@ -45,8 +45,11 @@ const App: React.FC = () => {
   const [ready, setReady] = useState(false);
 
   useEffect(() => {
-    // Pull the published library once on boot; failures fall back to localStorage.
-    syncArticlesFromGithub().finally(() => setReady(true));
+    // Both shared sources, then local edits on top. Failures fall back to
+    // whatever localStorage already holds.
+    syncArticlesFromGithub()
+      .then(() => syncArticlesFromSupabase())
+      .finally(() => setReady(true));
   }, []);
 
   return (
