@@ -5,14 +5,15 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import MagazinePage from '@/components/MagazinePage';
 import ArticleCard from '@/components/ArticleCard';
-import { getArticles } from '@/lib/storage';
+import { getArticles, resetLibraryFromShared } from '@/lib/storage';
 import { Article } from '@/types/article';
 
 type View = 'cards' | 'magazine';
 
 const LibraryPage: React.FC = () => {
   const navigate = useNavigate();
-  const [articles] = useState<Article[]>(getArticles);
+  const [articles, setArticles] = useState<Article[]>(getArticles);
+  const [refreshing, setRefreshing] = useState(false);
   const [view, setView] = useState<View>('cards');
   const [search, setSearch] = useState('');
   const [currentPage, setCurrentPage] = useState(0);
@@ -165,6 +166,21 @@ const LibraryPage: React.FC = () => {
           </Button>
           <Button variant="outline" size="sm" onClick={() => setView('magazine')}>
             מגזין
+          </Button>
+          <Button
+            variant="ghost"
+            size="sm"
+            disabled={refreshing}
+            onClick={async () => {
+              setRefreshing(true);
+              try {
+                setArticles(await resetLibraryFromShared());
+              } finally {
+                setRefreshing(false);
+              }
+            }}
+          >
+            {refreshing ? 'מרענן…' : 'רענן מהשרת'}
           </Button>
           <Button variant="ghost" size="sm" onClick={() => navigate('/')}>
             חדש

@@ -76,7 +76,13 @@ export async function syncArticlesFromSupabase(): Promise<Article[]> {
       const a = fromRow(row);
       byId.set(a.id, a);
     });
-    local.forEach(a => byId.set(a.id, a));
+    local.forEach(a => {
+      // Newest wins. "Local always wins" quietly pinned whatever a browser had
+      // read first, so a corrected article never reached anyone who had already
+      // opened it - and refreshing the page could not help.
+      const shared = byId.get(a.id);
+      if (!shared || String(a.updatedAt) >= String(shared.updatedAt)) byId.set(a.id, a);
+    });
 
     const merged = Array.from(byId.values()).sort((a, b) =>
       String(b.createdAt).localeCompare(String(a.createdAt))
@@ -165,7 +171,13 @@ export async function syncArticlesFromGithub(): Promise<Article[]> {
 
     const byId = new Map<string, Article>();
     published.forEach(a => byId.set(a.id, normalize(a)));
-    local.forEach(a => byId.set(a.id, a));
+    local.forEach(a => {
+      // Newest wins. "Local always wins" quietly pinned whatever a browser had
+      // read first, so a corrected article never reached anyone who had already
+      // opened it - and refreshing the page could not help.
+      const shared = byId.get(a.id);
+      if (!shared || String(a.updatedAt) >= String(shared.updatedAt)) byId.set(a.id, a);
+    });
 
     const merged = Array.from(byId.values()).sort((a, b) =>
       String(b.createdAt).localeCompare(String(a.createdAt))
@@ -176,6 +188,16 @@ export async function syncArticlesFromGithub(): Promise<Article[]> {
     console.warn('Could not read the published library.', error);
     return local;
   }
+}
+
+/**
+ * Throws away this browser's copy of the library and takes the shared one as it
+ * stands. The escape hatch for a local copy that has drifted.
+ */
+export async function resetLibraryFromShared(): Promise<Article[]> {
+  writeArticles(STORAGE_KEY, '[]');
+  await syncArticlesFromGithub();
+  return syncArticlesFromSupabase();
 }
 
 export function saveArticle(article: Article): void {
