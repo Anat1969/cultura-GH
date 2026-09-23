@@ -15,6 +15,10 @@ export function canGenerateImages(): boolean {
   return hasImageKey();
 }
 
+export async function verifyKey(apiKey: string): Promise<string> {
+  return (await claude()).verifyAnthropicKey(apiKey);
+}
+
 export async function generateDimensions(
   concept: string,
   hint?: string

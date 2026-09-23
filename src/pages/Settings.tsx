@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import Breadcrumbs from '@/components/Breadcrumbs';
 import { useToast } from '@/hooks/use-toast';
+import { verifyKey } from '@/lib/ai';
 import {
   getAnthropicKey,
   setAnthropicKey,
@@ -13,11 +14,28 @@ import {
   getGithubToken,
   setGithubToken,
   looksLikeAnthropicKey,
+  normalizeKey,
   maskKey,
 } from '@/lib/settings';
 import { REPO } from '@/lib/publish';
 
 const CONSOLE_KEYS_URL = 'https://console.anthropic.com/settings/keys';
+
+type Status = { kind: 'ok' | 'warn' | 'error'; text: string } | null;
+
+/** Stays on screen until something changes it, unlike a toast. */
+const StatusNote: React.FC<{ status: Status }> = ({ status }) => {
+  if (!status) return null;
+  const tone =
+    status.kind === 'ok'
+      ? 'border-accent/40 bg-accent/10 text-foreground'
+      : status.kind === 'warn'
+        ? 'border-accent/40 bg-accent/5 text-muted-foreground'
+        : 'border-destructive/40 bg-destructive/10 text-foreground';
+  return (
+    <p className={`mt-3 rounded-md border px-3 py-2 text-sm leading-relaxed ${tone}`}>{status.text}</p>
+  );
+};
 
 const SettingsPage: React.FC = () => {
   const navigate = useNavigate();
@@ -26,61 +44,83 @@ const SettingsPage: React.FC = () => {
   const [savedClaude, setSavedClaude] = useState(getAnthropicKey());
   const [savedImage, setSavedImage] = useState(getImageKey());
   const [savedGithub, setSavedGithub] = useState(getGithubToken());
+
   const [claudeInput, setClaudeInput] = useState('');
   const [imageInput, setImageInput] = useState('');
   const [githubInput, setGithubInput] = useState('');
 
-  const saveClaude = () => {
-    const value = claudeInput.trim();
+  const [claudeStatus, setClaudeStatus] = useState<Status>(null);
+  const [checking, setChecking] = useState(false);
+
+  /** Asks the API whether the key works, and says so plainly either way. */
+  const check = async (key: string) => {
+    setChecking(true);
+    setClaudeStatus({ kind: 'warn', text: 'בודק מול Claude…' });
+    try {
+      const model = await verifyKey(key);
+      setClaudeStatus({ kind: 'ok', text: `המפתח עובד. מוכן ליצירה עם ${model}.` });
+    } catch (error) {
+      setClaudeStatus({
+        kind: 'error',
+        text: error instanceof Error ? error.message : 'הבדיקה נכשלה.',
+      });
+    } finally {
+      setChecking(false);
+    }
+  };
+
+  const saveClaude = async () => {
+    const value = normalizeKey(claudeInput);
     if (!value) return;
-    if (!looksLikeAnthropicKey(value)) {
-      toast({
-        title: 'המפתח לא נראה תקין',
-        description: 'מפתח של Anthropic מתחיל ב-sk-ant- . בדוק שהעתקת אותו במלואו.',
-        variant: 'destructive',
+
+    // Always save. Only the API can judge a key, and refusing to store one over
+    // its shape is what traps someone in a loop back to this screen.
+    if (!setAnthropicKey(value)) {
+      setClaudeStatus({
+        kind: 'error',
+        text: 'הדפדפן לא אפשר לשמור. אם את בחלון פרטי או שחסומים נתוני אתר, המפתח לא יישמר. נסי בחלון רגיל.',
       });
       return;
     }
-    setAnthropicKey(value);
+
     setSavedClaude(value);
     setClaudeInput('');
-    toast({ title: 'המפתח נשמר בדפדפן הזה' });
+    if (!looksLikeAnthropicKey(value)) {
+      setClaudeStatus({
+        kind: 'warn',
+        text: 'המפתח נשמר, אך הוא לא נראה כמו מפתח של Anthropic. בודקת אותו עכשיו.',
+      });
+    }
+    await check(value);
   };
 
   const clearClaude = () => {
     setAnthropicKey('');
     setSavedClaude('');
+    setClaudeStatus(null);
     toast({ title: 'המפתח נמחק' });
   };
 
-  const saveImage = () => {
-    const value = imageInput.trim();
-    if (!value) return;
-    setImageKey(value);
-    setSavedImage(value);
-    setImageInput('');
-    toast({ title: 'מפתח התמונות נשמר' });
-  };
-
-  const clearImage = () => {
-    setImageKey('');
-    setSavedImage('');
-    toast({ title: 'מפתח התמונות נמחק' });
-  };
-
-  const saveGithub = () => {
-    const value = githubInput.trim();
-    if (!value) return;
-    setGithubToken(value);
-    setSavedGithub(value);
-    setGithubInput('');
-    toast({ title: 'האסימון נשמר' });
-  };
-
-  const clearGithub = () => {
-    setGithubToken('');
-    setSavedGithub('');
-    toast({ title: 'האסימון נמחק' });
+  const saveSimple = (
+    value: string,
+    save: (v: string) => boolean,
+    setSaved: (v: string) => void,
+    reset: () => void,
+    label: string
+  ) => {
+    const v = normalizeKey(value);
+    if (!v) return;
+    if (!save(v)) {
+      toast({
+        title: 'השמירה נכשלה',
+        description: 'הדפדפן חוסם שמירה מקומית. נסי בחלון רגיל, לא פרטי.',
+        variant: 'destructive',
+      });
+      return;
+    }
+    setSaved(v);
+    reset();
+    toast({ title: `${label} נשמר` });
   };
 
   return (
@@ -94,10 +134,21 @@ const SettingsPage: React.FC = () => {
       >
         הגדרות
       </motion.h1>
-      <p className="text-muted-foreground mb-10">
+      <p className="text-muted-foreground mb-6">
         המפתחות נשמרים בדפדפן הזה בלבד, ונשלחים רק לשירות שהם שייכים לו. הם לא נשמרים באתר ולא
         נשלחים לשום מקום אחר.
       </p>
+
+      {/* One honest line about whether the app can actually generate right now */}
+      <div
+        className={`mb-10 rounded-lg border px-4 py-3 text-sm ${
+          savedClaude ? 'border-accent/40 bg-accent/10' : 'border-destructive/40 bg-destructive/10'
+        }`}
+      >
+        {savedClaude
+          ? 'מפתח Claude שמור — אפשר ליצור מושגים.'
+          : 'אין מפתח Claude שמור — יצירה מושבתת.'}
+      </div>
 
       {/* Claude — required for generating concepts */}
       <section className="mb-12">
@@ -111,11 +162,8 @@ const SettingsPage: React.FC = () => {
             className="text-primary underline underline-offset-4 hover:text-accent"
           >
             דף המפתחות במסוף של Anthropic
-          </a>{' '}
-          , יוצרים מפתח חדש, מעתיקים ומדביקים כאן. מפתח נראה כך:{' '}
-          <span dir="ltr" className="font-mono text-xs">
-            sk-ant-...
-          </span>
+          </a>
+          , יוצרים מפתח חדש, מעתיקים ומדביקים כאן. רווחים ושברי שורה שנדבקים בטעות מוסרים לבד.
         </p>
 
         {savedClaude ? (
@@ -127,31 +175,38 @@ const SettingsPage: React.FC = () => {
               </span>
             </p>
             <div className="flex flex-wrap gap-2">
-              <Button variant="outline" size="sm" onClick={clearClaude}>
-                מחק מפתח
+              <Button size="sm" onClick={() => check(savedClaude)} disabled={checking}>
+                {checking ? 'בודק…' : 'בדוק מפתח'}
               </Button>
-              <Button size="sm" onClick={() => navigate('/')}>
+              <Button variant="outline" size="sm" onClick={clearClaude}>
+                החלף מפתח
+              </Button>
+              <Button variant="ghost" size="sm" onClick={() => navigate('/')}>
                 צור מושג
               </Button>
             </div>
+            <StatusNote status={claudeStatus} />
           </div>
         ) : (
-          <div className="flex gap-2">
-            <Button onClick={saveClaude} disabled={!claudeInput.trim()}>
-              שמור
-            </Button>
-            <Input
-              value={claudeInput}
-              onChange={e => setClaudeInput(e.target.value)}
-              onKeyDown={e => e.key === 'Enter' && saveClaude()}
-              type="password"
-              dir="ltr"
-              autoComplete="off"
-              spellCheck={false}
-              placeholder="sk-ant-..."
-              className="font-mono text-sm"
-            />
-          </div>
+          <>
+            <div className="flex gap-2">
+              <Button onClick={saveClaude} disabled={!claudeInput.trim() || checking}>
+                {checking ? 'בודק…' : 'שמור'}
+              </Button>
+              <Input
+                value={claudeInput}
+                onChange={e => setClaudeInput(e.target.value)}
+                onKeyDown={e => e.key === 'Enter' && saveClaude()}
+                type="password"
+                dir="ltr"
+                autoComplete="off"
+                spellCheck={false}
+                placeholder="sk-ant-..."
+                className="font-mono text-sm"
+              />
+            </div>
+            <StatusNote status={claudeStatus} />
+          </>
         )}
       </section>
 
@@ -159,8 +214,8 @@ const SettingsPage: React.FC = () => {
       <section className="mb-12">
         <h2 className="text-lg font-heading font-bold text-accent mb-2">מפתח תמונות (רשות)</h2>
         <p className="text-sm text-muted-foreground mb-4 leading-relaxed">
-          Claude כותב את הפרומפטים לתמונות אבל לא מייצר תמונות. בלי מפתח כאן המאמרים ייווצרו
-          בלי תמונות, והפרומפטים יישמרו להעתקה. מפתח מ-{' '}
+          Claude כותב את הפרומפטים לתמונות אבל לא מייצר תמונות. בלי מפתח כאן המאמרים ייווצרו בלי
+          תמונות, והפרומפטים יישמרו להעתקה. מפתח מ-{' '}
           <a
             href="https://fal.ai/dashboard/keys"
             target="_blank"
@@ -180,19 +235,37 @@ const SettingsPage: React.FC = () => {
                 {maskKey(savedImage)}
               </span>
             </p>
-            <Button variant="outline" size="sm" onClick={clearImage}>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => {
+                setImageKey('');
+                setSavedImage('');
+              }}
+            >
               מחק מפתח
             </Button>
           </div>
         ) : (
           <div className="flex gap-2">
-            <Button onClick={saveImage} disabled={!imageInput.trim()} variant="outline">
+            <Button
+              variant="outline"
+              disabled={!imageInput.trim()}
+              onClick={() =>
+                saveSimple(
+                  imageInput,
+                  setImageKey,
+                  setSavedImage,
+                  () => setImageInput(''),
+                  'מפתח התמונות'
+                )
+              }
+            >
               שמור
             </Button>
             <Input
               value={imageInput}
               onChange={e => setImageInput(e.target.value)}
-              onKeyDown={e => e.key === 'Enter' && saveImage()}
               type="password"
               dir="ltr"
               autoComplete="off"
@@ -240,19 +313,37 @@ const SettingsPage: React.FC = () => {
                 {maskKey(savedGithub)}
               </span>
             </p>
-            <Button variant="outline" size="sm" onClick={clearGithub}>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => {
+                setGithubToken('');
+                setSavedGithub('');
+              }}
+            >
               מחק אסימון
             </Button>
           </div>
         ) : (
           <div className="flex gap-2">
-            <Button onClick={saveGithub} disabled={!githubInput.trim()} variant="outline">
+            <Button
+              variant="outline"
+              disabled={!githubInput.trim()}
+              onClick={() =>
+                saveSimple(
+                  githubInput,
+                  setGithubToken,
+                  setSavedGithub,
+                  () => setGithubInput(''),
+                  'האסימון'
+                )
+              }
+            >
               שמור
             </Button>
             <Input
               value={githubInput}
               onChange={e => setGithubInput(e.target.value)}
-              onKeyDown={e => e.key === 'Enter' && saveGithub()}
               type="password"
               dir="ltr"
               autoComplete="off"
@@ -267,10 +358,10 @@ const SettingsPage: React.FC = () => {
       <section className="rounded-lg border border-accent/30 bg-accent/5 p-4 text-sm leading-relaxed">
         <h2 className="font-bold mb-2">כדאי לדעת</h2>
         <ul className="space-y-1.5 text-muted-foreground">
-          <li>המפתח נשמר בדפדפן הזה. בדפדפן או במכשיר אחר צריך להדביק אותו שוב.</li>
-          <li>כל מי שמשתמש בדפדפן הזה יכול להגיע אליו. אל תשמור אותו במחשב משותף.</li>
+          <li>המפתחות נשמרים בדפדפן הזה. בדפדפן או במכשיר אחר צריך להדביק שוב.</li>
+          <li>אם הדפדפן מוגדר לנקות נתוני אתר בסגירה, המפתח יימחק בכל פעם.</li>
+          <li>כל מי שמשתמש בדפדפן הזה יכול להגיע אליהם. אל תשמרי אותם במחשב משותף.</li>
           <li>השימוש מחויב בחשבון שלך. כדאי להגדיר תקרת הוצאה במסוף של Anthropic.</li>
-          <li>ניקוי נתוני האתר בדפדפן ימחק את המפתחות, ואיתו גם את הספרייה המקומית.</li>
           <li>מה שנשמר בגיטהב שורד ניקוי כזה, ונטען מחדש בכל מכשיר.</li>
           <li>הריפו ציבורי — מה ששומרים בו גלוי לכולם.</li>
         </ul>

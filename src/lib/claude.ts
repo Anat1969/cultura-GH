@@ -83,6 +83,21 @@ function toFriendlyError(error: unknown): Error {
   return error instanceof Error ? error : new Error(String(error));
 }
 
+/**
+ * Confirms a key really works, using the models endpoint: it is authenticated
+ * but costs nothing and generates nothing, so the answer is definitive without
+ * spending anything.
+ */
+export async function verifyAnthropicKey(apiKey: string): Promise<string> {
+  try {
+    const probe = new Anthropic({ apiKey, dangerouslyAllowBrowser: true });
+    await probe.models.list();
+    return MODEL;
+  } catch (error) {
+    throw toFriendlyError(error);
+  }
+}
+
 export async function generateDimensionsWithClaude(
   concept: string,
   hint?: string

@@ -10,6 +10,15 @@ const ANTHROPIC_KEY = 'culturearch_anthropic_key';
 const IMAGE_KEY = 'culturearch_fal_key';
 const GITHUB_KEY = 'culturearch_github_token';
 
+/**
+ * Copying a key out of a web console can bring along a line break, a stray
+ * space or a zero-width character. None of them belong to the key, and all of
+ * them would otherwise make it fail, so they are removed rather than rejected.
+ */
+export function normalizeKey(value: string): string {
+  return value.replace(/[\s\u200b-\u200d\ufeff]/g, '');
+}
+
 function read(key: string): string {
   try {
     return localStorage.getItem(key)?.trim() ?? '';
@@ -18,13 +27,22 @@ function read(key: string): string {
   }
 }
 
-function write(key: string, value: string): void {
+/**
+ * Writes, then reads back to confirm it actually persisted. Storage can be
+ * blocked or silently discarded, and telling someone their key is saved when it
+ * is not sends them round the same loop forever.
+ */
+function write(key: string, value: string): boolean {
+  const v = normalizeKey(value);
   try {
-    const v = value.trim();
-    if (v) localStorage.setItem(key, v);
-    else localStorage.removeItem(key);
+    if (v) {
+      localStorage.setItem(key, v);
+      return localStorage.getItem(key) === v;
+    }
+    localStorage.removeItem(key);
+    return true;
   } catch {
-    // Private mode or blocked storage: the key simply does not persist.
+    return false;
   }
 }
 
@@ -40,9 +58,13 @@ export const getImageKey = () => read(IMAGE_KEY);
 export const setImageKey = (v: string) => write(IMAGE_KEY, v);
 export const hasImageKey = () => getImageKey().length > 0;
 
-/** Anthropic keys start with `sk-ant-`; catches a mis-paste before a request. */
+/**
+ * Advisory only. Anthropic keys normally start with `sk-ant-`, but this must
+ * never block a save: the key belongs to the user, and only the API can really
+ * say whether it works.
+ */
 export function looksLikeAnthropicKey(value: string): boolean {
-  return /^sk-ant-\S{20,}$/.test(value.trim());
+  return /^sk-ant-/.test(normalizeKey(value));
 }
 
 /** Masked form for display, so a saved key is recognisable but not readable. */
