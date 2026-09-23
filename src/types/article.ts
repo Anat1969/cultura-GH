@@ -19,6 +19,7 @@ export interface Practice {
 }
 
 export interface GeneratedDimensions {
+  lede: string;             // one-line standfirst: what makes the piece worth opening
   insight: string;         // origin context + human need + psychology (+ uncertainty note)
   spaceName: string;       // poetic name of the space embodying the concept
   proverb: string;         // original line "in the spirit of" — never attributed to the culture
@@ -99,6 +100,13 @@ export const practiceLabels: Record<keyof Practice, string> = {
 };
 
 export const emptyMedia = { exterior: null, interior: null };
+
+/** Falls back to the opening of the insight for articles written before ledes. */
+export function articleLede(d: GeneratedDimensions): string {
+  if (d.lede?.trim()) return d.lede.trim();
+  const first = d.insight?.split(/(?<=[.!?])\s+/)[0] ?? '';
+  return first.trim();
+}
 
 export function buildTags(d: GeneratedDimensions): string[] {
   return Array.from(

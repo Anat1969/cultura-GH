@@ -4,9 +4,9 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
-import { Card, CardContent } from '@/components/ui/card';
+import { Card } from '@/components/ui/card';
+import ArticleCard from '@/components/ArticleCard';
 import Breadcrumbs from '@/components/Breadcrumbs';
-import { OriginLine, PracticeBlock } from '@/components/CultureBlocks';
 import { getArticles, getGroups, getArticlesByGroup, GroupMode } from '@/lib/storage';
 
 const modeLabels: Record<GroupMode, string> = { need: 'לפי צורך', culture: 'לפי תרבות' };
@@ -192,26 +192,7 @@ const ConceptBrowser: React.FC = () => {
                         transition={{ delay: i * 0.05 }}
                       >
                         {viewMode === 'compare' ? (
-                          <Card
-                            className="cursor-pointer hover:border-primary/50 transition-colors group overflow-hidden h-full"
-                            onClick={() => navigate(`/article/${article.id}`)}
-                          >
-                            {(article.images.interior || article.images.exterior) && (
-                              <div className="aspect-video overflow-hidden">
-                                <img
-                                  src={article.images.interior || article.images.exterior!}
-                                  alt={article.dimensions.spaceName}
-                                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                                />
-                              </div>
-                            )}
-                            <CardContent className="p-4 space-y-3">
-                              <OriginLine origin={article.dimensions.origin} size="sm" />
-                              <h3 className="font-heading font-bold">{article.concept}</h3>
-                              <p className="text-sm text-muted-foreground line-clamp-4">{article.dimensions.insight}</p>
-                              <PracticeBlock practice={article.dimensions.practice} compact />
-                            </CardContent>
-                          </Card>
+                          <ArticleCard article={article} index={i} />
                         ) : (
                           <Card
                             className="cursor-pointer hover:border-primary/50 transition-colors p-4 group"

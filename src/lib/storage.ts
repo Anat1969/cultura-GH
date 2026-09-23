@@ -17,6 +17,7 @@ function fromRow(row: any): Article {
     updatedAt: row.updated_at,
     tags: row.tags ?? [],
     dimensions: {
+      lede: row.lede ?? '',
       insight: row.insight,
       spaceName: row.space_name,
       proverb: row.proverb,
@@ -41,6 +42,7 @@ function toRow(article: Article) {
     id: article.id,
     concept: article.concept,
     space_name: d.spaceName,
+    lede: d.lede ?? '',
     insight: d.insight,
     proverb: d.proverb,
     interpretation: d.interpretation,
@@ -126,6 +128,7 @@ function normalize(a: Article): Article {
     dimensions: {
       ...a.dimensions,
       humanNeed: a.dimensions.humanNeed ?? '',
+      lede: a.dimensions.lede ?? '',
       interpretation: interpretationLines(a.dimensions.interpretation),
       origin: { ...emptyOrigin, ...(a.dimensions.origin ?? {}) },
       practice: { ...emptyPractice, ...(a.dimensions.practice ?? {}) },

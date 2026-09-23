@@ -5,16 +5,18 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import Breadcrumbs from '@/components/Breadcrumbs';
 import PublishButton from '@/components/PublishButton';
-import { OriginLine, PracticeBlock, InterpretationLines } from '@/components/CultureBlocks';
 import PromptStudio from '@/components/PromptStudio';
+import { OriginLine, PracticeBlock, InterpretationLines } from '@/components/CultureBlocks';
 import { getArticleById, saveArticle } from '@/lib/storage';
-import { Article } from '@/types/article';
+import { Article, articleLede } from '@/types/article';
+import { isVideo } from '@/lib/media';
 import { useToast } from '@/hooks/use-toast';
 
-const dimensionConfig = [
-  { key: 'insight' as const, label: 'מקור, הקשר וצורך' },
-  { key: 'proverb' as const, label: 'ברוח המושג' },
-];
+const fade = (delay = 0) => ({
+  initial: { opacity: 0, y: 16 },
+  animate: { opacity: 1, y: 0 },
+  transition: { duration: 0.6, delay, ease: [0.22, 1, 0.36, 1] as const },
+});
 
 const ArticleViewPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -24,101 +26,128 @@ const ArticleViewPage: React.FC = () => {
 
   useEffect(() => {
     if (!id) return;
-    const a = getArticleById(id);
-    if (!a) {
-      navigate('/library');
+    const found = getArticleById(id);
+    if (!found) {
+      navigate('/library', { replace: true });
       return;
     }
-    setArticle(a);
+    setArticle(found);
   }, [id, navigate]);
 
   if (!article) return null;
   const d = article.dimensions;
+  const hero = article.images.exterior || article.images.interior;
+  const heroVideo = article.videos.exterior || article.videos.interior;
 
   return (
-    <div className="min-h-screen">
-      {article.images.exterior && (
-        <div className="relative h-[40vh] min-h-[300px] overflow-hidden">
-          <img src={article.images.exterior} alt={d.spaceName} className="w-full h-full object-cover" />
-          <div className="absolute inset-0 bg-gradient-to-t from-background via-background/30 to-transparent" />
+    <article className="min-h-screen pb-20">
+      {/* Cover */}
+      <header className="relative">
+        <div className="relative h-[46vh] min-h-[320px] overflow-hidden">
+          {hero ? (
+            <img src={hero} alt="" className="h-full w-full object-cover" />
+          ) : heroVideo && isVideo(heroVideo) ? (
+            <video src={heroVideo} muted loop autoPlay playsInline className="h-full w-full object-cover" />
+          ) : (
+            <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-primary/15 via-transparent to-accent/15">
+              <span
+                className="font-heading text-[8rem] leading-none text-accent/50"
+                dir="auto"
+                style={{
+                  fontFamily:
+                    "'Playfair Display', 'Noto Serif JP', 'Noto Naskh Arabic', 'Noto Serif Devanagari', serif",
+                }}
+              >
+                {d.origin.script || article.concept}
+              </span>
+            </div>
+          )}
+          <div className="absolute inset-0 bg-gradient-to-t from-background via-background/50 to-background/10" />
         </div>
-      )}
 
-      <div className="container max-w-3xl px-4 -mt-16 relative z-10 pb-16">
-        <Breadcrumbs items={[{ label: 'בית', to: '/' }, { label: 'ספרייה', to: '/library' }, { label: d.spaceName }]} />
+        <div className="container relative z-10 -mt-32 max-w-3xl px-4">
+          <Breadcrumbs
+            items={[
+              { label: 'בית', to: '/' },
+              { label: 'ספרייה', to: '/library' },
+              { label: d.spaceName },
+            ]}
+          />
 
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
-          <h1 className="text-fluid-xl font-heading font-bold text-primary mb-4">{d.spaceName}</h1>
-          <OriginLine origin={d.origin} className="mb-4" />
-
-          <div className="flex flex-wrap items-center gap-2 mb-8">
-            <Badge variant="outline" className="text-sm">
-              {article.concept}
-            </Badge>
-            {article.tags
-              .filter(t => t !== article.concept)
-              .map(t => (
-                <Badge
-                  key={t}
-                  variant="secondary"
-                  className="text-sm cursor-pointer"
-                  onClick={() =>
-                    navigate(
-                      `/concept/${encodeURIComponent(t)}?mode=${t === d.humanNeed ? 'need' : 'culture'}`
-                    )
-                  }
-                >
-                  {t}
-                </Badge>
-              ))}
-            <span className="text-xs text-muted-foreground mr-auto">
+          <motion.div {...fade()}>
+            <span className="mb-3 block text-xs uppercase tracking-[0.3em] text-muted-foreground">
               {new Date(article.createdAt).toLocaleDateString('he-IL')}
             </span>
-          </div>
-        </motion.div>
+            <h1 className="text-fluid-xl font-heading font-bold leading-[1.05] text-primary">
+              {d.spaceName}
+            </h1>
 
-        <div className="space-y-8 mb-12">
-          {dimensionConfig.map(({ key, label }, i) => (
-            <motion.section key={key} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.1 }}>
-              <h2 className="text-lg font-heading font-bold text-accent mb-3">{label}</h2>
-              <p className="text-foreground leading-relaxed whitespace-pre-wrap text-lg">{d[key]}</p>
-            </motion.section>
-          ))}
+            {/* The standfirst: the line that earns the read */}
+            <p className="mt-5 border-r-2 border-accent pr-4 text-fluid-md leading-relaxed text-foreground/90">
+              {articleLede(d)}
+            </p>
 
-          <motion.section initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.25 }}>
-            <h2 className="text-lg font-heading font-bold text-accent mb-3">גשר לתרבות המקומית</h2>
-            <InterpretationLines value={d.interpretation} />
-          </motion.section>
+            <OriginLine origin={d.origin} className="mt-6" />
 
-          <motion.section initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}>
-            <h2 className="text-lg font-heading font-bold text-accent mb-3">ליישום</h2>
-            <PracticeBlock practice={d.practice} />
-          </motion.section>
+            <div className="mt-5 flex flex-wrap items-center gap-2">
+              <Badge variant="outline">{article.concept}</Badge>
+              {d.humanNeed && (
+                <Badge
+                  variant="secondary"
+                  className="cursor-pointer"
+                  onClick={() =>
+                    navigate(`/concept/${encodeURIComponent(d.humanNeed)}?mode=need`)
+                  }
+                >
+                  {d.humanNeed}
+                </Badge>
+              )}
+              {d.origin.culture && (
+                <Badge
+                  variant="secondary"
+                  className="cursor-pointer"
+                  onClick={() =>
+                    navigate(`/concept/${encodeURIComponent(d.origin.culture)}?mode=culture`)
+                  }
+                >
+                  {d.origin.culture}
+                </Badge>
+              )}
+            </div>
+          </motion.div>
         </div>
+      </header>
 
-        {(article.images.exterior || article.images.interior) && (
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-12">
-            {article.images.exterior && (
-              <div className="rounded-lg overflow-hidden">
-                <img src={article.images.exterior} alt="המושג בארץ המקור" className="w-full aspect-video object-cover" />
-                <p className="text-xs text-center text-muted-foreground mt-1">בארץ המקור</p>
-              </div>
-            )}
-            {article.images.interior && (
-              <div className="rounded-lg overflow-hidden">
-                <img src={article.images.interior} alt="מרחב מחייה מרפא בישראל" className="w-full aspect-video object-cover" />
-                <p className="text-xs text-center text-muted-foreground mt-1">מרחב מרפא בישראל</p>
-              </div>
-            )}
+      <div className="container max-w-3xl space-y-12 px-4 pt-12">
+        <motion.section {...fade(0.05)}>
+          <div className="mb-4 h-px w-16 bg-accent" />
+          <p className="text-lg leading-[1.9] text-foreground/85">{d.insight}</p>
+        </motion.section>
+
+        <motion.section {...fade(0.1)} className="rounded-xl border border-border bg-card/60 p-6">
+          <span className="mb-2 block text-xs tracking-wide text-muted-foreground">ברוח המושג</span>
+          <blockquote className="font-heading text-2xl leading-snug text-accent">
+            ❝{d.proverb}❞
+          </blockquote>
+        </motion.section>
+
+        <motion.section {...fade(0.15)}>
+          <h2 className="mb-4 font-heading text-lg font-bold text-accent">גשר לתרבות המקומית</h2>
+          <InterpretationLines value={d.interpretation} />
+        </motion.section>
+
+        <motion.section {...fade(0.2)}>
+          <h2 className="mb-4 font-heading text-lg font-bold text-accent">ליישום</h2>
+          <PracticeBlock practice={d.practice} />
+        </motion.section>
+
+        <motion.section {...fade(0.25)} className="space-y-4">
+          <div>
+            <h2 className="font-heading text-lg font-bold text-accent">פרומפטים ומסגרות</h2>
+            <p className="mt-1 text-sm leading-relaxed text-muted-foreground">
+              העתיקי פרומפט, צרי איתו תמונה או סרטון, והעלי למסגרת. מה שמועלה נשמר לצמיתות.
+            </p>
           </div>
-        )}
-
-        <div className="space-y-4 mb-12">
-          <h2 className="text-lg font-heading font-bold text-accent">פרומפטים ומסגרות</h2>
-          <p className="text-sm text-muted-foreground leading-relaxed">
-            העתיקי פרומפט, צרי איתו תמונה או סרטון היכן שתרצי, והעלי אותם למסגרות. מה שמועלה נשמר
-            לצמיתות ולא תלוי בקישור שפג.
-          </p>
           {(['exterior', 'interior'] as const).map(frame => (
             <PromptStudio
               key={frame}
@@ -130,9 +159,9 @@ const ArticleViewPage: React.FC = () => {
               }}
             />
           ))}
-        </div>
+        </motion.section>
 
-        <div className="flex flex-wrap gap-3 justify-center">
+        <motion.footer {...fade(0.3)} className="flex flex-wrap justify-center gap-3 pt-4">
           <Button onClick={() => navigate(`/edit/${article.id}`)}>עריכה</Button>
           <PublishButton article={article} />
           <Button
@@ -144,17 +173,12 @@ const ArticleViewPage: React.FC = () => {
           >
             שתף
           </Button>
-          {d.humanNeed && (
-            <Button variant="outline" onClick={() => navigate(`/concept/${encodeURIComponent(d.humanNeed)}?mode=need`)}>
-              השווה לתרבויות אחרות
-            </Button>
-          )}
           <Button variant="ghost" onClick={() => navigate('/library')}>
-            חזרה לספרייה
+            לספרייה
           </Button>
-        </div>
+        </motion.footer>
       </div>
-    </div>
+    </article>
   );
 };
 

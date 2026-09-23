@@ -18,6 +18,7 @@ import { useToast } from '@/hooks/use-toast';
 
 const textFields = [
   { key: 'spaceName' as const, label: 'שם המרחב', single: true },
+  { key: 'lede' as const, label: 'שורת פתיחה', single: false },
   { key: 'insight' as const, label: 'מקור, הקשר וצורך', single: false },
   { key: 'proverb' as const, label: 'ברוח המושג', single: false },
 ];

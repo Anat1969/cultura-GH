@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { getArticles } from '@/lib/storage';
-import { Card, CardContent } from '@/components/ui/card';
+import ArticleCard from '@/components/ArticleCard';
 import { cultureGroups, comparisonQuestions, ConceptSuggestion } from '@/data/cultures';
 
 const examples: ConceptSuggestion[] = [
@@ -180,41 +180,10 @@ const HomePage: React.FC = () => {
                 לכל הספרייה ←
               </Button>
             </div>
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-              <AnimatePresence>
-                {recentArticles.map((article, i) => (
-                  <motion.div
-                    key={article.id}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: i * 0.1 }}
-                  >
-                    <Card
-                      className="cursor-pointer hover:border-primary/50 transition-colors group"
-                      onClick={() => navigate(`/article/${article.id}`)}
-                    >
-                      {article.images.exterior && (
-                        <div className="aspect-video overflow-hidden rounded-t-lg">
-                          <img
-                            src={article.images.exterior}
-                            alt={article.dimensions.spaceName}
-                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                          />
-                        </div>
-                      )}
-                      <CardContent className="p-4">
-                        <h3 className="font-heading font-bold text-sm mb-1 truncate">
-                          {article.dimensions.spaceName}
-                        </h3>
-                        <p className="text-xs text-muted-foreground">
-                          {article.concept}
-                          {article.dimensions.origin.culture && ` · ${article.dimensions.origin.culture}`}
-                        </p>
-                      </CardContent>
-                    </Card>
-                  </motion.div>
-                ))}
-              </AnimatePresence>
+            <div className="grid grid-cols-1 gap-5 sm:grid-cols-3">
+              {recentArticles.map((article, i) => (
+                <ArticleCard key={article.id} article={article} index={i} />
+              ))}
             </div>
           </div>
         </section>
