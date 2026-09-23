@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import Breadcrumbs from '@/components/Breadcrumbs';
+import PublishButton from '@/components/PublishButton';
 import { OriginLine, PracticeBlock } from '@/components/CultureBlocks';
 import { getArticleById } from '@/lib/storage';
 import { Article } from '@/types/article';
@@ -140,6 +141,7 @@ const ArticleViewPage: React.FC = () => {
 
         <div className="flex flex-wrap gap-3 justify-center">
           <Button onClick={() => navigate(`/edit/${article.id}`)}>עריכה</Button>
+          <PublishButton article={article} />
           <Button
             variant="outline"
             onClick={() => {

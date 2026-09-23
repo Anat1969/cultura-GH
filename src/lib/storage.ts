@@ -40,6 +40,38 @@ function normalize(a: Article): Article {
   };
 }
 
+/**
+ * The library committed to the repository: permanent, shared across devices and
+ * with images that do not expire. Merged under anything held locally for the
+ * same id, so an unpublished local edit is never overwritten by the published
+ * copy on load.
+ */
+export async function syncArticlesFromGithub(): Promise<Article[]> {
+  const local = getArticles();
+  try {
+    const response = await fetch(`${import.meta.env.BASE_URL}content/articles.json`, {
+      cache: 'no-cache',
+    });
+    if (!response.ok) return local;
+
+    const published = (await response.json()) as Article[];
+    if (!Array.isArray(published)) return local;
+
+    const byId = new Map<string, Article>();
+    published.forEach(a => byId.set(a.id, normalize(a)));
+    local.forEach(a => byId.set(a.id, a));
+
+    const merged = Array.from(byId.values()).sort((a, b) =>
+      String(b.createdAt).localeCompare(String(a.createdAt))
+    );
+    writeArticles(STORAGE_KEY, JSON.stringify(merged));
+    return merged;
+  } catch (error) {
+    console.warn('Could not read the published library.', error);
+    return local;
+  }
+}
+
 export function getArticles(): Article[] {
   try {
     const data = localStorage.getItem(STORAGE_KEY);

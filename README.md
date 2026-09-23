@@ -62,6 +62,22 @@ VITE_SUPABASE_ANON_KEY=your-anon-key
 
 **הערה:** הגישה לטבלה ב-`storage.ts` לא מוגדרת בטיפוסים (`as any`) עד שהטיפוסים של Supabase נוצרים מחדש. אחרי המיגרציה אפשר להריץ `supabase gen types` ולהסיר את ה-cast.
 
+## שמירה קבועה של התוכן בריפו
+
+בלי זה מאמר נשמר רק ב-localStorage של הדפדפן, והתמונות מתארחות בקישור זמני של ספק התמונות שפג אחרי זמן מה. עם החיבור הזה המאמר והתמונות נשמרים בריפו עצמו.
+
+**הגדרה חד-פעמית:** יוצרים [Fine-grained token](https://github.com/settings/personal-access-tokens/new) עם גישה לריפו הזה בלבד והרשאה אחת — `Contents: Read and write` — ומדביקים אותו במסך ההגדרות.
+
+**שימוש:** במסך המאמר לוחצים "שמור בגיטהב".
+
+**מה קורה מאחורי הקלעים:** האפליקציה שולחת `repository_dispatch` מסוג `publish-article`. הוורקפלואו [publish-article.yml](.github/workflows/publish-article.yml) מריץ את [save-article.mjs](.github/scripts/save-article.mjs), שמוריד את התמונות בצד השרת — כך אין מגבלות CORS — כותב אותן ל-`public/content/images/`, מוסיף את המאמר ל-`public/content/articles.json`, מבצע commit, ומפעיל מחדש את פריסת האתר.
+
+ההורדה בצד השרת היא מה שהופך את התמונות לקבועות: הקישור המקורי יפוג, הקובץ בריפו יישאר.
+
+בטעינה האפליקציה קוראת את `content/articles.json` וממזגת אותו עם מה ששמור מקומית. מאמר מקומי באותו `id` גובר, כדי שעריכה שטרם פורסמה לא תידרס. פרסום חוזר של אותו מאמר מעדכן את הרשומה במקום ליצור כפילות, ולא מוריד שוב תמונה שכבר נשמרה.
+
+**הריפו ציבורי — כל מה שנשמר בו גלוי לכולם.**
+
 ## פרסום
 
 הפרויקט מתפרסם אוטומטית ל-GitHub Pages בכל דחיפה ל-`main`, דרך `.github/workflows/deploy.yml`.
@@ -84,6 +100,10 @@ src/lib/storage.ts            טבלה culture_articles, קיבוץ לפי צו�
 src/lib/ai.ts                 מנתב בין Claude לבין פונקציות ה-Edge
 src/lib/claude.ts             קריאה ישירה ל-Claude, סכימה ופלט מובנה
 src/lib/settings.ts           שמירת מפתחות בדפדפן
+src/lib/publish.ts            שליחת מאמר לשמירה בריפו
+src/components/PublishButton.tsx  כפתור "שמור בגיטהב"
+src/components/ErrorBoundary.tsx  הודעה במקום מסך ריק בשגיאת רינדור
+public/content/articles.json  הספרייה הקבועה, נכתבת בידי הוורקפלואו
 src/lib/motionFallback.ts     חשיפת התוכן כשאנימציות לא רצות
 src/integrations/supabase/    לקוח Supabase, כולל מצב הדגמה בלי מפתחות
 src/contexts/ThemeContext.tsx מצב כהה/בהיר

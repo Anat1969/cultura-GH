@@ -8,6 +8,7 @@
 
 const ANTHROPIC_KEY = 'culturearch_anthropic_key';
 const IMAGE_KEY = 'culturearch_fal_key';
+const GITHUB_KEY = 'culturearch_github_token';
 
 function read(key: string): string {
   try {
@@ -30,6 +31,10 @@ function write(key: string, value: string): void {
 export const getAnthropicKey = () => read(ANTHROPIC_KEY);
 export const setAnthropicKey = (v: string) => write(ANTHROPIC_KEY, v);
 export const hasAnthropicKey = () => getAnthropicKey().length > 0;
+
+export const getGithubToken = () => read(GITHUB_KEY);
+export const setGithubToken = (v: string) => write(GITHUB_KEY, v);
+export const hasGithubToken = () => getGithubToken().length > 0;
 
 export const getImageKey = () => read(IMAGE_KEY);
 export const setImageKey = (v: string) => write(IMAGE_KEY, v);

@@ -10,9 +10,12 @@ import {
   setAnthropicKey,
   getImageKey,
   setImageKey,
+  getGithubToken,
+  setGithubToken,
   looksLikeAnthropicKey,
   maskKey,
 } from '@/lib/settings';
+import { REPO } from '@/lib/publish';
 
 const CONSOLE_KEYS_URL = 'https://console.anthropic.com/settings/keys';
 
@@ -22,8 +25,10 @@ const SettingsPage: React.FC = () => {
 
   const [savedClaude, setSavedClaude] = useState(getAnthropicKey());
   const [savedImage, setSavedImage] = useState(getImageKey());
+  const [savedGithub, setSavedGithub] = useState(getGithubToken());
   const [claudeInput, setClaudeInput] = useState('');
   const [imageInput, setImageInput] = useState('');
+  const [githubInput, setGithubInput] = useState('');
 
   const saveClaude = () => {
     const value = claudeInput.trim();
@@ -61,6 +66,21 @@ const SettingsPage: React.FC = () => {
     setImageKey('');
     setSavedImage('');
     toast({ title: 'מפתח התמונות נמחק' });
+  };
+
+  const saveGithub = () => {
+    const value = githubInput.trim();
+    if (!value) return;
+    setGithubToken(value);
+    setSavedGithub(value);
+    setGithubInput('');
+    toast({ title: 'האסימון נשמר' });
+  };
+
+  const clearGithub = () => {
+    setGithubToken('');
+    setSavedGithub('');
+    toast({ title: 'האסימון נמחק' });
   };
 
   return (
@@ -184,13 +204,75 @@ const SettingsPage: React.FC = () => {
         )}
       </section>
 
+      {/* GitHub — permanent storage for finished articles and their images */}
+      <section className="mb-12">
+        <h2 className="text-lg font-heading font-bold text-accent mb-2">שמירה קבועה בגיטהב</h2>
+        <p className="text-sm text-muted-foreground mb-4 leading-relaxed">
+          בלי זה המאמרים נשמרים רק בדפדפן הזה, והתמונות שנוצרות מתארחות בקישור זמני שפג אחרי זמן
+          מה. עם אסימון, כפתור "שמור בגיטהב" שבמסך המאמר שולח את המאמר לריפו{' '}
+          <span dir="ltr" className="font-mono text-xs">
+            {REPO}
+          </span>
+          , התמונות יורדות ונשמרות שם, והספרייה נטענת מהריפו בכל מכשיר.
+        </p>
+        <p className="text-sm text-muted-foreground mb-4 leading-relaxed">
+          יוצרים{' '}
+          <a
+            href="https://github.com/settings/personal-access-tokens/new"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-primary underline underline-offset-4 hover:text-accent"
+          >
+            Fine-grained token
+          </a>{' '}
+          עם גישה לריפו הזה בלבד, והרשאה אחת:{' '}
+          <span dir="ltr" className="font-mono text-xs">
+            Contents: Read and write
+          </span>
+          .
+        </p>
+
+        {savedGithub ? (
+          <div className="rounded-lg border border-border bg-card p-4">
+            <p className="text-sm mb-3">
+              אסימון שמור:{' '}
+              <span dir="ltr" className="font-mono text-xs text-muted-foreground">
+                {maskKey(savedGithub)}
+              </span>
+            </p>
+            <Button variant="outline" size="sm" onClick={clearGithub}>
+              מחק אסימון
+            </Button>
+          </div>
+        ) : (
+          <div className="flex gap-2">
+            <Button onClick={saveGithub} disabled={!githubInput.trim()} variant="outline">
+              שמור
+            </Button>
+            <Input
+              value={githubInput}
+              onChange={e => setGithubInput(e.target.value)}
+              onKeyDown={e => e.key === 'Enter' && saveGithub()}
+              type="password"
+              dir="ltr"
+              autoComplete="off"
+              spellCheck={false}
+              placeholder="github_pat_..."
+              className="font-mono text-sm"
+            />
+          </div>
+        )}
+      </section>
+
       <section className="rounded-lg border border-accent/30 bg-accent/5 p-4 text-sm leading-relaxed">
         <h2 className="font-bold mb-2">כדאי לדעת</h2>
         <ul className="space-y-1.5 text-muted-foreground">
           <li>המפתח נשמר בדפדפן הזה. בדפדפן או במכשיר אחר צריך להדביק אותו שוב.</li>
           <li>כל מי שמשתמש בדפדפן הזה יכול להגיע אליו. אל תשמור אותו במחשב משותף.</li>
           <li>השימוש מחויב בחשבון שלך. כדאי להגדיר תקרת הוצאה במסוף של Anthropic.</li>
-          <li>ניקוי נתוני האתר בדפדפן ימחק את המפתח, ואיתו גם את הספרייה המקומית.</li>
+          <li>ניקוי נתוני האתר בדפדפן ימחק את המפתחות, ואיתו גם את הספרייה המקומית.</li>
+          <li>מה שנשמר בגיטהב שורד ניקוי כזה, ונטען מחדש בכל מכשיר.</li>
+          <li>הריפו ציבורי — מה ששומרים בו גלוי לכולם.</li>
         </ul>
       </section>
     </div>

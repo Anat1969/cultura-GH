@@ -5,7 +5,7 @@ import Header from '@/components/Header';
 import Toaster from '@/components/ui/toaster';
 import { isSupabaseConfigured } from '@/integrations/supabase/client';
 import { canGenerate } from '@/lib/ai';
-import { syncArticlesFromSupabase } from '@/lib/storage';
+import { syncArticlesFromGithub, syncArticlesFromSupabase } from '@/lib/storage';
 
 import HomePage from '@/pages/Home';
 import OutputPage from '@/pages/Output';
@@ -43,12 +43,14 @@ const SetupNotice: React.FC = () => {
 };
 
 const App: React.FC = () => {
-  const [ready, setReady] = useState(!isSupabaseConfigured);
+  const [ready, setReady] = useState(false);
 
   useEffect(() => {
-    if (!isSupabaseConfigured) return;
     // Pull the shared library once on boot; failures fall back to localStorage.
-    syncArticlesFromSupabase().finally(() => setReady(true));
+    const load = isSupabaseConfigured
+      ? syncArticlesFromSupabase().then(() => syncArticlesFromGithub())
+      : syncArticlesFromGithub();
+    load.finally(() => setReady(true));
   }, []);
 
   return (
