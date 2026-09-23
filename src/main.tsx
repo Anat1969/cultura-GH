@@ -2,10 +2,12 @@ import React from 'react';
 import { createRoot } from 'react-dom/client';
 import App from './App';
 import { installMotionFallback } from '@/lib/motionFallback';
+import { installUpdateCheck } from '@/lib/updateCheck';
 import ErrorBoundary from '@/components/ErrorBoundary';
 import './index.css';
 
 installMotionFallback();
+installUpdateCheck();
 
 // We got here, so the bundle loaded: retire the stale-cache recovery marker and
 // drop the cache-busting parameter it may have added to the URL.
@@ -14,7 +16,7 @@ try {
 } catch {
   // Storage can be blocked; the marker simply expires with the session.
 }
-if (window.location.search.includes('r=')) {
+if (/[?&](r|v)=/.test(window.location.search)) {
   window.history.replaceState(null, '', window.location.pathname + window.location.hash);
 }
 
