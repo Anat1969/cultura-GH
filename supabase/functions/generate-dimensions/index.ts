@@ -2,7 +2,8 @@
 //
 // The Anthropic key lives here as a secret and never reaches the browser, which
 // is the whole reason this function exists rather than the app calling Claude
-// directly. Set ANTHROPIC_API_KEY in the project's Edge Function secrets.
+// directly. Set ANTHROPIC_API_KEY in the project's Edge Function secrets - or
+// any name containing "anthropic" or "claude", which is also accepted.
 //
 // APP_PASSCODE is optional. The site is public, so without it anyone who finds
 // the page can spend the account's credits; set it to require a shared word.
@@ -16,6 +17,39 @@ const corsHeaders = {
 };
 
 const MODEL = 'claude-opus-5';
+
+const CANONICAL = 'ANTHROPIC_API_KEY';
+
+/**
+ * Finds the key by its documented name, and failing that under any secret whose
+ * name mentions Anthropic or Claude. Naming a secret is not the interesting
+ * part of the task, and a near miss should not read as a missing key.
+ *
+ * When nothing matches, reports the NAMES of related secrets - never a value.
+ */
+function readKey(): { key?: string; via?: string; seen: string[] } {
+  const direct = Deno.env.get(CANONICAL);
+  if (direct?.trim()) return { key: direct.trim(), via: CANONICAL, seen: [] };
+
+  let names: string[] = [];
+  try {
+    names = Object.keys(Deno.env.toObject());
+  } catch {
+    return { seen: [] };
+  }
+
+  const candidates = names.filter(
+    (n) => /anthropic|claude/i.test(n) && !/^SUPABASE_/i.test(n) && !/passcode/i.test(n),
+  );
+  for (const name of candidates) {
+    const value = Deno.env.get(name);
+    if (value?.trim()) return { key: value.trim(), via: name, seen: [] };
+  }
+
+  return {
+    seen: names.filter((n) => /anthropic|claude|api|key|token|fal/i.test(n) && !/^SUPABASE_/i.test(n)),
+  };
+}
 
 // Must match HUMAN_NEEDS in src/types/article.ts
 const HUMAN_NEEDS = [
@@ -83,10 +117,16 @@ Deno.serve(async (req) => {
   if (req.method === 'OPTIONS') return new Response(null, { headers: corsHeaders });
 
   try {
-    const apiKey = Deno.env.get('ANTHROPIC_API_KEY');
+    const { key: apiKey, seen } = readKey();
     if (!apiKey) {
+      const hint = seen.length
+        ? ` נמצאו סודות בשמות: ${seen.join(', ')}.`
+        : ' לא נמצא אף סוד מתאים בפרויקט.';
       return json(
-        { error: 'מפתח Claude לא הוגדר בשרת. יש להוסיף ANTHROPIC_API_KEY בסודות של Edge Functions.' },
+        {
+          error:
+            'מפתח Claude לא הוגדר בשרת. יש להוסיף ANTHROPIC_API_KEY בסודות של Edge Functions.' + hint,
+        },
         500,
       );
     }
@@ -148,7 +188,10 @@ Deno.serve(async (req) => {
     return json(parsed);
   } catch (error) {
     if (error instanceof Anthropic.AuthenticationError) {
-      return json({ error: 'המפתח שמוגדר בשרת נדחה על ידי Anthropic. יש לעדכן את ANTHROPIC_API_KEY.' }, 500);
+      return json(
+        { error: 'המפתח שמוגדר בשרת נדחה על ידי Anthropic. ייתכן שהוא הועתק חלקית, פג תוקף, או שזה אינו מפתח API של Anthropic.' },
+        500,
+      );
     }
     if (error instanceof Anthropic.RateLimitError) {
       return json({ error: 'יותר מדי בקשות בזמן קצר. המתן רגע ונסה שוב.' }, 429);
