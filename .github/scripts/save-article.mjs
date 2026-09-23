@@ -18,6 +18,10 @@ const EXTENSIONS = {
   'image/png': 'png',
   'image/webp': 'webp',
   'image/avif': 'avif',
+  'image/gif': 'gif',
+  'video/mp4': 'mp4',
+  'video/webm': 'webm',
+  'video/quicktime': 'mov',
 };
 
 async function readIndex() {
@@ -28,7 +32,7 @@ async function readIndex() {
   }
 }
 
-/** Downloads one image into the repo and returns its served path. */
+/** Downloads one file into the repo and returns its served path. */
 async function saveImage(url, id, slot) {
   if (!url || typeof url !== 'string') return null;
   // Already ours from an earlier publish - keep it as is.
@@ -42,7 +46,7 @@ async function saveImage(url, id, slot) {
   }
 
   const type = (response.headers.get('content-type') || '').split(';')[0].trim();
-  const ext = EXTENSIONS[type] ?? 'jpg';
+  const ext = EXTENSIONS[type] ?? (slot.includes('video') ? 'mp4' : 'jpg');
   const file = `${id}-${slot}.${ext}`;
 
   await fs.mkdir(IMAGES_DIR, { recursive: true });
@@ -62,6 +66,10 @@ async function main() {
   article.images = {
     exterior: await saveImage(article.images?.exterior, article.id, 'exterior'),
     interior: await saveImage(article.images?.interior, article.id, 'interior'),
+  };
+  article.videos = {
+    exterior: await saveImage(article.videos?.exterior, article.id, 'exterior-video'),
+    interior: await saveImage(article.videos?.interior, article.id, 'interior-video'),
   };
   article.publishedAt = new Date().toISOString();
 

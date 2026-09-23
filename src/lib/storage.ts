@@ -1,4 +1,4 @@
-import { Article, emptyOrigin, emptyPractice } from '@/types/article';
+import { Article, emptyOrigin, emptyPractice, interpretationLines } from '@/types/article';
 import { supabase } from '@/integrations/supabase/client';
 
 const TABLE = 'culture_articles';
@@ -20,7 +20,7 @@ function fromRow(row: any): Article {
       insight: row.insight,
       spaceName: row.space_name,
       proverb: row.proverb,
-      interpretation: row.interpretation,
+      interpretation: interpretationLines(row.interpretation),
       humanNeed: row.human_need ?? '',
       origin: row.origin,
       practice: row.practice,
@@ -30,6 +30,7 @@ function fromRow(row: any): Article {
       },
     },
     images: { exterior: row.image_exterior, interior: row.image_interior },
+    videos: { exterior: row.video_exterior, interior: row.video_interior },
   });
 }
 
@@ -48,6 +49,8 @@ function toRow(article: Article) {
     practice: d.practice,
     image_exterior: article.images.exterior,
     image_interior: article.images.interior,
+    video_exterior: article.videos.exterior,
+    video_interior: article.videos.interior,
     exterior_prompt: d.imagePrompts.exterior,
     interior_prompt: d.imagePrompts.interior,
     tags: article.tags,
@@ -118,9 +121,12 @@ function normalize(a: Article): Article {
   return {
     ...a,
     tags: a.tags ?? [],
+    videos: { ...{ exterior: null, interior: null }, ...(a.videos ?? {}) },
+    images: { ...{ exterior: null, interior: null }, ...(a.images ?? {}) },
     dimensions: {
       ...a.dimensions,
       humanNeed: a.dimensions.humanNeed ?? '',
+      interpretation: interpretationLines(a.dimensions.interpretation),
       origin: { ...emptyOrigin, ...(a.dimensions.origin ?? {}) },
       practice: { ...emptyPractice, ...(a.dimensions.practice ?? {}) },
       imagePrompts: a.dimensions.imagePrompts ?? { exterior: '', interior: '' },

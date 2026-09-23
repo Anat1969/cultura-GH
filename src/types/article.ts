@@ -22,7 +22,7 @@ export interface GeneratedDimensions {
   insight: string;         // origin context + human need + psychology (+ uncertainty note)
   spaceName: string;       // poetic name of the space embodying the concept
   proverb: string;         // original line "in the spirit of" — never attributed to the culture
-  interpretation: string;  // bridge to Israeli / Jewish culture
+  interpretation: string[]; // four distilled readings of the bridge to Israeli / Jewish culture
   humanNeed: string;       // one value from HUMAN_NEEDS — drives comparison
   origin: Origin;
   practice: Practice;
@@ -39,10 +39,29 @@ export interface Article {
   updatedAt: string;
   tags: string[];
   dimensions: GeneratedDimensions;
+  // Each prompt gets two frames: a still and a video of that still.
   images: {
     exterior: string | null;
     interior: string | null;
   };
+  videos: {
+    exterior: string | null;
+    interior: string | null;
+  };
+}
+
+export type Frame = 'exterior' | 'interior';
+export type MediaKind = 'image' | 'video';
+
+export const frameLabels: Record<Frame, string> = {
+  exterior: 'המושג בארץ המקור',
+  interior: 'מרחב מחייה מרפא בישראל',
+};
+
+/** Older articles stored one paragraph; newer ones store four short lines. */
+export function interpretationLines(value: string[] | string | undefined): string[] {
+  if (Array.isArray(value)) return value.filter(line => line?.trim());
+  return value?.trim() ? [value.trim()] : [];
 }
 
 // Closed list so that comparison grouping stays consistent.
@@ -78,6 +97,8 @@ export const practiceLabels: Record<keyof Practice, string> = {
   when: 'מתי',
   where: 'איפה',
 };
+
+export const emptyMedia = { exterior: null, interior: null };
 
 export function buildTags(d: GeneratedDimensions): string[] {
   return Array.from(

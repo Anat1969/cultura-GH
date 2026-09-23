@@ -6,14 +6,20 @@ import { Textarea } from '@/components/ui/textarea';
 import { Badge } from '@/components/ui/badge';
 import Breadcrumbs from '@/components/Breadcrumbs';
 import { getArticleById, saveArticle } from '@/lib/storage';
-import { Article, HUMAN_NEEDS, Origin, Practice, practiceLabels } from '@/types/article';
+import {
+  Article,
+  HUMAN_NEEDS,
+  Origin,
+  Practice,
+  practiceLabels,
+  interpretationLines,
+} from '@/types/article';
 import { useToast } from '@/hooks/use-toast';
 
 const textFields = [
   { key: 'spaceName' as const, label: 'שם המרחב', single: true },
   { key: 'insight' as const, label: 'מקור, הקשר וצורך', single: false },
   { key: 'proverb' as const, label: 'ברוח המושג', single: false },
-  { key: 'interpretation' as const, label: 'גשר לתרבות המקומית', single: false },
 ];
 
 const originFields: { key: keyof Origin; label: string; ltr?: boolean }[] = [
@@ -58,6 +64,46 @@ const EditorPage: React.FC = () => {
   const updateOrigin = useCallback((key: keyof Origin, value: string) => {
     setArticle(prev =>
       prev ? { ...prev, dimensions: { ...prev.dimensions, origin: { ...prev.dimensions.origin, [key]: value } } } : prev
+    );
+  }, []);
+
+  /** The bridge is a list of short lines; each is edited on its own. */
+  const updateInterpretation = useCallback((index: number, value: string) => {
+    setArticle(prev => {
+      if (!prev) return prev;
+      const lines = [...interpretationLines(prev.dimensions.interpretation)];
+      lines[index] = value;
+      return { ...prev, dimensions: { ...prev.dimensions, interpretation: lines } };
+    });
+  }, []);
+
+  const addInterpretation = useCallback(() => {
+    setArticle(prev =>
+      prev
+        ? {
+            ...prev,
+            dimensions: {
+              ...prev.dimensions,
+              interpretation: [...interpretationLines(prev.dimensions.interpretation), ''],
+            },
+          }
+        : prev
+    );
+  }, []);
+
+  const removeInterpretation = useCallback((index: number) => {
+    setArticle(prev =>
+      prev
+        ? {
+            ...prev,
+            dimensions: {
+              ...prev.dimensions,
+              interpretation: interpretationLines(prev.dimensions.interpretation).filter(
+                (_, i) => i !== index
+              ),
+            },
+          }
+        : prev
     );
   }, []);
 
@@ -188,6 +234,26 @@ const EditorPage: React.FC = () => {
             )}
           </div>
         ))}
+
+        {/* The bridge: short distilled lines */}
+        <div>
+          <label className="text-sm font-bold text-accent mb-2 block">גשר לתרבות המקומית</label>
+          <p className="text-xs text-muted-foreground mb-2">ניסוחים קצרים, אחד בכל שורה.</p>
+          <div className="space-y-2">
+            {interpretationLines(d.interpretation).map((line, i) => (
+              <div key={i} className="flex gap-2">
+                <span className="pt-2 text-sm text-muted-foreground">{i + 1}</span>
+                <Input value={line} onChange={e => updateInterpretation(i, e.target.value)} />
+                <Button variant="ghost" size="sm" onClick={() => removeInterpretation(i)}>
+                  הסר
+                </Button>
+              </div>
+            ))}
+          </div>
+          <Button variant="outline" size="sm" className="mt-2" onClick={addInterpretation}>
+            הוסף ניסוח
+          </Button>
+        </div>
 
         {/* Practice */}
         <div>

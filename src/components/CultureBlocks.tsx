@@ -1,5 +1,5 @@
 import React from 'react';
-import { Origin, Practice, practiceLabels } from '@/types/article';
+import { Origin, Practice, practiceLabels, interpretationLines } from '@/types/article';
 
 // Fonts loaded in index.html so original scripts (Japanese, Arabic, Devanagari) render well.
 const SCRIPT_FONTS =
@@ -62,6 +62,30 @@ export const PracticeBlock: React.FC<{ practice: Practice; compact?: boolean; cl
         </React.Fragment>
       ))}
     </dl>
+  );
+};
+
+/** The bridge, as four distilled lines rather than a paragraph. */
+export const InterpretationLines: React.FC<{
+  value: string[] | string | undefined;
+  className?: string;
+  compact?: boolean;
+}> = ({ value, className = '', compact = false }) => {
+  const lines = interpretationLines(value);
+  if (lines.length === 0) return null;
+  return (
+    <ul className={`space-y-2 ${className}`}>
+      {lines.map((line, i) => (
+        <li
+          key={i}
+          className={`border-r-2 border-accent/50 pr-3 leading-relaxed text-foreground/85 ${
+            compact ? 'text-sm' : 'text-base'
+          }`}
+        >
+          {line}
+        </li>
+      ))}
+    </ul>
   );
 };
 

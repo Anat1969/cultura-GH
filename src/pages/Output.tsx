@@ -5,7 +5,8 @@ import { Button } from '@/components/ui/button';
 import { v4 as uuid } from 'uuid';
 import Breadcrumbs from '@/components/Breadcrumbs';
 import SkeletonLoader from '@/components/SkeletonLoader';
-import { OriginLine, PracticeBlock } from '@/components/CultureBlocks';
+import { OriginLine, PracticeBlock, InterpretationLines } from '@/components/CultureBlocks';
+import { CopyPrompt } from '@/components/PromptStudio';
 import { generateDimensions, generateImages, canGenerate, canGenerateImages } from '@/lib/ai';
 import { saveArticle } from '@/lib/storage';
 import { Article, GeneratedDimensions, buildTags } from '@/types/article';
@@ -15,11 +16,10 @@ const dimensionLabels = {
   spaceName: 'שם המרחב',
   insight: 'מקור, הקשר וצורך',
   proverb: 'ברוח המושג',
-  interpretation: 'גשר לתרבות המקומית',
 } as const;
 
 type TextKey = keyof typeof dimensionLabels;
-const textKeys: TextKey[] = ['spaceName', 'insight', 'proverb', 'interpretation'];
+const textKeys: TextKey[] = ['spaceName', 'insight', 'proverb'];
 
 const OutputPage: React.FC = () => {
   const location = useLocation();
@@ -88,6 +88,7 @@ const OutputPage: React.FC = () => {
       tags: buildTags(dimensions),
       dimensions,
       images: { exterior: images.exterior, interior: images.interior },
+      videos: { exterior: null, interior: null },
     };
   }, [dimensions, images, concept]);
 
@@ -193,6 +194,16 @@ const OutputPage: React.FC = () => {
               <motion.div
                 initial={{ opacity: 0, x: 30 }}
                 animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.5 }}
+                className="bg-card border border-border rounded-lg p-6"
+              >
+                <h3 className="text-sm font-bold text-accent mb-2">גשר לתרבות המקומית</h3>
+                <InterpretationLines value={dimensions.interpretation} />
+              </motion.div>
+
+              <motion.div
+                initial={{ opacity: 0, x: 30 }}
+                animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.6 }}
                 className="bg-card border border-border rounded-lg p-6"
               >
@@ -207,19 +218,26 @@ const OutputPage: React.FC = () => {
                 className="bg-card border border-border rounded-lg p-6"
               >
                 <h3 className="text-sm font-bold text-accent mb-2">פרומפטים לתמונות</h3>
+                <p className="text-xs text-muted-foreground mb-3">
+                  שמרי את המאמר כדי להעלות תמונות וסרטונים למסגרות שלו.
+                </p>
                 <div className="space-y-3">
-                  <div>
-                    <span className="text-xs text-muted-foreground">המושג בארץ המקור:</span>
-                    <p className="text-sm font-mono bg-muted rounded p-2 mt-1 select-all" dir="ltr">
-                      {dimensions.imagePrompts.exterior}
-                    </p>
-                  </div>
-                  <div>
-                    <span className="text-xs text-muted-foreground">מרחב מחייה מרפא בישראל:</span>
-                    <p className="text-sm font-mono bg-muted rounded p-2 mt-1 select-all" dir="ltr">
-                      {dimensions.imagePrompts.interior}
-                    </p>
-                  </div>
+                  {(
+                    [
+                      ['exterior', 'המושג בארץ המקור'],
+                      ['interior', 'מרחב מחייה מרפא בישראל'],
+                    ] as const
+                  ).map(([key, label]) => (
+                    <div key={key}>
+                      <div className="flex items-center justify-between gap-2">
+                        <span className="text-xs text-muted-foreground">{label}:</span>
+                        <CopyPrompt text={dimensions.imagePrompts[key]} label="העתק" />
+                      </div>
+                      <p className="text-sm font-mono bg-muted rounded p-2 mt-1 select-all" dir="ltr">
+                        {dimensions.imagePrompts[key]}
+                      </p>
+                    </div>
+                  ))}
                 </div>
               </motion.div>
             </>

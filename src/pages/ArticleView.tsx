@@ -5,15 +5,15 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import Breadcrumbs from '@/components/Breadcrumbs';
 import PublishButton from '@/components/PublishButton';
-import { OriginLine, PracticeBlock } from '@/components/CultureBlocks';
-import { getArticleById } from '@/lib/storage';
+import { OriginLine, PracticeBlock, InterpretationLines } from '@/components/CultureBlocks';
+import PromptStudio from '@/components/PromptStudio';
+import { getArticleById, saveArticle } from '@/lib/storage';
 import { Article } from '@/types/article';
 import { useToast } from '@/hooks/use-toast';
 
 const dimensionConfig = [
   { key: 'insight' as const, label: 'מקור, הקשר וצורך' },
   { key: 'proverb' as const, label: 'ברוח המושג' },
-  { key: 'interpretation' as const, label: 'גשר לתרבות המקומית' },
 ];
 
 const ArticleViewPage: React.FC = () => {
@@ -21,7 +21,6 @@ const ArticleViewPage: React.FC = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
   const [article, setArticle] = useState<Article | null>(null);
-  const [copiedPrompt, setCopiedPrompt] = useState<string | null>(null);
 
   useEffect(() => {
     if (!id) return;
@@ -32,13 +31,6 @@ const ArticleViewPage: React.FC = () => {
     }
     setArticle(a);
   }, [id, navigate]);
-
-  const copyPrompt = (text: string, label: string) => {
-    navigator.clipboard.writeText(text);
-    setCopiedPrompt(label);
-    setTimeout(() => setCopiedPrompt(null), 2000);
-    toast({ title: 'הפרומפט הועתק' });
-  };
 
   if (!article) return null;
   const d = article.dimensions;
@@ -93,6 +85,11 @@ const ArticleViewPage: React.FC = () => {
             </motion.section>
           ))}
 
+          <motion.section initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.25 }}>
+            <h2 className="text-lg font-heading font-bold text-accent mb-3">גשר לתרבות המקומית</h2>
+            <InterpretationLines value={d.interpretation} />
+          </motion.section>
+
           <motion.section initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}>
             <h2 className="text-lg font-heading font-bold text-accent mb-3">ליישום</h2>
             <PracticeBlock practice={d.practice} />
@@ -117,25 +114,21 @@ const ArticleViewPage: React.FC = () => {
         )}
 
         <div className="space-y-4 mb-12">
-          <h2 className="text-lg font-heading font-bold text-accent">פרומפטים</h2>
-          {[
-            { label: 'המושג בארץ המקור', text: d.imagePrompts.exterior },
-            { label: 'מרחב מחייה מרפא בישראל', text: d.imagePrompts.interior },
-          ].map(({ label, text }) => (
-            <div key={label} className="bg-muted rounded-lg p-4 relative group">
-              <span className="text-xs text-muted-foreground">{label}:</span>
-              <p className="font-mono text-sm mt-1" dir="ltr">
-                {text}
-              </p>
-              <Button
-                size="sm"
-                variant="ghost"
-                className="absolute top-2 left-2 opacity-0 group-hover:opacity-100 transition-opacity"
-                onClick={() => copyPrompt(text, label)}
-              >
-                {copiedPrompt === label ? 'הועתק' : 'העתק'}
-              </Button>
-            </div>
+          <h2 className="text-lg font-heading font-bold text-accent">פרומפטים ומסגרות</h2>
+          <p className="text-sm text-muted-foreground leading-relaxed">
+            העתיקי פרומפט, צרי איתו תמונה או סרטון היכן שתרצי, והעלי אותם למסגרות. מה שמועלה נשמר
+            לצמיתות ולא תלוי בקישור שפג.
+          </p>
+          {(['exterior', 'interior'] as const).map(frame => (
+            <PromptStudio
+              key={frame}
+              article={article}
+              frame={frame}
+              onChange={next => {
+                setArticle(next);
+                saveArticle(next);
+              }}
+            />
           ))}
         </div>
 

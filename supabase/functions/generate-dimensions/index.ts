@@ -16,7 +16,13 @@ const corsHeaders = {
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type, x-app-passcode',
 };
 
-const MODEL = 'claude-opus-5';
+// Sonnet 5 keeps the wait short and costs less than the Opus tier, which is the
+// tradeoff asked for: fast to read, still careful. Override with the
+// CLAUDE_MODEL secret - no code change needed.
+const MODEL = Deno.env.get('CLAUDE_MODEL')?.trim() || 'claude-sonnet-5';
+
+// How many distilled readings of the bridge the article carries.
+const INTERPRETATION_COUNT = 4;
 
 const CANONICAL = 'ANTHROPIC_API_KEY';
 
@@ -39,7 +45,7 @@ function readKey(): { key?: string; via?: string; seen: string[] } {
   }
 
   const candidates = names.filter(
-    (n) => /anthropic|claude/i.test(n) && !/^SUPABASE_/i.test(n) && !/passcode/i.test(n),
+    (n) => /anthropic|claude/i.test(n) && !/^SUPABASE_/i.test(n) && !/passcode|model/i.test(n),
   );
   for (const name of candidates) {
     const value = Deno.env.get(name);
@@ -70,12 +76,12 @@ Field guidance:
 - origin.script: the word in its original script (間, Φιλοξενία, كرم). Latin letters if the language uses Latin script.
 - origin.transliteration: Latin transliteration (Ma, Philoxenia, Karam).
 - origin.literal: literal meaning in Hebrew, 2-6 words.
-- origin.culture: culture or language name in Hebrew, short (יפן, דנמרק, יוון, ערבית, עברית).
+- origin.culture: culture or language name in Hebrew, short (יפן, דנמרק, יוון, ערבית, עברית). At most four words — name the culture, not a list of languages.
 - origin.region_en: country or region in English, specific enough to search (Japan; Denmark; Andalusia, Spain).
 - insight: 3-5 sentences — where and when the concept arose, how it is used in the source culture (rituals, customs, architecture), what human need it answers, what it soothes and what it promotes. If the etymology or origin is disputed or uncertain, say so explicitly in one sentence.
 - spaceName: a poetic Hebrew name for a space embodying the concept.
 - proverb: ONE original line in Hebrew written in the spirit of the concept. Never present it as a real proverb of that culture.
-- interpretation: 2-3 sentences — the natural bridge to Israeli or Jewish culture: a similar or complementary local concept, and what is unique in the foreign one.
+- interpretation: EXACTLY ${INTERPRETATION_COUNT} short lines in Hebrew, each a distilled reading of the bridge to Israeli or Jewish culture. Each line stands on its own, at most about twelve words, no numbering and no trailing full stop. Give ${INTERPRETATION_COUNT} genuinely different angles — a parallel local concept, what the foreign one adds that the local one lacks, where the two pull apart, and what it asks of a person here — not four rewordings of one sentence.
 - practice.why/how/when/where: one sentence each — the need it serves; a concrete daily practice; situations where it helps most; how to express it in physical space (material, light, texture, threshold).
 - imagePrompts.exterior: detailed English prompt for the concept embodied in a real place in its region of origin (name the region). End with: '${IMAGE_STYLE}'
 - imagePrompts.interior: detailed English prompt for a healing living space in Israel (name a landscape — Judean foothills, Galilee, Negev, Mediterranean coast) that translates the concept into material, light, texture and tension without imitating the source culture. End with: '${IMAGE_STYLE}'
@@ -93,7 +99,7 @@ const DimensionsSchema = z.object({
   insight: z.string(),
   spaceName: z.string(),
   proverb: z.string(),
-  interpretation: z.string(),
+  interpretation: z.array(z.string()),
   humanNeed: z.enum([...HUMAN_NEEDS] as [string, ...string[]]),
   practice: z.object({
     why: z.string(),
@@ -152,12 +158,13 @@ Deno.serve(async (req) => {
       max_tokens: 16000,
       system: systemPrompt,
       thinking: { type: 'adaptive' as const },
-      output_config: { format: zodOutputFormat(DimensionsSchema) },
+      // Medium keeps the wait to a reading pause without flattening the writing.
+      output_config: { effort: 'medium' as const, format: zodOutputFormat(DimensionsSchema) },
       messages: [{ role: 'user' as const, content: userLine }],
     };
 
     let stopReason: string | null;
-    let parsed: unknown;
+    let parsed: Record<string, unknown> | null;
 
     try {
       // A policy decline would leave the user with nothing, so let the API
@@ -168,14 +175,14 @@ Deno.serve(async (req) => {
         fallbacks: 'default',
       });
       stopReason = response.stop_reason;
-      parsed = response.parsed_output;
+      parsed = response.parsed_output as Record<string, unknown> | null;
     } catch (error) {
       // If this account or endpoint will not take the fallback beta, generating
       // at all matters more than the extra resilience.
       if (!(error instanceof Anthropic.BadRequestError)) throw error;
       const response = await client.messages.parse(base);
       stopReason = response.stop_reason;
-      parsed = response.parsed_output;
+      parsed = response.parsed_output as Record<string, unknown> | null;
     }
 
     if (stopReason === 'refusal') {
@@ -184,6 +191,19 @@ Deno.serve(async (req) => {
     if (!parsed) {
       return json({ error: 'התשובה חזרה בפורמט לא צפוי. נסה שוב.' }, 502);
     }
+
+    // The schema cannot pin the count, so hold the contract here: drop extras,
+    // and never hand the UI an empty list.
+    const lines = Array.isArray(parsed.interpretation)
+      ? (parsed.interpretation as unknown[])
+          .map((line) => String(line).trim())
+          .filter(Boolean)
+          .slice(0, INTERPRETATION_COUNT)
+      : [];
+    if (lines.length === 0) {
+      return json({ error: 'המודל לא החזיר פרשנות. נסה שוב.' }, 502);
+    }
+    parsed.interpretation = lines;
 
     return json(parsed);
   } catch (error) {

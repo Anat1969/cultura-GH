@@ -2,7 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Article } from '@/types/article';
 import { Badge } from '@/components/ui/badge';
-import { OriginLine, PracticeBlock, ProverbLabel } from '@/components/CultureBlocks';
+import { OriginLine, PracticeBlock, ProverbLabel, InterpretationLines } from '@/components/CultureBlocks';
 
 interface MagazinePageProps {
   article: Article;
@@ -82,9 +82,7 @@ const MagazinePage: React.FC<MagazinePageProps> = ({ article, layoutVariant }) =
           </motion.div>
 
           <motion.div {...fadeIn(0.5)}>
-            <p className="text-base leading-relaxed text-muted-foreground italic border-r-2 border-accent pr-4 mb-6">
-              {dimensions.interpretation}
-            </p>
+            <InterpretationLines value={dimensions.interpretation} compact className="mb-6" />
             <PracticeBlock practice={dimensions.practice} compact />
           </motion.div>
         </div>
@@ -129,7 +127,7 @@ const MagazinePage: React.FC<MagazinePageProps> = ({ article, layoutVariant }) =
               <motion.div {...fadeIn(0.5)}>
                 <ProverbLabel />
                 <blockquote className="text-2xl font-heading text-accent/90 leading-snug mb-4">❝{dimensions.proverb}❞</blockquote>
-                <p className="text-sm text-muted-foreground leading-relaxed">{dimensions.interpretation}</p>
+                <InterpretationLines value={dimensions.interpretation} compact />
               </motion.div>
             </div>
 
@@ -189,9 +187,9 @@ const MagazinePage: React.FC<MagazinePageProps> = ({ article, layoutVariant }) =
               <blockquote className="text-2xl font-heading text-accent/80 leading-snug italic">❝{dimensions.proverb}❞</blockquote>
             </motion.div>
 
-            <motion.p className="text-sm text-muted-foreground mt-4 mb-8 max-w-md mx-auto leading-relaxed" {...fadeIn(0.6)}>
-              {dimensions.interpretation}
-            </motion.p>
+            <motion.div className="mt-4 mb-8 max-w-md mx-auto text-right" {...fadeIn(0.6)}>
+              <InterpretationLines value={dimensions.interpretation} compact />
+            </motion.div>
 
             <motion.div className="text-right max-w-xl mx-auto" {...fadeIn(0.7)}>
               <PracticeBlock practice={dimensions.practice} compact />
@@ -222,7 +220,7 @@ const MagazinePage: React.FC<MagazinePageProps> = ({ article, layoutVariant }) =
           <div className="w-16 h-[2px] bg-accent mb-8" />
           <div className="columns-1 lg:columns-2 gap-12">
             <p className="text-lg leading-[2] text-foreground/85 font-body mb-6">{dimensions.insight}</p>
-            <p className="text-base leading-relaxed text-muted-foreground">{dimensions.interpretation}</p>
+            <InterpretationLines value={dimensions.interpretation} compact />
           </div>
         </motion.div>
 
