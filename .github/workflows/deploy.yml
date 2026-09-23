@@ -19,7 +19,12 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+      # Take the branch head, not the SHA that triggered the run: when the
+      # publish workflow calls this after committing an article, the triggering
+      # event predates that commit and would deploy the tree without it.
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.repository.default_branch }}
 
       - uses: actions/setup-node@v4
         with:
