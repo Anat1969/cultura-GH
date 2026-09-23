@@ -15,7 +15,70 @@
     <meta property="og:type" content="website" />
   </head>
   <body>
-    <div id="root"></div>
+    <div id="root">
+      <!-- Replaced the moment React mounts. If it is still here, the app never
+           booted - usually a cached index.html pointing at a bundle a later
+           deploy removed. Better a message than a black screen. -->
+      <div id="boot-fallback" style="min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;padding:24px;text-align:center;font-family:Assistant,system-ui,sans-serif;color:#e8dcc8;background:#171412">
+        <div style="font-family:'Playfair Display',serif;font-size:28px;font-weight:700;color:#d8be97">CultureArch</div>
+        <div id="boot-msg" style="font-size:15px;opacity:.75">טוען…</div>
+        <button id="boot-reload" type="button" style="display:none;padding:10px 24px;border-radius:8px;border:1px solid #4a423b;background:#d8be97;color:#171412;font:inherit;font-weight:700;cursor:pointer">רענן את הדף</button>
+        <div id="boot-detail" style="font-size:12px;opacity:.5;max-width:34rem;line-height:1.7;direction:ltr"></div>
+      </div>
+    </div>
+
+    <noscript>
+      <div style="padding:24px;text-align:center;color:#e8dcc8;font-family:system-ui,sans-serif">
+        האפליקציה דורשת JavaScript פעיל בדפדפן.
+      </div>
+    </noscript>
+
+    <script>
+      (function () {
+        var RETRY_KEY = 'culturearch_boot_retry';
+
+        function say(message, detail, showReload) {
+          var m = document.getElementById('boot-msg');
+          var d = document.getElementById('boot-detail');
+          var b = document.getElementById('boot-reload');
+          if (m) m.textContent = message;
+          if (d && detail) d.textContent = detail;
+          if (b && showReload) b.style.display = 'inline-block';
+        }
+
+        var reload = document.getElementById('boot-reload');
+        if (reload) {
+          reload.addEventListener('click', function () {
+            try { sessionStorage.removeItem(RETRY_KEY); } catch (e) {}
+            location.replace(location.pathname + '?r=' + Date.now() + location.hash);
+          });
+        }
+
+        // A bundle that 404s means this page came from cache and the deploy it
+        // referred to is gone. Re-fetch index.html once, bypassing that cache.
+        window.addEventListener('error', function (event) {
+          var el = event.target;
+          if (!el || (el.tagName !== 'SCRIPT' && el.tagName !== 'LINK')) return;
+
+          var already = false;
+          try { already = !!sessionStorage.getItem(RETRY_KEY); } catch (e) {}
+          if (already) {
+            say('האפליקציה לא נטענה.', 'Missing: ' + (el.src || el.href || ''), true);
+            return;
+          }
+          try { sessionStorage.setItem(RETRY_KEY, '1'); } catch (e) {}
+          location.replace(location.pathname + '?r=' + Date.now() + location.hash);
+        }, true);
+
+        // Nothing 404s but nothing mounts either: say so instead of sitting dark.
+        setTimeout(function () {
+          if (document.getElementById('boot-fallback')) {
+            say('האפליקציה לא עלתה.', 'Try reloading. If it persists, clear this site’s cached data.', true);
+          }
+        }, 10000);
+      })();
+    </script>
+
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

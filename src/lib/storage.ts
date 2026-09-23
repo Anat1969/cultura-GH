@@ -10,6 +10,19 @@ const TABLE = 'culture_articles';
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const db = () => (supabase as any).from(TABLE);
 
+/**
+ * localStorage throws outright when site data is blocked (private windows,
+ * strict browser settings), and an unguarded write takes the whole app down
+ * with it. Losing persistence is survivable; a blank screen is not.
+ */
+function writeArticles(key: string, value: string): void {
+  try {
+    localStorage.setItem(key, value);
+  } catch (error) {
+    console.warn('Local storage is unavailable; changes stay in memory only.', error);
+  }
+}
+
 export type GroupMode = 'need' | 'culture';
 
 /** Fill missing fields so older or partial records never crash the UI. */
@@ -73,7 +86,7 @@ export async function syncArticlesFromSupabase(): Promise<Article[]> {
         })
       );
 
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(articles));
+      writeArticles(STORAGE_KEY, JSON.stringify(articles));
       return articles;
     }
     return [];
@@ -92,7 +105,7 @@ export function saveArticle(article: Article): void {
   } else {
     articles.unshift(toSave);
   }
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(articles));
+  writeArticles(STORAGE_KEY, JSON.stringify(articles));
 
   syncArticleToSupabase(toSave);
 }
@@ -128,7 +141,7 @@ async function syncArticleToSupabase(article: Article): Promise<void> {
 
 export function deleteArticle(id: string): void {
   const articles = getArticles().filter(a => a.id !== id);
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(articles));
+  writeArticles(STORAGE_KEY, JSON.stringify(articles));
 
   db()
     .delete()
@@ -166,9 +179,13 @@ export function getArticlesByGroup(mode: GroupMode, key: string): Article[] {
 }
 
 export function getTheme(): 'dark' | 'light' {
-  return (localStorage.getItem(THEME_KEY) as 'dark' | 'light') || 'dark';
+  try {
+    return (localStorage.getItem(THEME_KEY) as 'dark' | 'light') || 'dark';
+  } catch {
+    return 'dark';
+  }
 }
 
 export function setTheme(theme: 'dark' | 'light'): void {
-  localStorage.setItem(THEME_KEY, theme);
+  writeArticles(THEME_KEY, theme);
 }
