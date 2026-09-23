@@ -97,3 +97,15 @@
     overflow: hidden;
   }
 }
+
+/* Escape hatch for environments where requestAnimationFrame never fires, so
+   framer-motion's entry animations never run. Without this the app renders
+   fully but stays at opacity 0 - a black screen. See lib/motionFallback.ts. */
+html.motion-fallback #root [style*="opacity"] {
+  opacity: 1 !important;
+  transform: none !important;
+}
+
+html.motion-fallback #root [style*="height: 0"] {
+  height: auto !important;
+}

@@ -30,7 +30,25 @@ npm run dev
 
 האפליקציה עולה ב-http://localhost:5173. בלי מפתחות Supabase היא עובדת במצב הדגמה: הספרייה המקומית (localStorage) פעילה, ויצירת מושגים חדשים מושבתת עם הודעה מתאימה.
 
-## חיבור ל-Supabase
+## הפעלה מיידית: מפתח Claude
+
+הדרך המהירה, ובלי להקים שום שרת. באפליקציה עצמה:
+
+1. נכנסים ל**הגדרות** בתפריט העליון.
+2. פותחים את [דף המפתחות במסוף של Anthropic](https://console.anthropic.com/settings/keys), יוצרים מפתח ומעתיקים אותו.
+3. מדביקים בשדה "מפתח Claude" ושומרים.
+
+מרגע זה יצירת המושגים עובדת. המפתח נשמר ב-localStorage של אותו דפדפן ונשלח רק ל-Anthropic — הוא לא נשמר באתר, לא נכנס לבנייה ולא עובר ב-GitHub.
+
+התוכן נוצר במודל `claude-opus-5` עם חשיבה אדפטיבית, ובפלט מובנה (structured outputs) לפי סכימת `GeneratedDimensions` — כך שהשדות תמיד חוזרים בפורמט הנכון ו-`humanNeed` תמיד ערך מתוך הרשימה הסגורה.
+
+**תמונות (רשות):** Claude כותב את הפרומפטים אך אינו מייצר תמונות. מפתח מ-[fal.ai](https://fal.ai/dashboard/keys) בשדה השני מפעיל את שתי התמונות לכל מאמר. בלעדיו המאמרים נוצרים בלי תמונות והפרומפטים נשמרים להעתקה.
+
+**כדאי לדעת:** המפתח נגיש לכל מי שמשתמש באותו דפדפן, והשימוש מחויב בחשבון שלך — כדאי להגדיר תקרת הוצאה במסוף.
+
+## חיבור ל-Supabase (אופציונלי)
+
+נחוץ רק אם רוצים ספרייה משותפת בין מכשירים, או שהמפתחות יישבו בשרת במקום בדפדפן. כשיש מפתח Claude שמור, הוא מקבל עדיפות.
 
 1. יוצרים פרויקט ב-Supabase ומריצים את `supabase/migrations/20260923_create_culture_articles_table.sql`.
 2. מעלים את שתי פונקציות ה-Edge שבתיקייה `supabase/functions`.
@@ -48,12 +66,9 @@ VITE_SUPABASE_ANON_KEY=your-anon-key
 
 הפרויקט מתפרסם אוטומטית ל-GitHub Pages בכל דחיפה ל-`main`, דרך `.github/workflows/deploy.yml`.
 
-כדי שהאתר החי יתחבר ל-Supabase, מגדירים בהגדרות הריפו:
+האתר החי עובד כמו שהוא: מדביקים מפתח Claude במסך ההגדרות והכול פועל. אין צורך בשום סוד ב-GitHub, ואין מפתחות בתוך הבנייה.
 
-- Variables ← `VITE_SUPABASE_URL`
-- Secrets ← `VITE_SUPABASE_ANON_KEY`
-
-בלעדיהם הבנייה מצליחה והאתר עולה במצב הדגמה.
+רק אם רוצים גם חיבור ל-Supabase, מגדירים בהגדרות הריפו Variables ← `VITE_SUPABASE_URL` ו-Secrets ← `VITE_SUPABASE_ANON_KEY`.
 
 הניתוב הוא `HashRouter` (כתובות בסגנון `#/library`), כדי שרענון של עמוד פנימי יעבוד ב-GitHub Pages בלי הגדרות שרת.
 
@@ -66,14 +81,17 @@ src/index.css                 טוקנים של צבע, כהה ובהיר
 src/types/article.ts          מודל התוכן + HUMAN_NEEDS
 src/data/cultures.ts          10 קבוצות תרבות + 3 שאלות השוואה
 src/lib/storage.ts            טבלה culture_articles, קיבוץ לפי צורך/תרבות
-src/lib/ai.ts                 מעביר hint למודל
+src/lib/ai.ts                 מנתב בין Claude לבין פונקציות ה-Edge
+src/lib/claude.ts             קריאה ישירה ל-Claude, סכימה ופלט מובנה
+src/lib/settings.ts           שמירת מפתחות בדפדפן
+src/lib/motionFallback.ts     חשיפת התוכן כשאנימציות לא רצות
 src/integrations/supabase/    לקוח Supabase, כולל מצב הדגמה בלי מפתחות
 src/contexts/ThemeContext.tsx מצב כהה/בהיר
 src/components/CultureBlocks.tsx   OriginLine, PracticeBlock (רכיב משותף)
 src/components/MagazinePage.tsx    4 פריסות + מקור + יישום
 src/components/Header.tsx, Breadcrumbs.tsx, SkeletonLoader.tsx
 src/components/ui/            כפתור, קלט, כרטיס, תגית, הודעות
-src/pages/                    Home, Output, ArticleView, Editor, Library, ConceptBrowser
+src/pages/                    Home, Output, ArticleView, Editor, Library, ConceptBrowser, Settings
 supabase/functions/generate-dimensions/index.ts   פרומפט מערכת + ולידציה
 supabase/functions/generate-images/index.ts       מסגרת 16:9
 supabase/migrations/20260923_create_culture_articles_table.sql

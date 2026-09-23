@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { HashRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom';
+import { HashRouter, Routes, Route, Navigate, useLocation, Link } from 'react-router-dom';
 import { ThemeProvider } from '@/contexts/ThemeContext';
 import Header from '@/components/Header';
 import Toaster from '@/components/ui/toaster';
 import { isSupabaseConfigured } from '@/integrations/supabase/client';
+import { canGenerate } from '@/lib/ai';
 import { syncArticlesFromSupabase } from '@/lib/storage';
 
 import HomePage from '@/pages/Home';
@@ -12,6 +13,7 @@ import ArticleViewPage from '@/pages/ArticleView';
 import LibraryPage from '@/pages/Library';
 import ConceptBrowser from '@/pages/ConceptBrowser';
 import EditorPage from '@/pages/Editor';
+import SettingsPage from '@/pages/Settings';
 
 const ScrollToTop: React.FC = () => {
   const { pathname } = useLocation();
@@ -21,13 +23,18 @@ const ScrollToTop: React.FC = () => {
   return null;
 };
 
-/** Shown once when the app runs without backend keys: the library still works. */
-const OfflineNotice: React.FC = () => {
+/** Shown while nothing can generate yet, pointing at the one screen that fixes it. */
+const SetupNotice: React.FC = () => {
   const [dismissed, setDismissed] = useState(false);
-  if (isSupabaseConfigured || dismissed) return null;
+  const { pathname } = useLocation();
+  if (canGenerate() || dismissed || pathname === '/settings') return null;
   return (
     <div className="border-b border-accent/30 bg-accent/10 px-4 py-2 text-center text-xs text-foreground/80">
-      מצב הדגמה: יצירת מושגים חדשים דורשת חיבור ל-Supabase. הספרייה המקומית פעילה.
+      כדי ליצור מושגים חדשים צריך מפתח Claude.{' '}
+      <Link to="/settings" className="underline hover:text-accent">
+        פתח הגדרות והדבק מפתח
+      </Link>
+      . הספרייה המקומית פעילה גם בלעדיו.
       <button onClick={() => setDismissed(true)} className="mr-3 underline hover:text-accent">
         סגור
       </button>
@@ -48,7 +55,7 @@ const App: React.FC = () => {
     <ThemeProvider>
       <HashRouter>
         <ScrollToTop />
-        <OfflineNotice />
+        <SetupNotice />
         <Header />
         <main key={String(ready)}>
           <Routes>
@@ -59,6 +66,7 @@ const App: React.FC = () => {
             <Route path="/concepts" element={<ConceptBrowser />} />
             <Route path="/concept/:concept" element={<ConceptBrowser />} />
             <Route path="/edit/:id" element={<EditorPage />} />
+            <Route path="/settings" element={<SettingsPage />} />
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </main>
