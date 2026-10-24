@@ -20,14 +20,15 @@ const Header: React.FC = () => {
   return (
     <header className="sticky top-0 z-50 border-b border-border/50 bg-background/40 backdrop-blur-md">
       <div className="container flex items-center justify-between h-16 px-4">
-        <Link to="/" className="flex items-center gap-3">
+        <Link to="/" className="flex shrink-0 items-center gap-3">
           <motion.span className="text-2xl font-heading font-bold text-primary" whileHover={{ scale: 1.05 }}>
             CultureArch
           </motion.span>
           <span className="text-sm text-muted-foreground hidden sm:inline">מרחבי תרבות</span>
         </Link>
 
-        <nav className="flex items-center gap-2">
+        <div className="flex min-w-0 items-center gap-2">
+        <nav className="flex min-w-0 items-center gap-2 overflow-x-auto">
           {links.map(l => (
             <Button key={l.to} variant={isActive(l.to) ? 'default' : 'ghost'} size="sm" asChild>
               <Link to={l.to}>{l.label}</Link>
@@ -37,6 +38,8 @@ const Header: React.FC = () => {
             {theme === 'dark' ? 'בהיר' : 'כהה'}
           </Button>
         </nav>
+        <ai-menu />
+        </div>
       </div>
     </header>
   );
