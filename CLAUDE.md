@@ -5,3 +5,6 @@ The top bar holds only the app name (links home), content navigation, and ONE lo
 
 ## AI generation runs on free Gemini, not Claude
 Anat's decision (2026-10-29): text generation uses only the free Gemini key (GEMINI_API_KEY, shared in the Supabase project). No Anthropic SDK, no Claude key, no key field in the UI. The user is never asked to paste a key to get an article.
+
+## Speed and images are part of "it works" (2026-10-29)
+An article that takes over 20 seconds, or arrives with empty image frames, counts as broken for Anat. Text runs on gemini-2.5-flash with thinking off (4-5s). With no FAL_API_KEY, images come from free keyless Pollinations URLs. Before reporting a fix, run a real end-to-end on the live site and time it.
