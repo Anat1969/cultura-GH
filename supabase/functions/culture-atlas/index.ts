@@ -121,15 +121,22 @@ ${VISUAL}`,
   },
 
   suggest: {
+    // The first run, without these rules, produced invented words, a curse and a
+    // slur. The rules and the confidence field are what filter them now.
     system: `${BASE}
 
 Task: suggest cultural expressions that are distinctive of ONE culture and are not yet in the library.
-- items: exactly 6. Each must be a real, documented word or practice of that culture - a well-known one, never invented. Prefer expressions with a spatial or everyday-life dimension. Spread them across different human needs.
-  concept - the name in Hebrew letters, as a Hebrew reader would search it (e.g. אומוטנאשי, פיקה).
-  transliteration - Latin transliteration. script - the original script.
+Accuracy matters more than count. A wrong or invented word is far worse than a short list.
+- items: up to 8. Only expressions that a well-read person could find in an English-language encyclopedia, dictionary or a widely read book about the culture. If fewer than 8 qualify, return fewer.
+  Never suggest: slurs or words for outsiders, curses, bodily functions, political or military slogans, personal names, day names, place names or neighbourhoods, brand names, or plain dictionary words with no cultural weight (such as "hardworking" or "dinner").
+  Prefer expressions with a spatial or everyday-life dimension, spread across different human needs.
+  concept - the name in Hebrew letters, spelled the way it is commonly written in Hebrew (e.g. אומוטנאשי, פיקה, דוגנד, מיאנזי). Spell the whole word, not a fragment of it.
+  transliteration - the accepted Latin spelling, with diacritics. script - the original script.
+  english - how it is usually referred to in English sources (e.g. "Allemansrätten (freedom to roam)").
   literal - literal meaning in Hebrew, 2-4 words.
   need - copy EXACTLY one value from: ${HUMAN_NEEDS.join(' | ')}.
   why - one Hebrew sentence: what makes it distinctive of this culture.
+  confidence - high: well documented and you are sure of meaning and spelling; medium: real but you are unsure of a detail; low: you are not sure it exists as a cultural concept.
 Do not repeat or rephrase any concept already in the library list.`,
     schema: {
       type: 'OBJECT',
@@ -139,8 +146,17 @@ Do not repeat or rephrase any concept already in the library list.`,
           type: 'ARRAY',
           items: {
             type: 'OBJECT',
-            required: ['concept', 'transliteration', 'script', 'literal', 'need', 'why'],
-            properties: { concept: S, transliteration: S, script: S, literal: S, need: S, why: S },
+            required: ['concept', 'transliteration', 'script', 'english', 'literal', 'need', 'why', 'confidence'],
+            properties: {
+              concept: S,
+              transliteration: S,
+              script: S,
+              english: S,
+              literal: S,
+              need: S,
+              why: S,
+              confidence: { type: 'STRING', enum: ['high', 'medium', 'low'] },
+            },
           },
         },
       },
@@ -189,6 +205,7 @@ async function run(key: string, system: string, schema: unknown, user: string): 
       return await geminiOnce(key, model, system, schema, user);
     } catch (error) {
       last = error;
+      console.error('culture-atlas', model, error instanceof Error ? error.message : error);
       const status = (error as { status?: number }).status;
       if (status === 400 || status === 401 || status === 403) break;
     }
@@ -198,6 +215,63 @@ async function run(key: string, system: string, schema: unknown, user: string): 
   if (status === 429) return { error: 'המכסה החינמית של Gemini התמלאה לרגע. המתיני דקה ונסי שוב.' };
   if (last instanceof SyntaxError) return { error: 'התשובה חזרה בפורמט לא צפוי. נסי שוב.' };
   return { error: 'Gemini עמוס כרגע. נסי שוב בעוד רגע.' };
+}
+
+// ---------- Verification against Wikipedia ----------
+// The model's own confidence proved worthless: it rated invented words "high".
+// So every suggestion is checked against English Wikipedia, an outside source.
+// title   - a page under this exact name, or one that redirects from it: verified.
+// mention - the word appears in some article: shown with that article, to judge.
+// none    - nowhere.
+// Tested on the first run's output: every real concept came back "title", and
+// every invented word, curse and slur came back "mention" or "none".
+
+const WIKI_HEADERS = { 'User-Agent': 'CultureArch/1.0 (https://anat1969.github.io/cultura-GH/)' };
+const norm = (v: string) => v.normalize('NFD').replace(/\p{M}/gu, '').toLowerCase().replace(/[^\p{L}]/gu, '');
+const words = (v: string) => v.replace(/<[^>]+>/g, ' ').split(/[^\p{L}\p{M}'-]+/u).map(norm).filter(Boolean);
+const wikiUrl = (title: string) => `https://en.wikipedia.org/wiki/${encodeURIComponent(title.replace(/ /g, '_'))}`;
+
+async function wiki(params: Record<string, string>) {
+  const url = `https://en.wikipedia.org/w/api.php?${new URLSearchParams({ format: 'json', origin: '*', ...params })}`;
+  const response = await fetch(url, { headers: WIKI_HEADERS, signal: AbortSignal.timeout(6000) });
+  return response.ok ? await response.json() : null;
+}
+
+async function verify(item: Record<string, unknown>) {
+  const term = String(item.transliteration ?? '').trim();
+  const key = norm(term);
+  if (!key) return { ...item, verified: 'none' };
+  try {
+    const direct = await wiki({
+      action: 'query',
+      titles: term,
+      redirects: '1',
+      prop: 'pageprops|langlinks',
+      ppprop: 'disambiguation',
+      lllang: 'he',
+    });
+    const page = Object.values(direct?.query?.pages ?? {})[0] as
+      | { title: string; missing?: string; pageprops?: unknown; langlinks?: { '*': string }[] }
+      | undefined;
+    if (page && !('missing' in page) && !page.pageprops) {
+      return {
+        ...item,
+        verified: 'title',
+        source: wikiUrl(page.title),
+        sourceTitle: page.title,
+        hebrewTitle: page.langlinks?.[0]?.['*'] ?? '',
+      };
+    }
+    const found = await wiki({ action: 'query', list: 'search', srsearch: `"${term}"`, srlimit: '5' });
+    const hit = ((found?.query?.search ?? []) as { title: string; snippet: string }[]).find((h) =>
+      words(`${h.title} ${h.snippet}`).includes(key),
+    );
+    return hit
+      ? { ...item, verified: 'mention', source: wikiUrl(hit.title), sourceTitle: hit.title }
+      : { ...item, verified: 'none' };
+  } catch {
+    return { ...item, verified: 'none' };
+  }
 }
 
 const json = (body: unknown, status = 200) =>
@@ -228,6 +302,10 @@ Deno.serve(async (req) => {
         let result: unknown;
         try {
           result = await run(key, mode.system, mode.schema, user);
+          const items = (result as { items?: Record<string, unknown>[] }).items;
+          if (body.mode === 'suggest' && Array.isArray(items)) {
+            result = { items: await Promise.all(items.map(verify)) };
+          }
         } catch (error) {
           result = { error: error instanceof Error ? error.message : String(error) };
         }
