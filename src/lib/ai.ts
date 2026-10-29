@@ -1,6 +1,8 @@
 import { GeneratedDimensions } from '@/types/article';
 import { supabase } from '@/integrations/supabase/client';
 import { hasImageKey, getPasscode } from '@/lib/settings';
+import { uploadMedia } from '@/lib/media';
+import { Frame } from '@/types/article';
 
 // The fal.ai fallback is only needed when a personal image key is kept in this
 // browser, so it is pulled in on demand.
@@ -65,8 +67,7 @@ export async function generateDimensions(
 }
 
 /**
- * Free, keyless renderer. The URL itself is the image: the first request draws
- * it, later ones are served from cache. A fixed seed per prompt keeps it stable.
+ * Free, keyless renderer. A fixed seed per prompt keeps the picture stable.
  */
 function pollinationsUrl(prompt: string): string {
   let seed = 0;
@@ -80,19 +81,48 @@ function pollinationsUrl(prompt: string): string {
   return `https://image.pollinations.ai/prompt/${encodeURIComponent(prompt.slice(0, 900))}?${params}`;
 }
 
-export function freeImages(exteriorPrompt: string, interiorPrompt: string) {
-  return { exterior: pollinationsUrl(exteriorPrompt), interior: pollinationsUrl(interiorPrompt) };
+const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+
+/**
+ * The free tier draws about one image per 45 seconds per visitor. Over that it
+ * answers 402 with Retry-After, and a bare <img> pointed at the URL showed its
+ * "Free limit reached" card inside the magazine. So the bytes are fetched here,
+ * waiting when asked, and kept in our own bucket; a refusal is never stored.
+ */
+async function renderFree(prompt: string, articleId: string, frame: Frame): Promise<string | null> {
+  const url = pollinationsUrl(prompt);
+  for (let attempt = 0; attempt < 4; attempt++) {
+    try {
+      const response = await fetch(url);
+      const type = response.headers.get('content-type') ?? '';
+      if (response.ok && type.startsWith('image/')) {
+        const blob = await response.blob();
+        try {
+          return await uploadMedia(new File([blob], `${frame}.jpg`, { type }), articleId, frame, 'image');
+        } catch {
+          // The image now exists in the renderer's cache, so its URL is safe.
+          return url;
+        }
+      }
+      if (response.status !== 402 && response.status !== 429 && response.status < 500) return null;
+      const wait = Number(response.headers.get('retry-after')) || 20;
+      await sleep(Math.min(wait, 60) * 1000 + 500);
+    } catch {
+      await sleep(5000);
+    }
+  }
+  return null;
 }
+
+export type ArticleImages = { exterior: string | null; interior: string | null };
 
 export async function generateImages(
   exteriorPrompt: string,
-  interiorPrompt: string
-): Promise<{ exterior: string; interior: string }> {
+  interiorPrompt: string,
+  articleId: string
+): Promise<ArticleImages> {
   try {
-    return await callFunction<{ exterior: string; interior: string }>('generate-images', {
-      exteriorPrompt,
-      interiorPrompt,
-    });
+    return await callFunction<ArticleImages>('generate-images', { exteriorPrompt, interiorPrompt });
   } catch (error) {
     const message = error instanceof Error ? error.message : '';
     if (hasImageKey() && NOT_CONFIGURED.test(message)) {
@@ -102,7 +132,9 @@ export async function generateImages(
         // A rejected or empty personal key falls through to the free renderer.
       }
     }
-    // No paid image key anywhere: the free renderer, so a magazine is never empty.
-    return freeImages(exteriorPrompt, interiorPrompt);
+    // No paid image key anywhere: the free renderer, one image after the other.
+    const exterior = await renderFree(exteriorPrompt, articleId, 'exterior');
+    const interior = await renderFree(interiorPrompt, articleId, 'interior');
+    return { exterior, interior };
   }
 }

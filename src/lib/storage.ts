@@ -225,9 +225,13 @@ export function saveArticle(article: Article): void {
     articles.unshift(toSave);
   }
   writeArticles(STORAGE_KEY, JSON.stringify(articles));
+  window.dispatchEvent(new CustomEvent(ARTICLE_SAVED, { detail: toSave.id }));
 
   void pushToSupabase(toSave);
 }
+
+/** Fired on window with the article id whenever an article is saved. */
+export const ARTICLE_SAVED = 'culturearch:article-saved';
 
 export function deleteArticle(id: string): void {
   const articles = getArticles().filter(a => a.id !== id);
