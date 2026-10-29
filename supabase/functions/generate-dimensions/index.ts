@@ -112,7 +112,7 @@ async function geminiOnce(key: string, model: string, userLine: string): Promise
         contents: [{ role: 'user', parts: [{ text: userLine }] }],
         generationConfig: { responseMimeType: 'application/json', responseSchema: GEMINI_SCHEMA },
       }),
-      signal: AbortSignal.timeout(45000),
+      signal: AbortSignal.timeout(60000),
     },
   );
   if (!response.ok) {
@@ -136,6 +136,45 @@ async function viaGemini(key: string, userLine: string): Promise<Record<string, 
     }
   }
   throw last;
+}
+
+/** The article, or { error } with a Hebrew message. */
+async function writeArticle(geminiKey: string, userLine: string): Promise<Record<string, unknown>> {
+  let parsed: Record<string, unknown>;
+  try {
+    parsed = await viaGemini(geminiKey, userLine);
+  } catch (error) {
+    const status = (error as { status?: number }).status;
+    if (status === 401 || status === 403) {
+      return { error: 'מפתח Gemini שבשרת נדחה. בדקי את GEMINI_API_KEY בסודות של Supabase.' };
+    }
+    if (status === 400) {
+      return { error: 'Gemini דחה את הבקשה (400). ייתכן שהמפתח שבשרת אינו תקין.' };
+    }
+    if (status === 429) {
+      return { error: 'המכסה החינמית של Gemini התמלאה לרגע. המתיני דקה ונסי שוב.' };
+    }
+    if (error instanceof SyntaxError) {
+      return { error: 'התשובה חזרה בפורמט לא צפוי. נסה שוב.' };
+    }
+    return { error: 'Gemini עמוס כרגע. נסי שוב בעוד רגע.' };
+  }
+
+  // The schema cannot pin the count, so hold the contract here: drop extras,
+  // and never hand the UI an empty list.
+  const lines = Array.isArray(parsed.interpretation)
+    ? (parsed.interpretation as unknown[])
+        .map((line) => String(line).trim())
+        .filter(Boolean)
+        .slice(0, INTERPRETATION_COUNT)
+    : [];
+  if (lines.length === 0) {
+    return { error: 'המודל לא החזיר פרשנות. נסה שוב.' };
+  }
+  parsed.interpretation = lines;
+  parsed.humanNeed = settleNeed(parsed.humanNeed);
+
+  return parsed;
 }
 
 const json = (body: unknown, status = 200) =>
@@ -167,41 +206,28 @@ Deno.serve(async (req) => {
       typeof hint === 'string' && hint.trim() ? `\nHint: ${hint.trim()}` : ''
     }`;
 
-    let parsed: Record<string, unknown>;
-    try {
-      parsed = await viaGemini(geminiKey, userLine);
-    } catch (error) {
-      const status = (error as { status?: number }).status;
-      if (status === 401 || status === 403) {
-        return json({ error: 'מפתח Gemini שבשרת נדחה. בדקי את GEMINI_API_KEY בסודות של Supabase.' }, 500);
-      }
-      if (status === 400) {
-        return json({ error: 'Gemini דחה את הבקשה (400). ייתכן שהמפתח שבשרת אינו תקין.' }, 500);
-      }
-      if (status === 429) {
-        return json({ error: 'המכסה החינמית של Gemini התמלאה לרגע. המתיני דקה ונסי שוב.' }, 429);
-      }
-      if (error instanceof SyntaxError) {
-        return json({ error: 'התשובה חזרה בפורמט לא צפוי. נסה שוב.' }, 502);
-      }
-      return json({ error: 'Gemini עמוס כרגע. נסי שוב בעוד רגע.' }, 503);
-    }
-
-    // The schema cannot pin the count, so hold the contract here: drop extras,
-    // and never hand the UI an empty list.
-    const lines = Array.isArray(parsed.interpretation)
-      ? (parsed.interpretation as unknown[])
-          .map((line) => String(line).trim())
-          .filter(Boolean)
-          .slice(0, INTERPRETATION_COUNT)
-      : [];
-    if (lines.length === 0) {
-      return json({ error: 'המודל לא החזיר פרשנות. נסה שוב.' }, 502);
-    }
-    parsed.interpretation = lines;
-    parsed.humanNeed = settleNeed(parsed.humanNeed);
-
-    return json(parsed);
+    // Writing takes 20-60 seconds, and a connection that stays silent that long
+    // is cut on the way (the browser saw a CORS error at about 30s while the
+    // article finished on the server). So the reply starts at once and a space
+    // goes out every few seconds; JSON ignores leading whitespace, and the
+    // client already reads { error } from a 200 body.
+    const encoder = new TextEncoder();
+    const stream = new ReadableStream({
+      async start(controller) {
+        const beat = setInterval(() => controller.enqueue(encoder.encode(' ')), 5000);
+        controller.enqueue(encoder.encode(' '));
+        let result: unknown;
+        try {
+          result = await writeArticle(geminiKey, userLine);
+        } catch (error) {
+          result = { error: error instanceof Error ? error.message : String(error) };
+        }
+        clearInterval(beat);
+        controller.enqueue(encoder.encode(JSON.stringify(result)));
+        controller.close();
+      },
+    });
+    return new Response(stream, { headers: { ...corsHeaders, 'Content-Type': 'application/json' } });
   } catch (error) {
     const message = error instanceof Error ? error.message : String(error);
     return json({ error: message }, 500);
