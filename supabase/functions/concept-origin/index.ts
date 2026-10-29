@@ -182,7 +182,7 @@ Deno.serve(async (req) => {
     let out = await ask(key, user);
     // and now and then slips a letter of another script into a Hebrew word.
     const mixed = (v: unknown) => /[\u0590-\u05FF][\u0600-\u06FF]|[\u0600-\u06FF][\u0590-\u05FF]/.test(clean(v));
-    if (!hebrew(out.story) || (clean(out.figure) && !hebrew(out.figure)) || mixed(out.story) || mixed(out.place)) {
+    if (!hebrew(out.story) || (clean(out.figure) && !hebrew(out.figure)) || [out.story, out.place, out.figure, out.era].some(mixed)) {
       out = await ask(key, `${user}\n\nIMPORTANT: answer place, era, figure and story in Hebrew only.`);
     }
     const country = clean(out.country).toUpperCase();
