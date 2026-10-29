@@ -5,6 +5,10 @@
 // directly. Set ANTHROPIC_API_KEY in the project's Edge Function secrets - or
 // any name containing "anthropic" or "claude", which is also accepted.
 //
+// When the Claude key is missing or rejected, the same request goes to Gemini
+// (GEMINI_API_KEY, free tier, already set in this project for other apps), so a
+// broken Anthropic key never stops an article. Same pattern as aoa-edit.
+//
 // APP_PASSCODE is optional. The site is public, so without it anyone who finds
 // the page can spend the account's credits; set it to require a shared word.
 import Anthropic from 'npm:@anthropic-ai/sdk@0.128.0';
@@ -131,6 +135,119 @@ const DimensionsSchema = z.object({
   }),
 });
 
+// Free Gemini models are sometimes busy (503), so lighter ones follow.
+const GEMINI_MODELS = [
+  ...new Set([
+    Deno.env.get('GEMINI_MODEL')?.trim() || 'gemini-flash-latest',
+    'gemini-2.5-flash',
+    'gemini-flash-lite-latest',
+  ]),
+];
+
+const S = { type: 'STRING' };
+const GEMINI_SCHEMA = {
+  type: 'OBJECT',
+  required: ['origin', 'lede', 'insight', 'spaceName', 'proverb', 'interpretation', 'humanNeed', 'practice', 'imagePrompts'],
+  properties: {
+    origin: {
+      type: 'OBJECT',
+      required: ['script', 'transliteration', 'literal', 'culture', 'region_en'],
+      properties: { script: S, transliteration: S, literal: S, culture: S, region_en: S },
+    },
+    lede: S,
+    insight: S,
+    spaceName: S,
+    proverb: S,
+    interpretation: { type: 'ARRAY', items: S },
+    humanNeed: S,
+    practice: {
+      type: 'OBJECT',
+      required: ['why', 'how', 'when', 'where'],
+      properties: { why: S, how: S, when: S, where: S },
+    },
+    imagePrompts: {
+      type: 'OBJECT',
+      required: ['exterior', 'interior'],
+      properties: { exterior: S, interior: S },
+    },
+  },
+};
+
+async function geminiOnce(key: string, model: string, userLine: string): Promise<Record<string, unknown>> {
+  const response = await fetch(
+    `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${key}`,
+    {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        systemInstruction: { parts: [{ text: systemPrompt }] },
+        contents: [{ role: 'user', parts: [{ text: userLine }] }],
+        generationConfig: { responseMimeType: 'application/json', responseSchema: GEMINI_SCHEMA },
+      }),
+      signal: AbortSignal.timeout(45000),
+    },
+  );
+  if (!response.ok) {
+    throw Object.assign(new Error(`Gemini ${model} ${response.status}`), { status: response.status });
+  }
+  const data = await response.json();
+  const text = data?.candidates?.[0]?.content?.parts?.map((p: { text?: string }) => p.text ?? '').join('') ?? '';
+  return JSON.parse(text);
+}
+
+async function viaGemini(key: string, userLine: string): Promise<Record<string, unknown>> {
+  let last: unknown;
+  for (const model of GEMINI_MODELS) {
+    try {
+      return await geminiOnce(key, model, userLine);
+    } catch (error) {
+      last = error;
+      const status = (error as { status?: number }).status;
+      // A wrong key will not work with another model either.
+      if (status === 400 || status === 401 || status === 403) throw error;
+    }
+  }
+  throw last;
+}
+
+async function viaClaude(apiKey: string, userLine: string): Promise<Record<string, unknown> | 'refusal' | null> {
+  const client = new Anthropic({ apiKey });
+
+  const base = {
+    model: MODEL,
+    max_tokens: 16000,
+    system: systemPrompt,
+    thinking: { type: 'adaptive' as const },
+    // Medium keeps the wait to a reading pause without flattening the writing.
+    output_config: { effort: 'medium' as const, format: zodOutputFormat(DimensionsSchema) },
+    messages: [{ role: 'user' as const, content: userLine }],
+  };
+
+  let stopReason: string | null;
+  let parsed: Record<string, unknown> | null;
+
+  try {
+    // A policy decline would leave the user with nothing, so let the API
+    // re-run the same request on another model rather than failing.
+    const response = await client.beta.messages.parse({
+      ...base,
+      betas: ['server-side-fallback-2026-07-01'],
+      fallbacks: 'default',
+    });
+    stopReason = response.stop_reason;
+    parsed = response.parsed_output as Record<string, unknown> | null;
+  } catch (error) {
+    // If this account or endpoint will not take the fallback beta, generating
+    // at all matters more than the extra resilience.
+    if (!(error instanceof Anthropic.BadRequestError)) throw error;
+    const response = await client.messages.parse(base);
+    stopReason = response.stop_reason;
+    parsed = response.parsed_output as Record<string, unknown> | null;
+  }
+
+  return stopReason === 'refusal' ? 'refusal' : parsed;
+}
+
 const json = (body: unknown, status = 200) =>
   new Response(JSON.stringify(body), {
     status,
@@ -142,14 +259,15 @@ Deno.serve(async (req) => {
 
   try {
     const { key: apiKey, seen } = readKey();
-    if (!apiKey) {
+    const geminiKey = Deno.env.get('GEMINI_API_KEY')?.trim();
+    if (!apiKey && !geminiKey) {
       const hint = seen.length
         ? ` נמצאו סודות בשמות: ${seen.join(', ')}.`
         : ' לא נמצא אף סוד מתאים בפרויקט.';
       return json(
         {
           error:
-            'מפתח Claude לא הוגדר בשרת. יש להוסיף ANTHROPIC_API_KEY בסודות של Edge Functions.' + hint,
+            'מפתח Claude לא הוגדר בשרת. יש להוסיף ANTHROPIC_API_KEY או GEMINI_API_KEY בסודות של Edge Functions.' + hint,
         },
         500,
       );
@@ -169,41 +287,27 @@ Deno.serve(async (req) => {
       typeof hint === 'string' && hint.trim() ? `\nHint: ${hint.trim()}` : ''
     }`;
 
-    const client = new Anthropic({ apiKey });
-
-    const base = {
-      model: MODEL,
-      max_tokens: 16000,
-      system: systemPrompt,
-      thinking: { type: 'adaptive' as const },
-      // Medium keeps the wait to a reading pause without flattening the writing.
-      output_config: { effort: 'medium' as const, format: zodOutputFormat(DimensionsSchema) },
-      messages: [{ role: 'user' as const, content: userLine }],
-    };
-
-    let stopReason: string | null;
-    let parsed: Record<string, unknown> | null;
-
-    try {
-      // A policy decline would leave the user with nothing, so let the API
-      // re-run the same request on another model rather than failing.
-      const response = await client.beta.messages.parse({
-        ...base,
-        betas: ['server-side-fallback-2026-07-01'],
-        fallbacks: 'default',
-      });
-      stopReason = response.stop_reason;
-      parsed = response.parsed_output as Record<string, unknown> | null;
-    } catch (error) {
-      // If this account or endpoint will not take the fallback beta, generating
-      // at all matters more than the extra resilience.
-      if (!(error instanceof Anthropic.BadRequestError)) throw error;
-      const response = await client.messages.parse(base);
-      stopReason = response.stop_reason;
-      parsed = response.parsed_output as Record<string, unknown> | null;
+    let parsed: Record<string, unknown> | 'refusal' | null = null;
+    let claudeError: unknown;
+    if (apiKey) {
+      try {
+        parsed = await viaClaude(apiKey, userLine);
+      } catch (error) {
+        claudeError = error;
+      }
     }
+    // Claude missing or failing (rejected key, no credit, overload): Gemini takes the request.
+    if (parsed === null && geminiKey) {
+      try {
+        parsed = await viaGemini(geminiKey, userLine);
+      } catch (error) {
+        if (!claudeError) throw error;
+        console.error('gemini fallback failed', error);
+      }
+    }
+    if (parsed === null && claudeError) throw claudeError;
 
-    if (stopReason === 'refusal') {
+    if (parsed === 'refusal') {
       return json({ error: 'הבקשה נדחתה. נסה לנסח את המושג אחרת.' }, 422);
     }
     if (!parsed) {
