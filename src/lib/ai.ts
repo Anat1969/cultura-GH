@@ -119,7 +119,8 @@ export type ArticleImages = { exterior: string | null; interior: string | null }
 export async function generateImages(
   exteriorPrompt: string,
   interiorPrompt: string,
-  articleId: string
+  articleId: string,
+  onImage?: (frame: Frame, url: string) => void
 ): Promise<ArticleImages> {
   try {
     return await callFunction<ArticleImages>('generate-images', { exteriorPrompt, interiorPrompt });
@@ -132,9 +133,12 @@ export async function generateImages(
         // A rejected or empty personal key falls through to the free renderer.
       }
     }
-    // No paid image key anywhere: the free renderer, one image after the other.
+    // No paid image key anywhere: the free renderer, one image after the other,
+    // each handed over the moment it exists rather than after both.
     const exterior = await renderFree(exteriorPrompt, articleId, 'exterior');
+    if (exterior) onImage?.('exterior', exterior);
     const interior = await renderFree(interiorPrompt, articleId, 'interior');
+    if (interior) onImage?.('interior', interior);
     return { exterior, interior };
   }
 }
