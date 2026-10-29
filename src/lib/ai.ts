@@ -1,10 +1,10 @@
 import { GeneratedDimensions } from '@/types/article';
 import { supabase } from '@/integrations/supabase/client';
-import { hasAnthropicKey, hasImageKey, getPasscode } from '@/lib/settings';
+import { hasImageKey, getPasscode } from '@/lib/settings';
 
-// The Anthropic SDK is a large dependency and is only needed when a key is kept
-// in this browser instead of on the server, so it is pulled in on demand.
-const claude = () => import('@/lib/claude');
+// The fal.ai fallback is only needed when a personal image key is kept in this
+// browser, so it is pulled in on demand.
+const fal = () => import('@/lib/fal');
 
 /** Marks the server saying its own provider key is missing, so we can fall back. */
 const NOT_CONFIGURED = /לא הוגדר בשרת/;
@@ -45,28 +45,7 @@ async function callFunction<T>(name: string, body: Record<string, unknown>): Pro
   return data as T;
 }
 
-/**
- * Generation runs through the server, so nothing has to be configured in this
- * browser. A key saved here is only a personal override.
- */
-export function canGenerate(): boolean {
-  return true;
-}
-
-export function canGenerateImages(): boolean {
-  return true;
-}
-
-/** True when this browser holds its own key rather than relying on the server. */
-export function usesOwnKey(): boolean {
-  return hasAnthropicKey();
-}
-
-export async function verifyKey(apiKey: string): Promise<string> {
-  return (await claude()).verifyAnthropicKey(apiKey);
-}
-
-/** Reports whether the server is reachable and its Claude key is configured. */
+/** Reports whether the server is reachable and its Gemini key is configured. */
 export async function checkServer(): Promise<string> {
   await callFunction('generate-dimensions', { concept: '' }).catch((error: Error) => {
     // An empty concept is rejected by validation, which still proves the
@@ -77,20 +56,12 @@ export async function checkServer(): Promise<string> {
   return 'השרת מחובר והמפתח מוגדר בו.';
 }
 
+/** Text runs on the free Gemini key kept on the server; nothing to set up here. */
 export async function generateDimensions(
   concept: string,
   hint?: string
 ): Promise<GeneratedDimensions> {
-  try {
-    return await callFunction<GeneratedDimensions>('generate-dimensions', { concept, hint });
-  } catch (error) {
-    // Only fall back to a key kept in this browser when the server has none.
-    const message = error instanceof Error ? error.message : '';
-    if (hasAnthropicKey() && NOT_CONFIGURED.test(message)) {
-      return (await claude()).generateDimensionsWithClaude(concept, hint);
-    }
-    throw error;
-  }
+  return callFunction<GeneratedDimensions>('generate-dimensions', { concept, hint });
 }
 
 export async function generateImages(
@@ -105,7 +76,7 @@ export async function generateImages(
   } catch (error) {
     const message = error instanceof Error ? error.message : '';
     if (hasImageKey() && NOT_CONFIGURED.test(message)) {
-      return (await claude()).generateImagesWithFal(exteriorPrompt, interiorPrompt);
+      return (await fal()).generateImagesWithFal(exteriorPrompt, interiorPrompt);
     }
     throw error;
   }

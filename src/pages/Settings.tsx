@@ -5,10 +5,8 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import Breadcrumbs from '@/components/Breadcrumbs';
 import { useToast } from '@/hooks/use-toast';
-import { checkServer, verifyKey } from '@/lib/ai';
+import { checkServer } from '@/lib/ai';
 import {
-  getAnthropicKey,
-  setAnthropicKey,
   getImageKey,
   setImageKey,
   getGithubToken,
@@ -42,18 +40,15 @@ const SettingsPage: React.FC = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
 
-  const [savedClaude, setSavedClaude] = useState(getAnthropicKey());
   const [savedImage, setSavedImage] = useState(getImageKey());
   const [savedGithub, setSavedGithub] = useState(getGithubToken());
   const [savedPasscode, setSavedPasscode] = useState(getPasscode());
 
-  const [claudeInput, setClaudeInput] = useState('');
   const [imageInput, setImageInput] = useState('');
   const [githubInput, setGithubInput] = useState('');
   const [passcodeInput, setPasscodeInput] = useState('');
 
   const [serverStatus, setServerStatus] = useState<Status>(null);
-  const [claudeStatus, setClaudeStatus] = useState<Status>(null);
   const [busy, setBusy] = useState(false);
   const [showOverride, setShowOverride] = useState(false);
 
@@ -64,33 +59,6 @@ const SettingsPage: React.FC = () => {
       setServerStatus({ kind: 'ok', text: await checkServer() });
     } catch (error) {
       setServerStatus({
-        kind: 'error',
-        text: error instanceof Error ? error.message : 'הבדיקה נכשלה.',
-      });
-    } finally {
-      setBusy(false);
-    }
-  };
-
-  const saveClaude = async () => {
-    const value = normalizeKey(claudeInput);
-    if (!value) return;
-    if (!setAnthropicKey(value)) {
-      setClaudeStatus({
-        kind: 'error',
-        text: 'הדפדפן לא אפשר לשמור. בחלון פרטי או כשחסומים נתוני אתר המפתח לא יישמר.',
-      });
-      return;
-    }
-    setSavedClaude(value);
-    setClaudeInput('');
-    setBusy(true);
-    setClaudeStatus({ kind: 'warn', text: 'בודק מול Claude…' });
-    try {
-      const model = await verifyKey(value);
-      setClaudeStatus({ kind: 'ok', text: `המפתח עובד (${model}).` });
-    } catch (error) {
-      setClaudeStatus({
         kind: 'error',
         text: error instanceof Error ? error.message : 'הבדיקה נכשלה.',
       });
@@ -133,8 +101,8 @@ const SettingsPage: React.FC = () => {
         הגדרות
       </motion.h1>
       <p className="text-muted-foreground mb-10">
-        מפתח Claude שמור בשרת של Supabase, לא בדפדפן. הוא לא מגיע לכאן ולא נמצא בקוד האתר, ולכן
-        האפליקציה עובדת בכל מכשיר בלי להגדיר דבר.
+        הכתיבה רצה על Gemini החינמי, עם מפתח ששמור בשרת של Supabase ולא בדפדפן. אין צורך במפתח
+        בתשלום, והאפליקציה עובדת בכל מכשיר בלי להגדיר דבר.
       </p>
 
       {/* The server holds the key: this is the main path */}
@@ -143,7 +111,7 @@ const SettingsPage: React.FC = () => {
         <p className="text-sm text-muted-foreground mb-4 leading-relaxed">
           היצירה רצה דרך Edge Function בפרויקט Supabase שלך. המפתח נשמר שם כסוד בשם{' '}
           <span dir="ltr" className="font-mono text-xs">
-            ANTHROPIC_API_KEY
+            GEMINI_API_KEY
           </span>
           . להוספה או להחלפה:{' '}
           <a
@@ -301,54 +269,14 @@ const SettingsPage: React.FC = () => {
           onClick={() => setShowOverride(v => !v)}
           className="text-sm text-muted-foreground underline underline-offset-4 hover:text-accent"
         >
-          {showOverride ? 'הסתר' : 'מפתחות אישיים בדפדפן הזה (לא נדרש)'}
+          {showOverride ? 'הסתר' : 'מפתח תמונות אישי בדפדפן הזה (לא נדרש)'}
         </button>
 
         {showOverride && (
           <div className="mt-4 space-y-6 rounded-lg border border-border bg-card p-4">
             <p className="text-sm text-muted-foreground leading-relaxed">
-              רק אם תרצי לחייב את החשבון שלך במקום את המפתח שבשרת. משמש כגיבוי אם המפתח בשרת לא
-              מוגדר.
+              מפתח תמונות אישי, לשימוש רק אם בשרת לא מוגדר מפתח תמונות.
             </p>
-
-            <div>
-              <h3 className="text-sm font-bold text-accent mb-2">מפתח Claude</h3>
-              {savedClaude ? (
-                <div className="flex flex-wrap items-center gap-2">
-                  <span dir="ltr" className="font-mono text-xs text-muted-foreground">
-                    {maskKey(savedClaude)}
-                  </span>
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => {
-                      setAnthropicKey('');
-                      setSavedClaude('');
-                      setClaudeStatus(null);
-                    }}
-                  >
-                    מחק
-                  </Button>
-                </div>
-              ) : (
-                <div className="flex gap-2">
-                  <Button onClick={saveClaude} disabled={!claudeInput.trim() || busy}>
-                    שמור
-                  </Button>
-                  <Input
-                    value={claudeInput}
-                    onChange={e => setClaudeInput(e.target.value)}
-                    type="password"
-                    dir="ltr"
-                    autoComplete="off"
-                    spellCheck={false}
-                    placeholder="sk-ant-..."
-                    className="font-mono text-sm"
-                  />
-                </div>
-              )}
-              <StatusNote status={claudeStatus} />
-            </div>
 
             <div>
               <h3 className="text-sm font-bold text-accent mb-2">מפתח תמונות</h3>
@@ -405,8 +333,8 @@ const SettingsPage: React.FC = () => {
       <section className="rounded-lg border border-accent/30 bg-accent/5 p-4 text-sm leading-relaxed">
         <h2 className="font-bold mb-2">כדאי לדעת</h2>
         <ul className="space-y-1.5 text-muted-foreground">
-          <li>מפתח Claude יושב רק בסודות של Supabase. הוא לא בדפדפן ולא בקוד האתר.</li>
-          <li>בלי קוד גישה, כל מי שמגיע לאתר יכול ליצור על חשבונך. כדאי גם תקרת הוצאה במסוף.</li>
+          <li>מפתח Gemini יושב רק בסודות של Supabase. הוא לא בדפדפן ולא בקוד האתר.</li>
+          <li>בלי קוד גישה, כל מי שמגיע לאתר יכול ליצור ולנצל את המכסה החינמית המשותפת.</li>
           <li>הספרייה משותפת: מה שנוצר במכשיר אחד מופיע בשני.</li>
           <li>הריפו והטבלה ציבוריים — מה שנשמר בהם גלוי לכולם.</li>
           <li>

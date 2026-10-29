@@ -3,7 +3,6 @@ import { HashRouter, Routes, Route, Navigate, useLocation, Link } from 'react-ro
 import { ThemeProvider } from '@/contexts/ThemeContext';
 import Header from '@/components/Header';
 import Toaster from '@/components/ui/toaster';
-import { canGenerate } from '@/lib/ai';
 import { syncArticlesFromGithub, syncArticlesFromSupabase } from '@/lib/storage';
 
 import HomePage from '@/pages/Home';
@@ -22,25 +21,6 @@ const ScrollToTop: React.FC = () => {
   return null;
 };
 
-/** Shown while nothing can generate yet, pointing at the one screen that fixes it. */
-const SetupNotice: React.FC = () => {
-  const [dismissed, setDismissed] = useState(false);
-  const { pathname } = useLocation();
-  if (canGenerate() || dismissed || pathname === '/settings') return null;
-  return (
-    <div className="border-b border-accent/30 bg-accent/10 px-4 py-2 text-center text-xs text-foreground/80">
-      כדי ליצור מושגים חדשים צריך מפתח Claude.{' '}
-      <Link to="/settings" className="underline hover:text-accent">
-        פתח הגדרות והדבק מפתח
-      </Link>
-      . הספרייה המקומית פעילה גם בלעדיו.
-      <button onClick={() => setDismissed(true)} className="mr-3 underline hover:text-accent">
-        סגור
-      </button>
-    </div>
-  );
-};
-
 const App: React.FC = () => {
   const [ready, setReady] = useState(false);
 
@@ -56,7 +36,6 @@ const App: React.FC = () => {
     <ThemeProvider>
       <HashRouter>
         <ScrollToTop />
-        <SetupNotice />
         <Header />
         <main key={String(ready)}>
           <Routes>
