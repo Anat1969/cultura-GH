@@ -64,6 +64,26 @@ export async function generateDimensions(
   return callFunction<GeneratedDimensions>('generate-dimensions', { concept, hint });
 }
 
+/**
+ * Free, keyless renderer. The URL itself is the image: the first request draws
+ * it, later ones are served from cache. A fixed seed per prompt keeps it stable.
+ */
+function pollinationsUrl(prompt: string): string {
+  let seed = 0;
+  for (const ch of prompt) seed = (seed * 31 + ch.charCodeAt(0)) >>> 0;
+  const params = new URLSearchParams({
+    width: '1280',
+    height: '720',
+    seed: String(seed % 1000000),
+    nologo: 'true',
+  });
+  return `https://image.pollinations.ai/prompt/${encodeURIComponent(prompt.slice(0, 900))}?${params}`;
+}
+
+export function freeImages(exteriorPrompt: string, interiorPrompt: string) {
+  return { exterior: pollinationsUrl(exteriorPrompt), interior: pollinationsUrl(interiorPrompt) };
+}
+
 export async function generateImages(
   exteriorPrompt: string,
   interiorPrompt: string
@@ -76,8 +96,13 @@ export async function generateImages(
   } catch (error) {
     const message = error instanceof Error ? error.message : '';
     if (hasImageKey() && NOT_CONFIGURED.test(message)) {
-      return (await fal()).generateImagesWithFal(exteriorPrompt, interiorPrompt);
+      try {
+        return await (await fal()).generateImagesWithFal(exteriorPrompt, interiorPrompt);
+      } catch {
+        // A rejected or empty personal key falls through to the free renderer.
+      }
     }
-    throw error;
+    // No paid image key anywhere: the free renderer, so a magazine is never empty.
+    return freeImages(exteriorPrompt, interiorPrompt);
   }
 }
