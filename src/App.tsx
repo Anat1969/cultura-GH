@@ -12,6 +12,7 @@ import LibraryPage from '@/pages/Library';
 import ConceptBrowser from '@/pages/ConceptBrowser';
 import EditorPage from '@/pages/Editor';
 import SettingsPage from '@/pages/Settings';
+import AtlasPage from '@/pages/Atlas';
 
 const ScrollToTop: React.FC = () => {
   const { pathname } = useLocation();
@@ -43,6 +44,7 @@ const App: React.FC = () => {
             <Route path="/generate" element={<OutputPage />} />
             <Route path="/article/:id" element={<ArticleViewPage />} />
             <Route path="/library" element={<LibraryPage />} />
+            <Route path="/atlas" element={<AtlasPage />} />
             <Route path="/concepts" element={<ConceptBrowser />} />
             <Route path="/concept/:concept" element={<ConceptBrowser />} />
             <Route path="/edit/:id" element={<EditorPage />} />
