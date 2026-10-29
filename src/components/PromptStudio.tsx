@@ -3,6 +3,7 @@ import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
 import { Article, Frame, MediaKind, frameLabels } from '@/types/article';
 import { uploadMedia, isVideo } from '@/lib/media';
+import FitImage, { usableImage } from '@/components/FitImage';
 
 /** Copies the prompt, and says so on the button itself rather than in a toast. */
 export const CopyPrompt: React.FC<{ text: string; label?: string }> = ({
@@ -44,22 +45,17 @@ interface SlotProps {
 const Slot: React.FC<SlotProps> = ({ url, kind, onPick, busy }) => {
   const input = useRef<HTMLInputElement>(null);
   const title = kind === 'video' ? 'סרטון' : 'תמונה';
+  const shown = kind === 'video' ? url : usableImage(url);
 
   return (
     <div className="space-y-2">
-      <div className="relative aspect-video overflow-hidden rounded-lg border border-border bg-muted">
-        {url ? (
-          kind === 'video' || isVideo(url) ? (
-            <video
-              src={url}
-              controls
-              loop
-              muted
-              playsInline
-              className="h-full w-full object-cover"
-            />
+      <div className={`relative overflow-hidden rounded-lg border border-border bg-muted ${shown ? '' : 'aspect-square'}`}>
+        {shown ? (
+          kind === 'video' || isVideo(shown) ? (
+            <video src={shown} controls loop muted playsInline className="block h-auto w-full" />
           ) : (
-            <img src={url} alt={title} className="h-full w-full object-cover" />
+            // The frame takes the image's own proportions: nothing is cropped.
+            <FitImage src={shown} alt={title} mode="natural" />
           )
         ) : (
           <button
@@ -77,15 +73,15 @@ const Slot: React.FC<SlotProps> = ({ url, kind, onPick, busy }) => {
       <div className="flex items-center justify-between gap-2">
         <span className="text-xs text-muted-foreground">{title}</span>
         <div className="flex gap-1">
-          {url && (
+          {shown && (
             <Button size="sm" variant="ghost" asChild>
-              <a href={url} target="_blank" rel="noopener noreferrer">
+              <a href={shown} target="_blank" rel="noopener noreferrer">
                 פתח
               </a>
             </Button>
           )}
           <Button size="sm" variant="ghost" onClick={() => input.current?.click()} disabled={busy}>
-            {busy ? 'מעלה…' : url ? 'החלף' : 'העלה'}
+            {busy ? 'מעלה…' : shown ? 'החלף' : 'העלה'}
           </Button>
         </div>
       </div>

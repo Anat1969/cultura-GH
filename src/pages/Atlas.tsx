@@ -1,3 +1,4 @@
+import { matchesKeywords } from '@/lib/search';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { motion } from 'framer-motion';
@@ -202,7 +203,7 @@ const AtlasPage: React.FC = () => {
     { key: 'difference', label: 'ההבדל המכריע', text: r => r.difference },
   ];
 
-  const visibleProfiles = profiles.filter(p => !cultureSearch.trim() || p.culture.includes(cultureSearch.trim()));
+  const visibleProfiles = profiles.filter(p => matchesKeywords(p.culture, cultureSearch));
 
   const cultureTiles = (
     <div className="space-y-3">

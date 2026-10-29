@@ -76,12 +76,20 @@ export async function syncArticlesFromSupabase(): Promise<Article[]> {
       const a = fromRow(row);
       byId.set(a.id, a);
     });
+    const waiting = new Set(pendingIds());
     local.forEach(a => {
+      const shared = byId.get(a.id);
+      // The shared table is the library. An article it does not hold was
+      // removed there (the rejected bulk expansion), unless this device is
+      // still waiting to send it - only then is the local copy kept.
+      if (!shared) {
+        if (waiting.has(a.id)) byId.set(a.id, a);
+        return;
+      }
       // Newest wins. "Local always wins" quietly pinned whatever a browser had
       // read first, so a corrected article never reached anyone who had already
       // opened it - and refreshing the page could not help.
-      const shared = byId.get(a.id);
-      if (!shared || String(a.updatedAt) >= String(shared.updatedAt)) byId.set(a.id, a);
+      if (String(a.updatedAt) >= String(shared.updatedAt)) byId.set(a.id, a);
     });
 
     const merged = collapseByConcept(Array.from(byId.values()));
@@ -93,16 +101,91 @@ export async function syncArticlesFromSupabase(): Promise<Article[]> {
   }
 }
 
-/** Pushes one article to the shared table; failures never block local saving. */
-async function pushToSupabase(article: Article): Promise<void> {
+/** A copy we keep in our own bucket. Anything else is an engine's link and may expire or show its limit card. */
+export const isStoredMedia = (url: string | null | undefined): url is string =>
+  typeof url === 'string' && url.includes('/storage/v1/object/public/');
+
+/**
+ * What the server already holds and an older copy here must not undo: an image
+ * stored by the image function, and the origin story the origin function
+ * wrote. A browser that opened an article before those arrived would otherwise
+ * write the old version back on its next save.
+ */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function keepServerWork(row: any, server: any) {
+  if (!server) return row;
+  for (const col of ['image_exterior', 'image_interior']) {
+    if (!isStoredMedia(row[col]) && isStoredMedia(server[col])) row[col] = server[col];
+  }
+  const local = row.origin ?? {};
+  const remote = server.origin ?? {};
+  if (!local.story && remote.story) row.origin = { ...remote, ...stripEmpty(local) };
+  return row;
+}
+
+function stripEmpty(o: Record<string, unknown>) {
+  return Object.fromEntries(Object.entries(o).filter(([, v]) => v !== '' && v !== null && v !== undefined));
+}
+
+// ---------- Saving: always, on its own ----------
+
+const PENDING_KEY = 'culturearch_pending';
+export const SAVE_STATE = 'culturearch:save-state';
+export type SaveState = 'saving' | 'saved' | 'offline';
+
+function pendingIds(): string[] {
   try {
-    const { error } = await db().upsert([toRow(article)], { onConflict: 'id' });
-    if (error) throw error;
-  } catch (error) {
-    console.warn('Could not save to the shared library.', error);
+    return JSON.parse(localStorage.getItem(PENDING_KEY) ?? '[]');
+  } catch {
+    return [];
   }
 }
 
+function setPending(ids: string[]) {
+  writeArticles(PENDING_KEY, JSON.stringify([...new Set(ids)]));
+}
+
+function announce(id: string, state: SaveState) {
+  window.dispatchEvent(new CustomEvent(SAVE_STATE, { detail: { id, state } }));
+}
+
+/**
+ * Writes one article to the shared table. A failure is kept in a pending list
+ * and retried when the connection returns or the app next opens, so nothing
+ * typed here is ever lost on the way.
+ */
+export async function pushToSupabase(article: Article): Promise<boolean> {
+  announce(article.id, 'saving');
+  try {
+    const { data: server } = await db()
+      .select('image_exterior,image_interior,origin')
+      .eq('id', article.id)
+      .maybeSingle();
+    const { error } = await db().upsert([keepServerWork(toRow(article), server)], { onConflict: 'id' });
+    if (error) throw error;
+    setPending(pendingIds().filter(id => id !== article.id));
+    announce(article.id, 'saved');
+    return true;
+  } catch (error) {
+    console.warn('Could not save to the shared library; will retry.', error);
+    setPending([...pendingIds(), article.id]);
+    announce(article.id, 'offline');
+    return false;
+  }
+}
+
+/** Sends whatever did not reach the server last time. */
+export async function retryPending(): Promise<void> {
+  for (const id of pendingIds()) {
+    const article = getArticleById(id);
+    if (article) await pushToSupabase(article);
+    else setPending(pendingIds().filter(p => p !== id));
+  }
+}
+
+if (typeof window !== 'undefined') {
+  window.addEventListener('online', () => void retryPending());
+}
 
 const STORAGE_KEY = 'culturearch_articles';
 const THEME_KEY = 'culturearch_theme';
@@ -228,6 +311,31 @@ export function saveArticle(article: Article): void {
   window.dispatchEvent(new CustomEvent(ARTICLE_SAVED, { detail: toSave.id }));
 
   void pushToSupabase(toSave);
+}
+
+/** Saves and waits until the shared table has it. */
+export async function saveArticleNow(article: Article): Promise<boolean> {
+  saveArticle(article);
+  const saved = getArticleById(article.id);
+  return saved ? pushToSupabase(saved) : false;
+}
+
+/** Takes the server's copy of one article, after a function has written to it. */
+export async function refreshArticle(id: string): Promise<Article | undefined> {
+  try {
+    const { data } = await db().select('*').eq('id', id).maybeSingle();
+    if (!data) return getArticleById(id);
+    const fresh = fromRow(data);
+    const articles = getArticles();
+    const idx = articles.findIndex(a => a.id === id);
+    if (idx >= 0) articles[idx] = fresh;
+    else articles.unshift(fresh);
+    writeArticles(STORAGE_KEY, JSON.stringify(articles));
+    window.dispatchEvent(new CustomEvent(ARTICLE_SAVED, { detail: id }));
+    return fresh;
+  } catch {
+    return getArticleById(id);
+  }
 }
 
 /** Fired on window with the article id whenever an article is saved. */

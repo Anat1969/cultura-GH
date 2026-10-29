@@ -1,15 +1,7 @@
 import { GeneratedDimensions } from '@/types/article';
 import { supabase } from '@/integrations/supabase/client';
-import { hasImageKey, getPasscode } from '@/lib/settings';
-import { uploadMedia } from '@/lib/media';
-import { Frame } from '@/types/article';
+import { getPasscode } from '@/lib/settings';
 
-// The fal.ai fallback is only needed when a personal image key is kept in this
-// browser, so it is pulled in on demand.
-const fal = () => import('@/lib/fal');
-
-/** Marks the server saying its own provider key is missing, so we can fall back. */
-const NOT_CONFIGURED = /לא הוגדר בשרת/;
 
 function headers(): Record<string, string> {
   const passcode = getPasscode();
@@ -64,81 +56,4 @@ export async function generateDimensions(
   hint?: string
 ): Promise<GeneratedDimensions> {
   return callFunction<GeneratedDimensions>('generate-dimensions', { concept, hint });
-}
-
-/**
- * Free, keyless renderer. A fixed seed per prompt keeps the picture stable.
- */
-function pollinationsUrl(prompt: string): string {
-  let seed = 0;
-  for (const ch of prompt) seed = (seed * 31 + ch.charCodeAt(0)) >>> 0;
-  const params = new URLSearchParams({
-    width: '1280',
-    height: '720',
-    seed: String(seed % 1000000),
-    nologo: 'true',
-  });
-  return `https://image.pollinations.ai/prompt/${encodeURIComponent(prompt.slice(0, 900))}?${params}`;
-}
-
-const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
-
-/**
- * The free tier draws about one image per 45 seconds per visitor. Over that it
- * answers 402 with Retry-After, and a bare <img> pointed at the URL showed its
- * "Free limit reached" card inside the magazine. So the bytes are fetched here,
- * waiting when asked, and kept in our own bucket; a refusal is never stored.
- */
-async function renderFree(prompt: string, articleId: string, frame: Frame): Promise<string | null> {
-  const url = pollinationsUrl(prompt);
-  for (let attempt = 0; attempt < 4; attempt++) {
-    try {
-      const response = await fetch(url);
-      const type = response.headers.get('content-type') ?? '';
-      if (response.ok && type.startsWith('image/')) {
-        const blob = await response.blob();
-        try {
-          return await uploadMedia(new File([blob], `${frame}.jpg`, { type }), articleId, frame, 'image');
-        } catch {
-          // The image now exists in the renderer's cache, so its URL is safe.
-          return url;
-        }
-      }
-      if (response.status !== 402 && response.status !== 429 && response.status < 500) return null;
-      const wait = Number(response.headers.get('retry-after')) || 20;
-      await sleep(Math.min(wait, 60) * 1000 + 500);
-    } catch {
-      await sleep(5000);
-    }
-  }
-  return null;
-}
-
-export type ArticleImages = { exterior: string | null; interior: string | null };
-
-export async function generateImages(
-  exteriorPrompt: string,
-  interiorPrompt: string,
-  articleId: string,
-  onImage?: (frame: Frame, url: string) => void
-): Promise<ArticleImages> {
-  try {
-    return await callFunction<ArticleImages>('generate-images', { exteriorPrompt, interiorPrompt });
-  } catch (error) {
-    const message = error instanceof Error ? error.message : '';
-    if (hasImageKey() && NOT_CONFIGURED.test(message)) {
-      try {
-        return await (await fal()).generateImagesWithFal(exteriorPrompt, interiorPrompt);
-      } catch {
-        // A rejected or empty personal key falls through to the free renderer.
-      }
-    }
-    // No paid image key anywhere: the free renderer, one image after the other,
-    // each handed over the moment it exists rather than after both.
-    const exterior = await renderFree(exteriorPrompt, articleId, 'exterior');
-    if (exterior) onImage?.('exterior', exterior);
-    const interior = await renderFree(interiorPrompt, articleId, 'interior');
-    if (interior) onImage?.('interior', interior);
-    return { exterior, interior };
-  }
 }

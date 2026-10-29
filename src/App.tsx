@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { Suspense, lazy, useEffect, useState } from 'react';
 import { HashRouter, Routes, Route, Navigate, useLocation, Link } from 'react-router-dom';
 import { ThemeProvider } from '@/contexts/ThemeContext';
 import Header from '@/components/Header';
@@ -13,6 +13,10 @@ import ConceptBrowser from '@/pages/ConceptBrowser';
 import EditorPage from '@/pages/Editor';
 import SettingsPage from '@/pages/Settings';
 import AtlasPage from '@/pages/Atlas';
+import { retryPending } from '@/lib/storage';
+
+// The globe brings d3 and a world map; it loads only when the page is opened.
+const WorldPage = lazy(() => import('@/pages/World'));
 
 const ScrollToTop: React.FC = () => {
   const { pathname } = useLocation();
@@ -30,7 +34,11 @@ const App: React.FC = () => {
     // whatever localStorage already holds.
     syncArticlesFromGithub()
       .then(() => syncArticlesFromSupabase())
-      .finally(() => setReady(true));
+      .finally(() => {
+        setReady(true);
+        // Anything that did not reach the server last time goes now.
+        void retryPending();
+      });
   }, []);
 
   return (
@@ -45,6 +53,14 @@ const App: React.FC = () => {
             <Route path="/article/:id" element={<ArticleViewPage />} />
             <Route path="/library" element={<LibraryPage />} />
             <Route path="/atlas" element={<AtlasPage />} />
+            <Route
+              path="/world"
+              element={
+                <Suspense fallback={<p className="py-20 text-center text-muted-foreground">טוען את הגלובוס…</p>}>
+                  <WorldPage />
+                </Suspense>
+              }
+            />
             <Route path="/concepts" element={<ConceptBrowser />} />
             <Route path="/concept/:concept" element={<ConceptBrowser />} />
             <Route path="/edit/:id" element={<EditorPage />} />

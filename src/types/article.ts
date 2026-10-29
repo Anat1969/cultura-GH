@@ -9,6 +9,18 @@ export interface Origin {
   literal: string;         // literal meaning, in Hebrew
   culture: string;         // culture / language, in Hebrew, e.g. יפן
   region_en: string;       // region / country in English for search, e.g. Japan
+  // Filled by the concept-origin function: where and when the word comes from.
+  country?: string;        // ISO 3166-1 alpha-2, drives the flag and the globe
+  lat?: number | null;
+  lng?: number | null;
+  place?: string;          // place of origin, Hebrew with the English name
+  tradition?: string;      // one of TRADITIONS in src/data/geo.ts
+  year?: number | null;    // approximate first attestation; negative for BCE
+  era?: string;            // that period in words
+  figure?: string;         // a named person, only when the source names one
+  story?: string;          // how the word came to be, two sentences
+  source?: string;         // the Wikipedia page the story rests on
+  basis?: 'wikipedia' | 'model' | '';
 }
 
 export interface Practice {

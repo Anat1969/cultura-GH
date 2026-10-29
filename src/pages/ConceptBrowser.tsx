@@ -1,3 +1,5 @@
+import FitImage, { usableImage } from '@/components/FitImage';
+import { matchesKeywords } from '@/lib/search';
 import React, { useState, useMemo, useEffect } from 'react';
 import { useParams, useNavigate, useSearchParams } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -25,9 +27,7 @@ const ConceptBrowser: React.FC = () => {
   const groups = useMemo(() => getGroups(mode), [mode]);
 
   const filteredGroups = useMemo(() => {
-    if (!searchQuery) return groups;
-    const q = searchQuery.toLowerCase();
-    return groups.filter(g => g.key.toLowerCase().includes(q));
+    return groups.filter(g => matchesKeywords(g.key, searchQuery));
   }, [groups, searchQuery]);
 
   const selectedArticles = useMemo(
@@ -199,11 +199,11 @@ const ConceptBrowser: React.FC = () => {
                             onClick={() => navigate(`/article/${article.id}`)}
                           >
                             <div className="flex items-start gap-4">
-                              {article.images.exterior && (
-                                <img
-                                  src={article.images.exterior}
+                              {usableImage(article.images.exterior) && (
+                                <FitImage
+                                  src={usableImage(article.images.exterior)!}
                                   alt={article.dimensions.spaceName}
-                                  className="w-20 h-20 object-cover rounded group-hover:scale-105 transition-transform"
+                                  className="h-20 w-20 shrink-0"
                                 />
                               )}
                               <div className="flex-1 text-right">

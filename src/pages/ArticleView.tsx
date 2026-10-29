@@ -4,7 +4,10 @@ import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import Breadcrumbs from '@/components/Breadcrumbs';
-import PublishButton from '@/components/PublishButton';
+import SaveStatus from '@/components/SaveStatus';
+import FitImage, { usableImage } from '@/components/FitImage';
+import { OriginStory } from '@/components/CultureMarks';
+import { completeArticle } from '@/lib/complete';
 import PromptStudio from '@/components/PromptStudio';
 import { OriginLine, PracticeBlock, InterpretationLines } from '@/components/CultureBlocks';
 import { getArticleById, saveArticle, ARTICLE_SAVED } from '@/lib/storage';
@@ -32,6 +35,8 @@ const ArticleViewPage: React.FC = () => {
       return;
     }
     setArticle(found);
+    // Whatever it still lacks (a stored image, the origin story) is made now.
+    void completeArticle(found);
   }, [id, navigate]);
 
   // Images arrive after the text; show them as soon as they are saved.
@@ -47,7 +52,7 @@ const ArticleViewPage: React.FC = () => {
 
   if (!article) return null;
   const d = article.dimensions;
-  const hero = article.images.exterior || article.images.interior;
+  const hero = usableImage(article.images.exterior) || usableImage(article.images.interior);
   const heroVideo = article.videos.exterior || article.videos.interior;
 
   return (
@@ -56,7 +61,7 @@ const ArticleViewPage: React.FC = () => {
       <header className="relative">
         <div className="relative h-[46vh] min-h-[320px] overflow-hidden">
           {hero ? (
-            <img src={hero} alt="" className="h-full w-full object-cover" />
+            <FitImage src={hero} className="h-full w-full" loading="eager" />
           ) : heroVideo && isVideo(heroVideo) ? (
             <video src={heroVideo} muted loop autoPlay playsInline className="h-full w-full object-cover" />
           ) : (
@@ -135,6 +140,10 @@ const ArticleViewPage: React.FC = () => {
           <p className="text-lg leading-[1.9] text-foreground/85">{d.insight}</p>
         </motion.section>
 
+        <motion.div {...fade(0.08)}>
+          <OriginStory origin={d.origin} />
+        </motion.div>
+
         <motion.section {...fade(0.1)} className="rounded-xl border border-border bg-card/60 p-6">
           <span className="mb-2 block text-xs tracking-wide text-muted-foreground">ברוח המושג</span>
           <blockquote className="font-heading text-2xl leading-snug text-accent">
@@ -172,9 +181,9 @@ const ArticleViewPage: React.FC = () => {
           ))}
         </motion.section>
 
-        <motion.footer {...fade(0.3)} className="flex flex-wrap justify-center gap-3 pt-4">
+        <motion.footer {...fade(0.3)} className="flex flex-wrap items-center justify-center gap-3 pt-4">
+          <SaveStatus id={article.id} className="basis-full text-center" />
           <Button onClick={() => navigate(`/edit/${article.id}`)}>עריכה</Button>
-          <PublishButton article={article} />
           <Button
             variant="outline"
             onClick={() => {
