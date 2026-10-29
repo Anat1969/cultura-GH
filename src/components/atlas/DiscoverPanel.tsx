@@ -29,6 +29,7 @@ interface Props {
  */
 const DiscoverPanel: React.FC<Props> = ({ culture, articles, onCreated }) => {
   const [items, setItems] = useState<Suggestion[] | null>(null);
+  const [rejected, setRejected] = useState<Suggestion[]>([]);
   const [chosen, setChosen] = useState<Set<number>>(new Set());
   const [status, setStatus] = useState<Record<number, { s: Status; id?: string; error?: string }>>({});
   const [busy, setBusy] = useState(false);
@@ -40,9 +41,12 @@ const DiscoverPanel: React.FC<Props> = ({ culture, articles, onCreated }) => {
     setError(null);
     setStatus({});
     try {
-      const list = await suggestConcepts(culture, articles);
-      setItems(list);
-      setChosen(new Set(list.map((_, i) => i)));
+      const { usable, rejected } = await suggestConcepts(culture, articles);
+      setItems(usable);
+      setRejected(rejected);
+      // Only what has its own Wikipedia page starts selected; a mere mention waits
+      // for a look at the source.
+      setChosen(new Set(usable.flatMap((s, i) => (s.verified === 'title' ? [i] : []))));
     } catch (e) {
       setError(e instanceof Error ? e.message : 'החיפוש נכשל.');
     } finally {
@@ -79,8 +83,9 @@ const DiscoverPanel: React.FC<Props> = ({ culture, articles, onCreated }) => {
         <div className="min-w-0">
           <h3 className="font-heading text-xl font-bold text-primary">עוד ביטויים מ{culture}</h3>
           <p className="mt-1 max-w-2xl text-sm leading-relaxed text-muted-foreground">
-            Gemini מציע שישה ביטויים מתועדים שמייחדים את התרבות ועוד אינם בספרייה. כדאי לבדוק כל הצעה לפני שיוצרים
-            אותה: המודל יכול לטעות.
+            Gemini מציע ביטויים שמייחדים את התרבות ועוד אינם בספרייה. כל הצעה נבדקת מול ויקיפדיה האנגלית: ביטוי
+            שיש לו ערך משלו מסומן מראש, ביטוי שמוזכר רק בתוך ערך אחר מוצג עם הערך לבדיקה, וביטוי שלא נמצא כלל
+            נפסל. המודל טועה, הבדיקה החיצונית היא מה שמגן על הספרייה.
           </p>
         </div>
         <Button onClick={find} disabled={busy || running} variant={items ? 'outline' : 'default'}>
@@ -91,7 +96,16 @@ const DiscoverPanel: React.FC<Props> = ({ culture, articles, onCreated }) => {
       {error && <p className="border border-destructive/40 bg-destructive/10 p-3 text-sm">{error}</p>}
 
       {items && items.length === 0 && (
-        <p className="text-sm text-muted-foreground">לא נמצאו הצעות חדשות. אפשר לבקש שוב.</p>
+        <p className="text-sm text-muted-foreground">
+          אף הצעה לא אומתה מול ויקיפדיה. כנראה שהמודל החינמי לא מכיר מספיק ביטויים מהתרבות הזאת. אפשר לבקש שוב, או
+          להוסיף מושג שאת מכירה ישירות מדף הבית.
+        </p>
+      )}
+
+      {rejected.length > 0 && (
+        <p className="text-xs leading-relaxed text-muted-foreground">
+          נפסלו כי לא נמצאו בוויקיפדיה: {rejected.map(r => `${r.concept} (${r.transliteration})`).join(', ')}.
+        </p>
       )}
 
       {items && items.length > 0 && (
@@ -128,8 +142,24 @@ const DiscoverPanel: React.FC<Props> = ({ culture, articles, onCreated }) => {
                         <span className="text-xs text-muted-foreground" dir="ltr">{s.transliteration}</span>
                       </span>
                       <span className="block text-xs text-muted-foreground">
-                        "{s.literal}" · {s.need}
+                        "{s.literal}" · {s.need} ·{' '}
+                        <span className={s.verified === 'title' ? 'text-accent' : 'text-destructive'}>
+                          {s.verified === 'title' ? 'אומת: ערך בוויקיפדיה' : 'מוזכר בלבד, לבדוק לפני יצירה'}
+                        </span>
                       </span>
+                      {s.source && (
+                        <a
+                          href={s.source}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          onClick={e => e.stopPropagation()}
+                          className="block text-xs text-muted-foreground underline underline-offset-2 hover:text-accent"
+                          dir="ltr"
+                        >
+                          Wikipedia: {s.sourceTitle}
+                          {s.hebrewTitle ? ` · ${s.hebrewTitle}` : ''}
+                        </a>
+                      )}
                       <span className="block text-sm leading-relaxed">{s.why}</span>
                       {st && (
                         <span className={`block text-xs ${st.s === 'failed' ? 'text-destructive' : 'text-accent'}`}>

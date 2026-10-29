@@ -127,9 +127,22 @@ export interface Suggestion {
   concept: string;
   transliteration: string;
   script: string;
+  english: string;
   literal: string;
   need: string;
   why: string;
+  confidence: 'high' | 'medium' | 'low';
+  /** Checked by the server against English Wikipedia; see culture-atlas. */
+  verified: 'title' | 'mention' | 'none';
+  source?: string;
+  sourceTitle?: string;
+  hebrewTitle?: string;
+}
+
+export interface Suggestions {
+  usable: Suggestion[];
+  /** Not found anywhere on Wikipedia: never offered, only listed. */
+  rejected: Suggestion[];
 }
 
 export function distillTheme(group: ThemeGroup): Promise<ThemeDistillation> {
@@ -164,7 +177,7 @@ export function distillCulture(profile: CultureProfile, all: Article[]): Promise
   });
 }
 
-export async function suggestConcepts(culture: string, all: Article[]): Promise<Suggestion[]> {
+export async function suggestConcepts(culture: string, all: Article[]): Promise<Suggestions> {
   const existing = all.filter(a => cultureOf(a) === culture);
   const result = await callFunction<{ items: Suggestion[] }>('culture-atlas', {
     mode: 'suggest',
@@ -172,9 +185,24 @@ export async function suggestConcepts(culture: string, all: Article[]): Promise<
     existing: existing.map(a => `${a.concept} (${a.dimensions.origin.transliteration})`),
     library: all.map(a => a.dimensions.origin.transliteration || a.concept),
   });
-  // The model is told not to repeat the library; hold it to that here too.
-  const known = new Set(all.map(a => (a.dimensions.origin.transliteration || '').toLowerCase()));
-  return (result.items ?? []).filter(s => !known.has((s.transliteration || '').toLowerCase()));
+  // The model is told not to repeat the library; hold it to that here too,
+  // including under the English page name it was verified by.
+  const known = new Set(
+    all.flatMap(a => [a.dimensions.origin.transliteration, a.concept]).map(v => (v || '').toLowerCase())
+  );
+  const fresh = (result.items ?? []).filter(
+    s => !known.has((s.transliteration || '').toLowerCase()) && !known.has((s.sourceTitle || '').toLowerCase())
+  );
+  // Hebrew Wikipedia's title is the accepted Hebrew name; the model's spelling
+  // is not ("טורקה" for Talkoot).
+  for (const s of fresh) {
+    const hebrew = (s.hebrewTitle || '').replace(/\s*\(.*\)\s*$/, '').trim();
+    if (hebrew) s.concept = hebrew;
+  }
+  return {
+    usable: fresh.filter(s => s.verified !== 'none'),
+    rejected: fresh.filter(s => s.verified === 'none'),
+  };
 }
 
 // ---------- Saved entries ----------

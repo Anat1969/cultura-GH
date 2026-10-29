@@ -11,3 +11,6 @@ An article that takes over 20 seconds, or arrives with empty image frames, count
 
 ## Atlas (2026-10-29)
 `/atlas` compares cultures: overlaps by human need, uniqueness by culture, and discovery of new expressions per culture. Tables are derived from the library in `src/lib/atlas.ts` (one culture name per culture via CULTURE_ALIASES; Hebrew and Latin spellings of one concept count once). Distillations come from the `culture-atlas` Edge Function (Gemini 2.5 Flash, thinking off) and are kept with the pasted image and notes in `culture_atlas`. Article creation lives in one place, `src/lib/create.ts`.
+
+## Model output about cultures is verified outside the model (2026-10-29)
+The first library expansion, created without review, added invented words, a Finnish curse, a Welsh word for vomiting, a slur and an echo of a Nazi-era slogan. The model's own "confidence" rated them high. Rule: any list of cultural expressions the model proposes is checked against an outside source before it can be created (`culture-atlas` checks English Wikipedia: own page = verified, mention = shown with the source, nowhere = rejected). Never bulk-create model suggestions without that check, and never report generated content as good without reading it.
