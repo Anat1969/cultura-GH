@@ -1,5 +1,6 @@
 import React from 'react';
 import { Origin, Practice, practiceLabels, interpretationLines } from '@/types/article';
+import { Flag } from '@/components/CultureMarks';
 
 // Fonts loaded in index.html so original scripts (Japanese, Arabic, Devanagari) render well.
 const SCRIPT_FONTS =
@@ -28,7 +29,8 @@ export const OriginLine: React.FC<{ origin: Origin; size?: 'lg' | 'sm'; classNam
         {[origin.transliteration, origin.literal].filter(Boolean).join(' · ')}
       </span>
       {(origin.culture || origin.region_en) && (
-        <span className="text-xs tracking-wide text-muted-foreground/80">
+        <span className="inline-flex items-center gap-1.5 text-xs tracking-wide text-muted-foreground/80">
+          <Flag origin={origin} />
           {origin.culture}
           {origin.region_en && (
             <span dir="ltr" className="mr-1">

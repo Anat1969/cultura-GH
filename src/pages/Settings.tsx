@@ -7,16 +7,11 @@ import Breadcrumbs from '@/components/Breadcrumbs';
 import { useToast } from '@/hooks/use-toast';
 import { checkServer } from '@/lib/ai';
 import {
-  getImageKey,
-  setImageKey,
-  getGithubToken,
-  setGithubToken,
   getPasscode,
   setPasscode,
   normalizeKey,
   maskKey,
 } from '@/lib/settings';
-import { REPO } from '@/lib/publish';
 
 const SECRETS_URL = 'https://supabase.com/dashboard/project/ktqmwpbzcnzkhjskqisy/settings/functions';
 
@@ -40,17 +35,12 @@ const SettingsPage: React.FC = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
 
-  const [savedImage, setSavedImage] = useState(getImageKey());
-  const [savedGithub, setSavedGithub] = useState(getGithubToken());
   const [savedPasscode, setSavedPasscode] = useState(getPasscode());
 
-  const [imageInput, setImageInput] = useState('');
-  const [githubInput, setGithubInput] = useState('');
   const [passcodeInput, setPasscodeInput] = useState('');
 
   const [serverStatus, setServerStatus] = useState<Status>(null);
   const [busy, setBusy] = useState(false);
-  const [showOverride, setShowOverride] = useState(false);
 
   const testServer = async () => {
     setBusy(true);
@@ -188,153 +178,13 @@ const SettingsPage: React.FC = () => {
         )}
       </section>
 
-      {/* GitHub — permanent storage for finished articles and their images */}
-      <section className="mb-12">
-        <h2 className="text-lg font-heading font-bold text-accent mb-2">שמירה קבועה בגיטהב</h2>
-        <p className="text-sm text-muted-foreground mb-4 leading-relaxed">
-          מאמרים נשמרים אוטומטית בטבלה ב-Supabase. כפתור "שמור בגיטהב" שבמסך המאמר מוסיף עליו שכבה
-          שנייה: המאמר והתמונות נכנסים לריפו{' '}
-          <span dir="ltr" className="font-mono text-xs">
-            {REPO}
-          </span>
-          , והתמונות מפסיקות להיות תלויות בקישור זמני. צריך{' '}
-          <a
-            href="https://github.com/settings/personal-access-tokens/new"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-primary underline underline-offset-4 hover:text-accent"
-          >
-            Fine-grained token
-          </a>{' '}
-          עם{' '}
-          <span dir="ltr" className="font-mono text-xs">
-            Contents: Read and write
-          </span>{' '}
-          לריפו הזה בלבד.
-        </p>
-
-        {savedGithub ? (
-          <div className="rounded-lg border border-border bg-card p-4">
-            <p className="text-sm mb-3">
-              אסימון שמור:{' '}
-              <span dir="ltr" className="font-mono text-xs text-muted-foreground">
-                {maskKey(savedGithub)}
-              </span>
-            </p>
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => {
-                setGithubToken('');
-                setSavedGithub('');
-              }}
-            >
-              מחק אסימון
-            </Button>
-          </div>
-        ) : (
-          <div className="flex gap-2">
-            <Button
-              variant="outline"
-              disabled={!githubInput.trim()}
-              onClick={() =>
-                saveSimple(
-                  githubInput,
-                  setGithubToken,
-                  setSavedGithub,
-                  () => setGithubInput(''),
-                  'האסימון'
-                )
-              }
-            >
-              שמור
-            </Button>
-            <Input
-              value={githubInput}
-              onChange={e => setGithubInput(e.target.value)}
-              type="password"
-              dir="ltr"
-              autoComplete="off"
-              spellCheck={false}
-              placeholder="github_pat_..."
-              className="font-mono text-sm"
-            />
-          </div>
-        )}
-      </section>
-
-      {/* Personal keys in this browser — only for someone who wants their own */}
-      <section className="mb-12">
-        <button
-          onClick={() => setShowOverride(v => !v)}
-          className="text-sm text-muted-foreground underline underline-offset-4 hover:text-accent"
-        >
-          {showOverride ? 'הסתר' : 'מפתח תמונות אישי בדפדפן הזה (לא נדרש)'}
-        </button>
-
-        {showOverride && (
-          <div className="mt-4 space-y-6 rounded-lg border border-border bg-card p-4">
-            <p className="text-sm text-muted-foreground leading-relaxed">
-              מפתח תמונות אישי, לשימוש רק אם בשרת לא מוגדר מפתח תמונות.
-            </p>
-
-            <div>
-              <h3 className="text-sm font-bold text-accent mb-2">מפתח תמונות</h3>
-              {savedImage ? (
-                <div className="flex flex-wrap items-center gap-2">
-                  <span dir="ltr" className="font-mono text-xs text-muted-foreground">
-                    {maskKey(savedImage)}
-                  </span>
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => {
-                      setImageKey('');
-                      setSavedImage('');
-                    }}
-                  >
-                    מחק
-                  </Button>
-                </div>
-              ) : (
-                <div className="flex gap-2">
-                  <Button
-                    variant="outline"
-                    disabled={!imageInput.trim()}
-                    onClick={() =>
-                      saveSimple(
-                        imageInput,
-                        setImageKey,
-                        setSavedImage,
-                        () => setImageInput(''),
-                        'מפתח התמונות'
-                      )
-                    }
-                  >
-                    שמור
-                  </Button>
-                  <Input
-                    value={imageInput}
-                    onChange={e => setImageInput(e.target.value)}
-                    type="password"
-                    dir="ltr"
-                    autoComplete="off"
-                    spellCheck={false}
-                    placeholder="fal key"
-                    className="font-mono text-sm"
-                  />
-                </div>
-              )}
-            </div>
-          </div>
-        )}
-      </section>
-
       <section className="rounded-lg border border-accent/30 bg-accent/5 p-4 text-sm leading-relaxed">
         <h2 className="font-bold mb-2">כדאי לדעת</h2>
         <ul className="space-y-1.5 text-muted-foreground">
           <li>מפתח Gemini יושב רק בסודות של Supabase. הוא לא בדפדפן ולא בקוד האתר.</li>
           <li>בלי קוד גישה, כל מי שמגיע לאתר יכול ליצור ולנצל את המכסה החינמית המשותפת.</li>
+          <li>כל שינוי נשמר מעצמו בספרייה המשותפת, בלי חיבור ובלי מפתח. אם אין רשת, הוא נשלח כשהיא חוזרת.</li>
+          <li>התמונות נוצרות בשרת בחינם (Cloudflare flux), ריבועיות, ונשמרות לצמיתות.</li>
           <li>הספרייה משותפת: מה שנוצר במכשיר אחד מופיע בשני.</li>
           <li>הריפו והטבלה ציבוריים — מה שנשמר בהם גלוי לכולם.</li>
           <li>

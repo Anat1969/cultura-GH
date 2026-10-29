@@ -14,6 +14,7 @@ const Header: React.FC = () => {
     { to: '/', label: 'בית' },
     { to: '/library', label: 'ספרייה' },
     { to: '/concepts', label: 'קונספטים' },
+    { to: '/world', label: 'עולם' },
     { to: '/atlas', label: 'אטלס' },
     { to: '/settings', label: 'הגדרות' },
   ];

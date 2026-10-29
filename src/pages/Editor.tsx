@@ -6,6 +6,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Badge } from '@/components/ui/badge';
 import Breadcrumbs from '@/components/Breadcrumbs';
 import { getArticleById, saveArticle } from '@/lib/storage';
+import SaveStatus from '@/components/SaveStatus';
 import {
   Article,
   HUMAN_NEEDS,
@@ -23,12 +24,20 @@ const textFields = [
   { key: 'proverb' as const, label: 'ברוח המושג', single: false },
 ];
 
-const originFields: { key: keyof Origin; label: string; ltr?: boolean }[] = [
+type TextOriginKey = 'script' | 'transliteration' | 'literal' | 'culture' | 'region_en' | 'country' | 'place' | 'era' | 'tradition' | 'figure' | 'source';
+
+const originFields: { key: TextOriginKey; label: string; ltr?: boolean }[] = [
   { key: 'script', label: 'כתב מקורי' },
   { key: 'transliteration', label: 'תעתיק', ltr: true },
-  { key: 'literal', label: 'משמעות מילולית' },
+  { key: 'literal', label: 'משמעות קצרה' },
   { key: 'culture', label: 'תרבות' },
   { key: 'region_en', label: 'אזור (באנגלית)', ltr: true },
+  { key: 'country', label: 'קוד מדינה (לדגל ולגלובוס)', ltr: true },
+  { key: 'place', label: 'מקום המקור' },
+  { key: 'era', label: 'תקופה' },
+  { key: 'tradition', label: 'מסורת' },
+  { key: 'figure', label: 'דמות' },
+  { key: 'source', label: 'מקור (קישור)', ltr: true },
 ];
 
 const EditorPage: React.FC = () => {
@@ -50,19 +59,28 @@ const EditorPage: React.FC = () => {
     setArticle(a);
   }, [id, navigate]);
 
-  // Auto-save every 30s (single interval, reads latest state via ref)
+  // Every change is saved on its own, a moment after typing stops.
+  const loaded = useRef<string | null>(null);
   useEffect(() => {
-    const t = setInterval(() => {
-      if (articleRef.current) saveArticle(articleRef.current);
-    }, 30000);
-    return () => clearInterval(t);
-  }, []);
+    if (!article) return;
+    const snapshot = JSON.stringify(article);
+    if (loaded.current === null) {
+      loaded.current = snapshot;
+      return;
+    }
+    if (snapshot === loaded.current) return;
+    const t = setTimeout(() => {
+      loaded.current = snapshot;
+      saveArticle(article);
+    }, 800);
+    return () => clearTimeout(t);
+  }, [article]);
 
   const updateDimension = useCallback((key: string, value: string) => {
     setArticle(prev => (prev ? { ...prev, dimensions: { ...prev.dimensions, [key]: value } } : prev));
   }, []);
 
-  const updateOrigin = useCallback((key: keyof Origin, value: string) => {
+  const updateOrigin = useCallback((key: keyof Origin, value: string | number | null) => {
     setArticle(prev =>
       prev ? { ...prev, dimensions: { ...prev.dimensions, origin: { ...prev.dimensions.origin, [key]: value } } } : prev
     );
@@ -158,7 +176,10 @@ const EditorPage: React.FC = () => {
 
       <div className="flex items-center justify-between mb-8">
         <h1 className="text-fluid-lg font-heading font-bold text-primary">עריכת מאמר</h1>
-        <Button onClick={handleSave}>שמור</Button>
+        <div className="flex items-center gap-3">
+          <SaveStatus id={article.id} />
+          <Button onClick={handleSave}>שמור עכשיו</Button>
+        </div>
       </div>
 
       {/* Origin — linguistic layer */}
@@ -169,13 +190,30 @@ const EditorPage: React.FC = () => {
             <div key={f.key}>
               <label className="text-xs text-muted-foreground mb-1 block">{f.label}</label>
               <Input
-                value={d.origin[f.key]}
+                value={String(d.origin[f.key] ?? '')}
                 onChange={e => updateOrigin(f.key, e.target.value)}
                 dir={f.ltr ? 'ltr' : 'auto'}
                 className={f.key === 'script' ? 'text-lg' : ''}
               />
             </div>
           ))}
+          <div>
+            <label className="text-xs text-muted-foreground mb-1 block">שנה משוערת (שלילי לפני הספירה)</label>
+            <Input
+              type="number"
+              value={d.origin.year ?? ''}
+              onChange={e => updateOrigin('year', e.target.value === '' ? null : Number(e.target.value))}
+              dir="ltr"
+            />
+          </div>
+          <div className="sm:col-span-2">
+            <label className="text-xs text-muted-foreground mb-1 block">סיפור המקור</label>
+            <Textarea
+              value={d.origin.story ?? ''}
+              onChange={e => updateOrigin('story', e.target.value)}
+              rows={3}
+            />
+          </div>
           <div>
             <label className="text-xs text-muted-foreground mb-1 block">צורך אנושי (לקיבוץ והשוואה)</label>
             <select

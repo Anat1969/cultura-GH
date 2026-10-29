@@ -1,3 +1,4 @@
+import FitImage, { usableImage } from '@/components/FitImage';
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Article } from '@/types/article';
@@ -16,7 +17,8 @@ interface MagazinePageProps {
  * the interpretation, and a "ברוח המושג" label above the proverb.
  */
 const MagazinePage: React.FC<MagazinePageProps> = ({ article, layoutVariant }) => {
-  const { dimensions, images, concept, tags, createdAt } = article;
+  const { dimensions, concept, tags, createdAt } = article;
+  const images = { exterior: usableImage(article.images.exterior), interior: usableImage(article.images.interior) };
   const variant = layoutVariant % 4;
 
   const dateStr = new Date(createdAt).toLocaleDateString('he-IL', {
@@ -50,7 +52,7 @@ const MagazinePage: React.FC<MagazinePageProps> = ({ article, layoutVariant }) =
       <div className="w-full min-h-[calc(100vh-4rem)] grid grid-cols-1 lg:grid-cols-2 gap-0">
         <motion.div className="relative overflow-hidden min-h-[50vh] lg:min-h-full" {...fadeIn(0)}>
           {images.exterior ? (
-            <img src={images.exterior} alt={dimensions.spaceName} className="absolute inset-0 w-full h-full object-cover" />
+            <FitImage src={images.exterior} alt={dimensions.spaceName} className="absolute inset-0 w-full h-full" />
           ) : (
             <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-accent/20" />
           )}
@@ -95,12 +97,9 @@ const MagazinePage: React.FC<MagazinePageProps> = ({ article, layoutVariant }) =
     return (
       <div className="w-full min-h-[calc(100vh-4rem)] relative overflow-hidden flex items-end">
         {images.exterior ? (
-          <motion.img
-            src={images.exterior}
-            alt={dimensions.spaceName}
-            className="absolute inset-0 w-full h-full object-cover"
-            {...fadeIn(0)}
-          />
+          <motion.div className="absolute inset-0" {...fadeIn(0)}>
+            <FitImage src={images.exterior} alt={dimensions.spaceName} className="h-full w-full" />
+          </motion.div>
         ) : (
           <div className="absolute inset-0 bg-gradient-to-br from-primary/30 to-accent/10" />
         )}
@@ -147,7 +146,7 @@ const MagazinePage: React.FC<MagazinePageProps> = ({ article, layoutVariant }) =
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-1 h-[45vh]">
           <motion.div className="relative overflow-hidden" {...fadeIn(0)}>
             {images.exterior ? (
-              <img src={images.exterior} alt="המושג בארץ המקור" className="w-full h-full object-cover" />
+              <FitImage src={images.exterior} alt="המושג בארץ המקור" className="w-full h-full" />
             ) : (
               <div className="w-full h-full bg-gradient-to-br from-primary/20 to-accent/10" />
             )}
@@ -157,9 +156,7 @@ const MagazinePage: React.FC<MagazinePageProps> = ({ article, layoutVariant }) =
           </motion.div>
           <motion.div className="relative overflow-hidden" {...fadeIn(0.2)}>
             {images.interior ? (
-              <img src={images.interior} alt="מרחב מחייה מרפא בישראל" className="w-full h-full object-cover" />
-            ) : images.exterior ? (
-              <img src={images.exterior} alt={dimensions.spaceName} className="w-full h-full object-cover scale-x-[-1] brightness-90" />
+              <FitImage src={images.interior} alt="מרחב מחייה מרפא בישראל" className="w-full h-full" />
             ) : (
               <div className="w-full h-full bg-gradient-to-bl from-primary/20 to-accent/10" />
             )}
@@ -236,10 +233,10 @@ const MagazinePage: React.FC<MagazinePageProps> = ({ article, layoutVariant }) =
 
       <motion.div className="relative overflow-hidden min-h-[40vh] lg:min-h-full order-1 lg:order-2" {...fadeIn(0)}>
         {images.interior || images.exterior ? (
-          <img
+          <FitImage
             src={images.interior || images.exterior!}
             alt={dimensions.spaceName}
-            className="absolute inset-0 w-full h-full object-cover"
+            className="absolute inset-0 w-full h-full"
           />
         ) : (
           <div className="absolute inset-0 bg-gradient-to-br from-accent/20 to-primary/10" />

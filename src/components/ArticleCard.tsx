@@ -3,6 +3,8 @@ import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { Article, articleLede } from '@/types/article';
 import { isVideo } from '@/lib/media';
+import FitImage, { usableImage } from '@/components/FitImage';
+import { Flag, Gloss } from '@/components/CultureMarks';
 
 /**
  * The library's unit: a cover, the word in its own script, and the one line
@@ -11,7 +13,7 @@ import { isVideo } from '@/lib/media';
 const ArticleCard: React.FC<{ article: Article; index?: number }> = ({ article, index = 0 }) => {
   const navigate = useNavigate();
   const d = article.dimensions;
-  const cover = article.images.interior || article.images.exterior;
+  const cover = usableImage(article.images.exterior) || usableImage(article.images.interior);
   const motion_ = article.videos.interior || article.videos.exterior;
 
   return (
@@ -22,13 +24,11 @@ const ArticleCard: React.FC<{ article: Article; index?: number }> = ({ article, 
       onClick={() => navigate(`/article/${article.id}`)}
       className="group relative flex cursor-pointer flex-col overflow-hidden rounded-xl border border-border bg-card transition-all duration-500 hover:border-accent/50 hover:shadow-xl hover:shadow-black/20"
     >
-      <div className="relative aspect-[4/3] overflow-hidden bg-muted">
+      <div className="relative aspect-square overflow-hidden bg-muted">
         {cover ? (
-          <img
+          <FitImage
             src={cover}
-            alt=""
-            loading="lazy"
-            className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.04]"
+            className="h-full w-full transition-transform duration-700 group-hover:scale-[1.03]"
           />
         ) : motion_ && isVideo(motion_) ? (
           <video src={motion_} muted loop playsInline className="h-full w-full object-cover" />
@@ -54,10 +54,12 @@ const ArticleCard: React.FC<{ article: Article; index?: number }> = ({ article, 
           <h3 className="font-heading text-xl font-bold leading-tight text-foreground drop-shadow">
             {d.spaceName}
           </h3>
-          <p className="mt-0.5 text-xs text-muted-foreground">
-            {article.concept}
-            {d.origin.culture && ` · ${d.origin.culture}`}
+          <p className="mt-1 flex items-center gap-1.5 text-xs text-foreground/80">
+            <Flag article={article} />
+            <span>{article.concept}</span>
+            {d.origin.culture && <span className="text-muted-foreground">· {d.origin.culture}</span>}
           </p>
+          {d.origin.literal && <Gloss text={d.origin.literal} className="mt-0.5" />}
         </div>
 
         {d.humanNeed && (

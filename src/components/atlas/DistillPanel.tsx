@@ -180,7 +180,8 @@ function DistillPanel<T extends { visual: Visual }>({ kind, entryKey, title, bas
             >
               <h4 className="text-sm font-bold text-accent">התמונה</h4>
               {entry.image_url ? (
-                <img src={entry.image_url} alt={data.visual.distill} className="aspect-square w-full border border-border object-cover" />
+                // Shown in its own proportions, never cropped to a square.
+                <img src={entry.image_url} alt={data.visual.distill} className="block h-auto w-full border border-border" />
               ) : (
                 <div className="flex aspect-square w-full items-center justify-center border border-dashed border-border p-6 text-center text-sm text-muted-foreground">
                   {imageBusy ? 'מעלה…' : 'לחצי כאן והדביקי תמונה (Ctrl+V), או קישור לתמונה. אפשר גם לבחור קובץ.'}

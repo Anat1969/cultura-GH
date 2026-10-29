@@ -7,6 +7,7 @@ import MagazinePage from '@/components/MagazinePage';
 import ArticleCard from '@/components/ArticleCard';
 import { getArticles, resetLibraryFromShared } from '@/lib/storage';
 import { Article } from '@/types/article';
+import { keywordMatcher } from '@/lib/search';
 
 type View = 'cards' | 'magazine';
 
@@ -18,25 +19,7 @@ const LibraryPage: React.FC = () => {
   const [search, setSearch] = useState('');
   const [currentPage, setCurrentPage] = useState(0);
 
-  const filtered = useMemo(() => {
-    if (!search.trim()) return articles;
-    const s = search.toLowerCase();
-    return articles.filter(a => {
-      const d = a.dimensions;
-      return [
-        a.concept,
-        d.spaceName,
-        d.lede,
-        d.humanNeed,
-        d.origin.culture,
-        d.origin.transliteration,
-        d.origin.region_en,
-        ...a.tags,
-      ]
-        .filter(Boolean)
-        .some(v => String(v).toLowerCase().includes(s));
-    });
-  }, [articles, search]);
+  const filtered = useMemo(() => articles.filter(keywordMatcher(search)), [articles, search]);
 
   const totalPages = filtered.length;
 
@@ -156,7 +139,7 @@ const LibraryPage: React.FC = () => {
         <Input
           value={search}
           onChange={e => setSearch(e.target.value)}
-          placeholder="חפשי מושג, תרבות, צורך או שם מרחב…"
+          placeholder="מילות מפתח: מושג, תרבות, מקום, תקופה, צורך…"
           className="max-w-sm text-right"
           dir="rtl"
         />

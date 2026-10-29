@@ -35,7 +35,7 @@ function settleNeed(value: unknown): string {
 }
 
 const IMAGE_STYLE =
-  'Documentary realism, professional architecture photography, 16:9, natural light, no people in focus, no text, no words, no writing, no frame divisions';
+  'Documentary realism, professional architecture photography, 1:1, natural light, no people in focus, no text, no words, no writing, no frame divisions';
 
 const systemPrompt = `You are CultureArch — a cultural anthropologist and architect-psychologist, writing for a design magazine.
 You translate a cultural concept into practical life tools and into a physical, healing space.
@@ -149,11 +149,23 @@ async function viaGemini(key: string, userLine: string): Promise<Record<string, 
   throw last;
 }
 
+const MIXED_SCRIPT = /[\u0590-\u05FF][\u0400-\u04FF\u0600-\u06FF]|[\u0400-\u04FF\u0600-\u06FF][\u0590-\u05FF]/;
+
+/** The Hebrew text of the article; the script and the image prompts may rightly be foreign. */
+function hebrewFields(p: Record<string, unknown>): string {
+  const { origin, imagePrompts: _prompts, ...rest } = p as { origin?: Record<string, unknown>; imagePrompts?: unknown };
+  const { script: _script, ...originRest } = origin ?? {};
+  return JSON.stringify([rest, originRest]);
+}
+
 /** The article, or { error } with a Hebrew message. */
 async function writeArticle(geminiKey: string, userLine: string): Promise<Record<string, unknown>> {
   let parsed: Record<string, unknown>;
   try {
     parsed = await viaGemini(geminiKey, userLine);
+    // With thinking off the model now and then slips a Cyrillic or Arabic
+    // letter into a Hebrew word ("לדказа"). One more try nearly always clears it.
+    if (MIXED_SCRIPT.test(hebrewFields(parsed))) parsed = await viaGemini(geminiKey, userLine);
   } catch (error) {
     const status = (error as { status?: number }).status;
     if (status === 401 || status === 403) {
