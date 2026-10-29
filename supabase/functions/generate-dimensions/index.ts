@@ -64,13 +64,18 @@ Field guidance:
 Never invent sources, quotes or statistics. Be precise about the language of origin.`;
 
 // Free Gemini models are sometimes busy (503), so lighter ones follow.
+// 2.5 Flash with thinking switched off answers in about 10-20 seconds; the
+// "latest" alias thinks first and took up to 75, which read as a dead app.
 const GEMINI_MODELS = [
   ...new Set([
-    Deno.env.get('GEMINI_MODEL')?.trim() || 'gemini-flash-latest',
-    'gemini-2.5-flash',
+    Deno.env.get('GEMINI_MODEL')?.trim() || 'gemini-2.5-flash',
     'gemini-flash-lite-latest',
+    'gemini-flash-latest',
   ]),
 ];
+
+// Each try is capped so that all of them fit inside the function's 150s limit.
+const MODEL_TIMEOUT_MS = 45000;
 
 const S = { type: 'STRING' };
 const GEMINI_SCHEMA = {
@@ -110,9 +115,14 @@ async function geminiOnce(key: string, model: string, userLine: string): Promise
       body: JSON.stringify({
         systemInstruction: { parts: [{ text: systemPrompt }] },
         contents: [{ role: 'user', parts: [{ text: userLine }] }],
-        generationConfig: { responseMimeType: 'application/json', responseSchema: GEMINI_SCHEMA },
+        generationConfig: {
+          responseMimeType: 'application/json',
+          responseSchema: GEMINI_SCHEMA,
+          // Thinking only adds wait here; the schema already shapes the answer.
+          ...(model.startsWith('gemini-2.5') ? { thinkingConfig: { thinkingBudget: 0 } } : {}),
+        },
       }),
-      signal: AbortSignal.timeout(60000),
+      signal: AbortSignal.timeout(MODEL_TIMEOUT_MS),
     },
   );
   if (!response.ok) {
@@ -131,8 +141,9 @@ async function viaGemini(key: string, userLine: string): Promise<Record<string, 
     } catch (error) {
       last = error;
       const status = (error as { status?: number }).status;
-      // A wrong key will not work with another model either.
-      if (status === 400 || status === 401 || status === 403) throw error;
+      // A wrong key will not work with another model either. A 400 may be one
+      // model refusing a setting, so the next model still gets its turn.
+      if (status === 401 || status === 403) throw error;
     }
   }
   throw last;
