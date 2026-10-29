@@ -1,13 +1,11 @@
 import React, { useEffect, useState, useCallback, useRef } from 'react';
 import { useLocation, useNavigate, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { v4 as uuid } from 'uuid';
 import { Button } from '@/components/ui/button';
 import Breadcrumbs from '@/components/Breadcrumbs';
 import SkeletonLoader from '@/components/SkeletonLoader';
-import { generateDimensions, generateImages } from '@/lib/ai';
-import { saveArticle, findArticleByConcept, syncArticlesFromSupabase } from '@/lib/storage';
-import { Article, buildTags } from '@/types/article';
+import { createArticle } from '@/lib/create';
+import { findArticleByConcept, syncArticlesFromSupabase } from '@/lib/storage';
 
 /**
  * The creating screen, and nothing else.
@@ -35,35 +33,7 @@ const OutputPage: React.FC = () => {
     setStage('text');
 
     try {
-      const dimensions = await generateDimensions(concept, hint);
-
-      const now = new Date().toISOString();
-      const article: Article = {
-        id: uuid(),
-        concept,
-        createdAt: now,
-        updatedAt: now,
-        tags: buildTags(dimensions),
-        dimensions,
-        images: { exterior: null, interior: null },
-        videos: { exterior: null, interior: null },
-      };
-
-      // Saved before anything else can fail.
-      saveArticle(article);
-
-      setStage('images');
-      try {
-        const images = await generateImages(
-          dimensions.imagePrompts.exterior,
-          dimensions.imagePrompts.interior
-        );
-        saveArticle({ ...article, images });
-      } catch {
-        // No image provider configured, or it failed. The frames stay empty for
-        // the user to fill by hand, which is a supported path, not an error.
-      }
-
+      const article = await createArticle(concept, hint, setStage);
       navigate(`/article/${article.id}`, { replace: true });
     } catch (err) {
       setError(err instanceof Error ? err.message : 'שגיאה לא ידועה');

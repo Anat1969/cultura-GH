@@ -18,7 +18,7 @@ function headers(): Record<string, string> {
  * Calls an Edge Function, where the provider key lives as a server secret.
  * Returns the parsed body, or throws with the function's own Hebrew message.
  */
-async function callFunction<T>(name: string, body: Record<string, unknown>): Promise<T> {
+export async function callFunction<T>(name: string, body: Record<string, unknown>): Promise<T> {
   const { data, error } = await supabase.functions.invoke(name, { body, headers: headers() });
 
   // A non-2xx reply carries our message in the body, which invoke() hides.

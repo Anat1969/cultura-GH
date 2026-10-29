@@ -8,3 +8,6 @@ Anat's decision (2026-10-29): text generation uses only the free Gemini key (GEM
 
 ## Speed and images are part of "it works" (2026-10-29)
 An article that takes over 20 seconds, or arrives with empty image frames, counts as broken for Anat. Text runs on gemini-2.5-flash with thinking off (4-5s). With no FAL_API_KEY, images come from free keyless Pollinations URLs. Before reporting a fix, run a real end-to-end on the live site and time it.
+
+## Atlas (2026-10-29)
+`/atlas` compares cultures: overlaps by human need, uniqueness by culture, and discovery of new expressions per culture. Tables are derived from the library in `src/lib/atlas.ts` (one culture name per culture via CULTURE_ALIASES; Hebrew and Latin spellings of one concept count once). Distillations come from the `culture-atlas` Edge Function (Gemini 2.5 Flash, thinking off) and are kept with the pasted image and notes in `culture_atlas`. Article creation lives in one place, `src/lib/create.ts`.
