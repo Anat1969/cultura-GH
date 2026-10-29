@@ -1,0 +1,6 @@
+{
+  "buildCommand": "npm run build",
+  "outputDirectory": "dist",
+  "redirects": [{ "source": "/", "destination": "/cultura-GH/", "permanent": false }],
+  "rewrites": [{ "source": "/cultura-GH/:path*", "destination": "/:path*" }]
+}
