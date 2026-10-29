@@ -1,29 +1,30 @@
 import { v4 as uuid } from 'uuid';
 import { generateDimensions, generateImages } from '@/lib/ai';
 import { saveArticle, getArticleById } from '@/lib/storage';
-import { Article, buildTags } from '@/types/article';
+import { Article, Frame, buildTags } from '@/types/article';
 
 // Images are drawn one article at a time: the free renderer allows about one
 // image per 45 seconds, and the atlas can create several articles in a row.
 let imageQueue: Promise<void> = Promise.resolve();
 
 function fillImages(article: Article): void {
+  // Whatever was put in a frame by hand meanwhile stays.
+  const place = (frame: Frame, url: string | null) => {
+    const current = getArticleById(article.id) ?? article;
+    if (!url || current.images[frame]) return;
+    saveArticle({ ...current, images: { ...current.images, [frame]: url } });
+  };
+
   imageQueue = imageQueue.then(async () => {
     try {
       const { exterior, interior } = await generateImages(
         article.dimensions.imagePrompts.exterior,
         article.dimensions.imagePrompts.interior,
-        article.id
+        article.id,
+        place
       );
-      // Whatever was put in a frame by hand meanwhile stays.
-      const current = getArticleById(article.id) ?? article;
-      saveArticle({
-        ...current,
-        images: {
-          exterior: current.images.exterior ?? exterior,
-          interior: current.images.interior ?? interior,
-        },
-      });
+      place('exterior', exterior);
+      place('interior', interior);
     } catch {
       // No image provider, or it failed. The frames stay empty for the user to
       // fill by hand, which is a supported path, not an error.
