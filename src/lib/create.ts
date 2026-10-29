@@ -1,12 +1,40 @@
 import { v4 as uuid } from 'uuid';
 import { generateDimensions, generateImages } from '@/lib/ai';
-import { saveArticle } from '@/lib/storage';
+import { saveArticle, getArticleById } from '@/lib/storage';
 import { Article, buildTags } from '@/types/article';
 
+// Images are drawn one article at a time: the free renderer allows about one
+// image per 45 seconds, and the atlas can create several articles in a row.
+let imageQueue: Promise<void> = Promise.resolve();
+
+function fillImages(article: Article): void {
+  imageQueue = imageQueue.then(async () => {
+    try {
+      const { exterior, interior } = await generateImages(
+        article.dimensions.imagePrompts.exterior,
+        article.dimensions.imagePrompts.interior,
+        article.id
+      );
+      // Whatever was put in a frame by hand meanwhile stays.
+      const current = getArticleById(article.id) ?? article;
+      saveArticle({
+        ...current,
+        images: {
+          exterior: current.images.exterior ?? exterior,
+          interior: current.images.interior ?? interior,
+        },
+      });
+    } catch {
+      // No image provider, or it failed. The frames stay empty for the user to
+      // fill by hand, which is a supported path, not an error.
+    }
+  });
+}
+
 /**
- * Writes one concept into the library: text first, saved at once so nothing
- * paid for is lost, then images. Used by the creating screen and by the atlas,
- * which creates several in a row.
+ * Writes one concept into the library and returns as soon as the text is
+ * saved, so the article opens in seconds. Images follow in the background and
+ * appear on the page when ready. Used by the creating screen and by the atlas.
  */
 export async function createArticle(
   concept: string,
@@ -30,16 +58,6 @@ export async function createArticle(
 
   // Saved before anything else can fail.
   saveArticle(article);
-
-  onStage?.('images');
-  try {
-    const images = await generateImages(dimensions.imagePrompts.exterior, dimensions.imagePrompts.interior);
-    const withImages = { ...article, images };
-    saveArticle(withImages);
-    return withImages;
-  } catch {
-    // No image provider, or it failed. The frames stay empty for the user to
-    // fill by hand, which is a supported path, not an error.
-    return article;
-  }
+  fillImages(article);
+  return article;
 }

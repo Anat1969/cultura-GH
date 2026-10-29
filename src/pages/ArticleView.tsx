@@ -7,7 +7,7 @@ import Breadcrumbs from '@/components/Breadcrumbs';
 import PublishButton from '@/components/PublishButton';
 import PromptStudio from '@/components/PromptStudio';
 import { OriginLine, PracticeBlock, InterpretationLines } from '@/components/CultureBlocks';
-import { getArticleById, saveArticle } from '@/lib/storage';
+import { getArticleById, saveArticle, ARTICLE_SAVED } from '@/lib/storage';
 import { Article, articleLede } from '@/types/article';
 import { isVideo } from '@/lib/media';
 import { useToast } from '@/hooks/use-toast';
@@ -33,6 +33,17 @@ const ArticleViewPage: React.FC = () => {
     }
     setArticle(found);
   }, [id, navigate]);
+
+  // Images arrive after the text; show them as soon as they are saved.
+  useEffect(() => {
+    const onSaved = (event: Event) => {
+      if ((event as CustomEvent<string>).detail !== id) return;
+      const fresh = id ? getArticleById(id) : undefined;
+      if (fresh) setArticle(fresh);
+    };
+    window.addEventListener(ARTICLE_SAVED, onSaved);
+    return () => window.removeEventListener(ARTICLE_SAVED, onSaved);
+  }, [id]);
 
   if (!article) return null;
   const d = article.dimensions;
