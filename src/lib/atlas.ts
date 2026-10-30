@@ -207,7 +207,7 @@ export async function suggestConcepts(culture: string, all: Article[]): Promise<
 
 // ---------- Saved entries ----------
 
-export type AtlasKind = 'theme' | 'culture';
+export type AtlasKind = 'theme' | 'culture' | 'group';
 
 export interface AtlasEntry<T = unknown> {
   id: string;

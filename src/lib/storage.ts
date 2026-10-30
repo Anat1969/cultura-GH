@@ -117,14 +117,16 @@ function keepServerWork(row: any, server: any) {
   for (const col of ['image_exterior', 'image_interior']) {
     if (!isStoredMedia(row[col]) && isStoredMedia(server[col])) row[col] = server[col];
   }
+  // Fields a server function wrote (story, word anatomy) survive an older copy.
   const local = row.origin ?? {};
   const remote = server.origin ?? {};
-  if (!local.story && remote.story) row.origin = { ...remote, ...stripEmpty(local) };
+  // A field cleared on purpose here ('') stays cleared; only a missing one is filled.
+  row.origin = { ...remote, ...definedOnly(local) };
   return row;
 }
 
-function stripEmpty(o: Record<string, unknown>) {
-  return Object.fromEntries(Object.entries(o).filter(([, v]) => v !== '' && v !== null && v !== undefined));
+function definedOnly(o: Record<string, unknown>) {
+  return Object.fromEntries(Object.entries(o).filter(([, v]) => v !== undefined));
 }
 
 // ---------- Saving: always, on its own ----------

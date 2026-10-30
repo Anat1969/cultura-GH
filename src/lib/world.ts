@@ -1,6 +1,8 @@
 import { Article } from '@/types/article';
 import { countryCode, countryOf, pointOf } from '@/data/geo';
 import { distinctArticles } from '@/lib/atlas';
+import { LanguageProfile, ORDER_LABEL, languageOf } from '@/data/languages';
+import { Civilization, civilizationOf } from '@/data/civilizations';
 
 /*
  * The globe and the time axis read the library through this one view: every
@@ -8,13 +10,25 @@ import { distinctArticles } from '@/lib/atlas';
  * each way of grouping. Derived, never stored.
  */
 
-export type GroupBy = 'region' | 'continent' | 'tradition' | 'period';
+export type GroupBy = 'region' | 'continent' | 'tradition' | 'period' | 'civilization' | 'syntax';
 
 export const GROUP_LABELS: Record<GroupBy, string> = {
   region: 'אזור תרבותי',
   continent: 'יבשת',
   tradition: 'מסורת',
   period: 'תקופה',
+  civilization: 'ציוויליזציה עתיקה',
+  syntax: 'מבנה המשפט',
+};
+
+/** What each way of grouping asks, shown under the buttons. */
+export const GROUP_QUESTIONS: Record<GroupBy, string> = {
+  region: 'מה משותף לשכנות, ומה כל אחת שומרת לעצמה',
+  continent: 'מה היבשת מעצבת, מעבר לגבולות המדינה',
+  tradition: 'איך דת ומסורת מכוונות מילים במקומות רחוקים',
+  period: 'מה נולד באותה תקופה בעולם',
+  civilization: 'איזה שורש עתיק ממשיך לדבר במילה של היום (מתוך ARCHITAIP)',
+  syntax: 'האם סדר המילים במשפט נוגע בדרך שבה חושבים',
 };
 
 // Periods in order; the time axis and the period grouping share them.
@@ -35,6 +49,8 @@ export interface WorldItem {
   code: string;
   point: [number, number] | null;
   year: number | null;
+  language?: LanguageProfile;
+  civilization?: Civilization;
   groups: Record<GroupBy, string>;
 }
 
@@ -44,16 +60,22 @@ export function worldItems(articles: Article[]): WorldItem[] {
     const code = countryCode(o);
     const country = countryOf(code);
     const year = typeof o.year === 'number' ? o.year : null;
+    const language = languageOf({ ...o, country: code });
+    const civilization = civilizationOf(code, o.culture);
     return {
       article,
       code,
       point: pointOf(o),
       year,
+      language,
+      civilization,
       groups: {
         region: country?.region ?? 'לא ידוע',
         continent: country?.continent ?? 'לא ידוע',
         tradition: o.tradition || 'לא ידוע',
         period: periodOf(year),
+        civilization: civilization?.name ?? 'בלי שורש ישיר',
+        syntax: language ? `${language.order}: ${ORDER_LABEL[language.order]}` : 'לא ידוע',
       },
     };
   });
@@ -77,7 +99,8 @@ export function worldGroups(items: WorldItem[], by: GroupBy): WorldGroup[] {
     const order = [...PERIODS.map(p => p.label), 'לא ידוע'];
     keys = keys.sort((a, b) => order.indexOf(a) - order.indexOf(b));
   } else {
-    keys = keys.sort((a, b) => (a === 'לא ידוע' ? 1 : b === 'לא ידוע' ? -1 : map.get(b)!.length - map.get(a)!.length));
+    const last = (k: string) => k === 'לא ידוע' || k === 'בלי שורש ישיר';
+  keys = keys.sort((a, b) => (last(a) ? 1 : last(b) ? -1 : map.get(b)!.length - map.get(a)!.length));
   }
   return keys.map((key, i) => {
     const list = map.get(key)!;
@@ -85,7 +108,10 @@ export function worldGroups(items: WorldItem[], by: GroupBy): WorldGroup[] {
     const center: [number, number] | null = pts.length
       ? [pts.reduce((s, p) => s + p[0], 0) / pts.length, pts.reduce((s, p) => s + p[1], 0) / pts.length]
       : null;
-    return { key, items: list, color: key === 'לא ידוע' ? 'hsl(0 0% 55%)' : hue(i, keys.length), center };
+    const civ = by === 'civilization' ? list[0]?.civilization : undefined;
+    // A civilization keeps the colour ARCHITAIP gave it, so both apps speak alike.
+    const color = key === 'לא ידוע' || key === 'בלי שורש ישיר' ? 'hsl(0 0% 55%)' : civ?.color ?? hue(i, keys.length);
+    return { key, items: list, color, center };
   });
 }
 

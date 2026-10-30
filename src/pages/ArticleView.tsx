@@ -7,6 +7,7 @@ import Breadcrumbs from '@/components/Breadcrumbs';
 import SaveStatus from '@/components/SaveStatus';
 import FitImage, { usableImage } from '@/components/FitImage';
 import { OriginStory } from '@/components/CultureMarks';
+import { ZoomLadder, WordAndLanguage } from '@/components/LanguageBlocks';
 import { completeArticle } from '@/lib/complete';
 import PromptStudio from '@/components/PromptStudio';
 import { OriginLine, PracticeBlock, InterpretationLines } from '@/components/CultureBlocks';
@@ -104,6 +105,7 @@ const ArticleViewPage: React.FC = () => {
             </p>
 
             <OriginLine origin={d.origin} className="mt-6" />
+            <ZoomLadder article={article} />
 
             <div className="mt-5 flex flex-wrap items-center gap-2">
               <Badge variant="outline">{article.concept}</Badge>
@@ -142,6 +144,10 @@ const ArticleViewPage: React.FC = () => {
 
         <motion.div {...fade(0.08)}>
           <OriginStory origin={d.origin} />
+        </motion.div>
+
+        <motion.div {...fade(0.09)}>
+          <WordAndLanguage article={article} />
         </motion.div>
 
         <motion.section {...fade(0.1)} className="rounded-xl border border-border bg-card/60 p-6">
