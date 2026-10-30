@@ -21,6 +21,21 @@ export interface Origin {
   story?: string;          // how the word came to be, two sentences
   source?: string;         // the Wikipedia page the story rests on
   basis?: 'wikipedia' | 'model' | '';
+  lang?: WordAnatomy;      // filled by the concept-language function
+}
+
+/** How the word is built and what its language says, from Wiktionary where it can. */
+export interface WordAnatomy {
+  code: string;            // ISO 639-1, a key of LANGUAGES in src/data/languages.ts
+  parts: { part: string; meaning: string }[];
+  root: string;
+  family: { word: string; transliteration: string; meaning: string }[];
+  richness: string;
+  untranslatable: string;
+  insight: string;
+  explanation: string;
+  source: string;
+  basis: 'wiktionary' | 'model' | '';
 }
 
 export interface Practice {

@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Input } from '@/components/ui/input';
@@ -8,7 +8,8 @@ import Timeline from '@/components/world/Timeline';
 import { Flag } from '@/components/CultureMarks';
 import { getArticles } from '@/lib/storage';
 import { keywordMatcher } from '@/lib/search';
-import { GROUP_LABELS, GroupBy, WorldItem, worldGroups, worldItems, yearLabel } from '@/lib/world';
+import { GROUP_LABELS, GROUP_QUESTIONS, GroupBy, WorldItem, worldGroups, worldItems, yearLabel } from '@/lib/world';
+import GroupPanel from '@/components/world/GroupPanel';
 
 const GROUPINGS = Object.keys(GROUP_LABELS) as GroupBy[];
 
@@ -40,6 +41,13 @@ const WorldPage: React.FC = () => {
   }, [query]);
   const groups = useMemo(() => worldGroups(items, by), [items, by]);
   const open = (it: WorldItem) => navigate(`/article/${it.article.id}`);
+  const chosen = groups.find(g => g.key === selected);
+  const panel = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    if (!selected || !panel.current) return;
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    panel.current.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
+  }, [selected]);
   const located = items.filter(i => i.point).length;
   const dated = items.filter(i => i.year !== null).length;
 
@@ -89,6 +97,7 @@ const WorldPage: React.FC = () => {
               </button>
             ))}
           </div>
+          <p className="mt-1 text-xs text-muted-foreground">{GROUP_QUESTIONS[by]}</p>
         </div>
       </div>
 
@@ -147,6 +156,18 @@ const WorldPage: React.FC = () => {
           })}
           {groups.length === 0 && <p className="py-8 text-center text-muted-foreground">אין מילים שתואמות את החיפוש</p>}
         </section>
+      </div>
+
+      <div ref={panel} className="scroll-mt-20">
+        {chosen ? (
+          <section aria-label={`ניתוח הקבוצה ${chosen.key}`} className="mt-10">
+            <GroupPanel group={chosen} by={by} onOpen={open} />
+          </section>
+        ) : (
+          <p className="mt-10 border border-dashed border-border p-4 text-center text-sm text-muted-foreground">
+            בחרי קבוצה (בגלובוס, ברשימה או בציר הזמן) כדי לראות מה משותף לה ומה מייחד כל מילה בה.
+          </p>
+        )}
       </div>
 
       <section aria-label="ציר זמן" className="mt-12">

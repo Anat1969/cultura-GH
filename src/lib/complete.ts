@@ -3,8 +3,8 @@ import { getArticleById, refreshArticle, isStoredMedia } from '@/lib/storage';
 import { Article } from '@/types/article';
 
 /*
- * Every article ends up whole: a stored image in each frame and the story of
- * where its word comes from. Both are made on the server (generate-images,
+ * Every article ends up whole: a stored image in each frame, the story of
+ * where its word comes from, and the anatomy of the word itself. Both are made on the server (generate-images,
  * concept-origin), which reads the article from the table and writes the
  * result back; this asks for them and then takes the server's copy.
  *
@@ -21,7 +21,8 @@ export function needsCompletion(article: Article): boolean {
   return (
     !isStoredMedia(article.images.exterior) ||
     !isStoredMedia(article.images.interior) ||
-    !article.dimensions.origin.story
+    !article.dimensions.origin.story ||
+    !article.dimensions.origin.lang?.insight
   );
 }
 
@@ -53,6 +54,10 @@ export function completeArticle(article: Article): Promise<void> {
     }
     if (!current.dimensions.origin.story) {
       await ask('concept-origin', article.id);
+      await refreshArticle(article.id);
+    }
+    if (!current.dimensions.origin.lang?.insight) {
+      await ask('concept-language', article.id);
       await refreshArticle(article.id);
     }
   });

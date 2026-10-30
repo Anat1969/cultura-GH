@@ -34,3 +34,22 @@ The site deploys to both, from main: https://anat1969.github.io/cultura-GH/ and 
 - The shared table is the library. Local copies of articles it no longer holds are dropped on sync (unless still waiting to be sent), so rejected articles cannot come back from one browser.
 - SVG text anchors flip inside an RTL page; drawings use `direction="ltr"` and Hebrew still reads right to left.
 - Never `pkill -f` with a pattern that also matches the shell's own command line: it kills the chain.
+
+## From macro to micro: the five scales (2026-10-30)
+Anat: culture is read through language and ideas, at every scale, in both directions. The app is organised as one ladder, shown at the top of every article (`ZoomLadder`):
+1. **World** - where and when: globe and time axis (`/world`).
+2. **Ancient civilization** - the deep root, from ARCHITAIP ("DNA תרבותי", https://architaip.vercel.app, repo ARCHITAIP-GH). `src/data/civilizations.ts` copies its eleven civilizations (archetype, chaos/order, five spatial vectors, colour) and maps countries to them; only direct lines, no forced ancestor. Each civilization links to `architaip.vercel.app/c/<id>`.
+3. **Group** - region, continent, tradition, period, civilization or sentence order. Every group gets a reading from `culture-group`: the common denominator AND what each member keeps for itself, a tension axis, a language reading, an action and a haiku. Kept in `culture_atlas` (kind 'group', key `<by>|<group>`), read once.
+4. **Language** - `src/data/languages.ts`: word order and gender (WALS Online, 2013), script and letter count (official alphabets), context (Hall, 1976, only where Hall placed the culture). Facts, hand-written, with the source on screen. What a structure means for a culture is shown as a reading, never as a fact.
+5. **Word** - `concept-language` reads the English Wiktionary entry: parts, root, word family, what Hebrew lacks. Stored in `origin.lang`, marked wiktionary or model.
+Text from the model follows Claude-GH docs/ai-text-standard.md and renders through `Rich` (`**bold**`, `==insight==`, numbers bold, a sentence per line).
+
+## DNA certificate
+- Metaphor: a lens that zooms from the globe to a single letter and back.
+- Material: paper, ink and stone; a dark ground with warm amber light.
+- Colour: amber accent; groups by evenly spaced hues; civilizations keep ARCHITAIP's colours.
+- Motion: the globe turns slowly, the ladder steps; nothing moves without meaning.
+- Inspiration: the etymological dictionary and the museum wall text.
+
+## Ownership and logo
+Anat's app: the logo "אד' ענת שטיבלמן A&I".
