@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { getArticles, findArticleByConcept } from '@/lib/storage';
 import ArticleCard from '@/components/ArticleCard';
+import HomeIdea from '@/components/home/HomeIdea';
 import { cultureGroups, comparisonQuestions, ConceptSuggestion } from '@/data/cultures';
 
 const examples: ConceptSuggestion[] = [
@@ -44,21 +45,25 @@ const HomePage: React.FC = () => {
 
   return (
     <div className="min-h-[calc(100vh-4rem)] flex flex-col">
-      {/* Hero */}
-      <section className="flex-1 flex flex-col items-center justify-center px-4 py-16">
+      {/* The idea first: wonder, a guess, the scales, the method, the wall */}
+      <HomeIdea articles={articles} />
+
+      {/* Your turn: a word of your own */}
+      <section id="create" className="scroll-mt-20 flex-1 flex flex-col items-center justify-center border-t border-border px-4 py-20">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
           className="text-center max-w-2xl mx-auto w-full"
         >
-          <h1 className="text-fluid-xl font-heading font-bold text-primary mb-4 leading-tight">
-            תרבות הופכת
-            <br />
-            <span className="text-accent">למרחב</span>
-          </h1>
+          <span className="block font-mono text-[11px] tracking-[0.18em] text-muted-foreground">06 · תורך</span>
+          <h2 className="mt-3 text-fluid-lg font-heading font-bold text-primary mb-4 leading-tight">
+            איזו מילה חסרה לך?
+          </h2>
           <p className="text-fluid-md text-muted-foreground mb-10">
-            הזן מושג תרבותי וצפה בו מתגלגל למרחב מחייה
+            כתבי מושג מכל תרבות.
+            <br />
+            תוך שניות הוא נבדק, מתפרק לשורשיו והופך למרחב.
           </p>
 
           <div className="flex gap-3 max-w-lg mx-auto mb-6">
