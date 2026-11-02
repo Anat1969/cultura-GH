@@ -190,7 +190,8 @@ if (typeof window !== 'undefined') {
 }
 
 const STORAGE_KEY = 'culturearch_articles';
-const THEME_KEY = 'culturearch_theme';
+// v2: the monochrome light palette is the default for everyone, once.
+const THEME_KEY = 'culturearch_theme_v2';
 
 export type GroupMode = 'need' | 'culture';
 
@@ -397,9 +398,9 @@ export function getArticlesByGroup(mode: GroupMode, key: string): Article[] {
 
 export function getTheme(): 'dark' | 'light' {
   try {
-    return (localStorage.getItem(THEME_KEY) as 'dark' | 'light') || 'dark';
+    return (localStorage.getItem(THEME_KEY) as 'dark' | 'light') || 'light';
   } catch {
-    return 'dark';
+    return 'light';
   }
 }
 

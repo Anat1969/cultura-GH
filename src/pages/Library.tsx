@@ -84,7 +84,7 @@ const LibraryPage: React.FC = () => {
 
         <div className="pointer-events-none fixed inset-x-0 bottom-0 z-40">
           <div className="container mx-auto max-w-4xl px-4 pb-6">
-            <div className="pointer-events-auto flex items-center justify-between gap-4 rounded-2xl border border-border/50 bg-background/70 px-5 py-3 shadow-xl backdrop-blur-xl">
+            <div className="pointer-events-auto flex items-center justify-between gap-4 rounded-none border border-border/50 bg-background/70 px-5 py-3 shadow-xl backdrop-blur-xl">
               <div className="flex items-center gap-2">
                 <Button
                   variant="ghost"

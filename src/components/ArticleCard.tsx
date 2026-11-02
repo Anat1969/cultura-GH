@@ -22,21 +22,23 @@ const ArticleCard: React.FC<{ article: Article; index?: number }> = ({ article, 
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay: Math.min(index * 0.06, 0.4), ease: [0.22, 1, 0.36, 1] }}
       onClick={() => navigate(`/article/${article.id}`)}
-      className="group relative flex cursor-pointer flex-col overflow-hidden rounded-xl border border-border bg-card transition-all duration-500 hover:border-accent/50 hover:shadow-xl hover:shadow-black/20"
+      className="group relative flex cursor-pointer flex-col"
     >
-      <div className="relative aspect-square overflow-hidden bg-muted">
+      {/* The image is the card: whole, square, no frame around it. */}
+      <div className="relative aspect-square overflow-hidden bg-muted shadow-[0_14px_30px_-22px_rgb(0_0_0/0.5)] transition-all duration-500 group-hover:-translate-y-1 group-hover:shadow-[0_26px_44px_-24px_rgb(0_0_0/0.55)] group-active:translate-y-0">
         {cover ? (
           <FitImage
             src={cover}
+            alt={d.spaceName}
             className="h-full w-full transition-transform duration-700 group-hover:scale-[1.03]"
           />
         ) : motion_ && isVideo(motion_) ? (
           <video src={motion_} muted loop playsInline className="h-full w-full object-cover" />
         ) : (
           // No media yet: the original script carries the card on its own.
-          <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-primary/15 via-transparent to-accent/15">
+          <div className="flex h-full w-full items-center justify-center">
             <span
-              className="font-heading text-6xl text-accent/70"
+              className="font-heading text-6xl text-foreground/35"
               dir="auto"
               style={{
                 fontFamily:
@@ -48,34 +50,25 @@ const ArticleCard: React.FC<{ article: Article; index?: number }> = ({ article, 
           </div>
         )}
 
-        <div className="absolute inset-0 bg-gradient-to-t from-background/85 via-background/10 to-transparent" />
-
-        <div className="absolute inset-x-0 bottom-0 p-4">
-          <h3 className="font-heading text-xl font-bold leading-tight text-foreground drop-shadow">
-            {d.spaceName}
-          </h3>
-          <p className="mt-1 flex items-center gap-1.5 text-xs text-foreground/80">
-            <Flag article={article} />
-            <span>{article.concept}</span>
-            {d.origin.culture && <span className="text-muted-foreground">· {d.origin.culture}</span>}
-          </p>
-          {d.origin.literal && <Gloss text={d.origin.literal} className="mt-0.5" />}
-        </div>
-
         {d.humanNeed && (
-          <span className="absolute right-3 top-3 rounded-full border border-border/60 bg-background/70 px-2.5 py-1 text-[11px] font-medium backdrop-blur-md">
+          <span className="absolute right-3 top-3 bg-white/85 px-2.5 py-1 text-[11px] font-medium text-neutral-900 shadow-sm backdrop-blur-md">
             {d.humanNeed}
           </span>
         )}
       </div>
 
-      <div className="flex flex-1 flex-col gap-3 p-4">
-        <p className="line-clamp-3 text-sm leading-relaxed text-foreground/80">{articleLede(d)}</p>
-        <div className="mt-auto flex items-center justify-between text-[11px] text-muted-foreground">
+      <div className="flex flex-1 flex-col gap-2 pt-4">
+        <h3 className="font-heading text-xl font-bold leading-tight text-foreground">{d.spaceName}</h3>
+        <p className="flex items-center gap-1.5 text-xs text-foreground/80">
+          <Flag article={article} />
+          <span className="font-semibold">{article.concept}</span>
+          {d.origin.culture && <span className="text-muted-foreground">· {d.origin.culture}</span>}
+        </p>
+        {d.origin.literal && <Gloss text={d.origin.literal} />}
+        <p className="line-clamp-3 text-sm leading-relaxed text-foreground/75">{articleLede(d)}</p>
+        <div className="mt-auto flex items-center justify-between pt-1 text-[11px] text-muted-foreground">
           <span dir="ltr">{d.origin.transliteration}</span>
-          <span className="opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-            קרא ←
-          </span>
+          <span className="opacity-0 transition-opacity duration-300 group-hover:opacity-100">קרא ←</span>
         </div>
       </div>
     </motion.article>
