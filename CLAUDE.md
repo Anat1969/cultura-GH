@@ -57,6 +57,9 @@ Text from the model follows Claude-GH docs/ai-text-standard.md and renders throu
 - Text never sits on an image. Cards: the square image, then the title under it.
 - Old interior frames still held Pollinations links (16:9, watermark). `usableImage()` hides them and `generate-images` treats them as empty, so they are redrawn square.
 
+## The home page carries the idea (Anat, 2026-11-02)
+"Some words have no translation, yet they have a place." `src/components/home/HomeIdea.tsx` walks it before asking anything: 1 a word in its own script, then its meaning, then its image (the lens turns every ~7s, pauses on hover, stands still with reduced motion); 2 a guess: the meaning shown, the culture chosen from three; 3 the five scales on one word as a narrowing lens; 4 the method (word, source, insight, space in Israel) with a city example; 5 the wall of every image, the numbers, a quote with its source and a haiku; 6 the create box. All drawn from the library. Hebrew and Jewish words stay out of 1 and 2: a Hebrew reader already has them.
+
 ## Ownership and logo
 Anat's app: the logo "אד' ענת שטיבלמן A&I".
 
