@@ -59,3 +59,6 @@ Text from the model follows Claude-GH docs/ai-text-standard.md and renders throu
 
 ## Ownership and logo
 Anat's app: the logo "אד' ענת שטיבלמן A&I".
+
+## Language of every reply (2026-11-02)
+Every message to Anat is in Hebrew: replies, progress lines, reports from scheduled tasks and notification handling alike. English only inside code, commands and commit messages. Anat had to say "עברית תמיד!" after a run of English status messages.
