@@ -46,10 +46,16 @@ Text from the model follows Claude-GH docs/ai-text-standard.md and renders throu
 
 ## DNA certificate
 - Metaphor: a lens that zooms from the globe to a single letter and back.
-- Material: paper, ink and stone; a dark ground with warm amber light.
-- Colour: amber accent; groups by evenly spaced hues; civilizations keep ARCHITAIP's colours.
+- Material: paper, ink and stone; a white ground, fifty shades of grey, black ink.
+- Colour: the interface is monochrome (Anat, 2026-11-02). Colour belongs only to what it describes: images, flags, groups by evenly spaced hues, civilizations in ARCHITAIP's colours, and the yellow insight marker.
 - Motion: the globe turns slowly, the ladder steps; nothing moves without meaning.
 - Inspiration: the etymological dictionary and the museum wall text.
+
+## Light, monochrome, image inside the text (Anat, 2026-11-02)
+- Light is the default theme (key `culturearch_theme_v2`), tokens in `src/index.css` are pure greys (hue 0, saturation 0). Never add a hue to a UI token; `accent` is a dark grey.
+- An image is never placed in a box of other proportions. It gets a column of its own, `FitImage mode="natural"`, full column width, no border, no veil, no gradient over it, and the text runs beside it (article: opening image beside the title, the Israel image beside "גשר לתרבות המקומית"; magazine: four spreads built the same way). On a phone it runs edge to edge.
+- Text never sits on an image. Cards: the square image, then the title under it.
+- Old interior frames still held Pollinations links (16:9, watermark). `usableImage()` hides them and `generate-images` treats them as empty, so they are redrawn square.
 
 ## Ownership and logo
 Anat's app: the logo "אד' ענת שטיבלמן A&I".

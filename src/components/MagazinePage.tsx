@@ -46,149 +46,69 @@ const MagazinePage: React.FC<MagazinePageProps> = ({ article, layoutVariant }) =
       </Badge>
     ));
 
-  // Layout 0: Full-bleed image left, text right (editorial spread)
+  // Every image stands in its own column, whole and in its own proportions:
+  // no box around it, no veil over it. The text sits beside it, never on it.
+  const Picture: React.FC<{ src: string | null; alt: string; caption?: string; className?: string }> = ({
+    src,
+    alt,
+    caption,
+    className = '',
+  }) => (
+    <motion.figure className={`-mx-6 sm:mx-0 ${className}`} {...fadeIn(0)}>
+      {src ? (
+        <FitImage src={src} alt={alt} mode="natural" imgClassName="shadow-[0_24px_48px_-28px_rgb(0_0_0/0.45)]" />
+      ) : (
+        <div className="flex aspect-square w-full items-center justify-center bg-muted">
+          <span className="px-6 text-center font-heading text-7xl text-foreground/30" dir="auto">
+            {dimensions.origin.script || concept}
+          </span>
+        </div>
+      )}
+      {caption && <figcaption className="mt-2 px-6 text-xs text-muted-foreground sm:px-0">{caption}</figcaption>}
+    </motion.figure>
+  );
+
+  const Proverb: React.FC<{ size?: string }> = ({ size = 'text-2xl' }) => (
+    <div>
+      <ProverbLabel />
+      <blockquote className={`${size} font-heading font-bold leading-snug text-foreground`}>❝{dimensions.proverb}❞</blockquote>
+    </div>
+  );
+
+  const Title: React.FC<{ center?: boolean; tagCount?: number }> = ({ center, tagCount = 3 }) => (
+    <motion.div {...fadeUp}>
+      <span className="mb-4 block text-xs uppercase tracking-[0.3em] text-muted-foreground">{dateStr}</span>
+      <h2 className="mb-4 text-fluid-xl font-heading font-bold leading-[1.1] text-primary">{dimensions.spaceName}</h2>
+      <OriginLine origin={dimensions.origin} className={`mb-4 ${center ? 'justify-center' : ''}`} />
+      <div className={`mb-8 flex flex-wrap gap-2 ${center ? 'justify-center' : ''}`}>
+        <Badge variant="outline" className="text-sm">
+          {concept}
+        </Badge>
+        {otherTags(tagCount)}
+      </div>
+    </motion.div>
+  );
+
+  const shell = 'container mx-auto max-w-6xl px-6 pt-10 pb-32';
+  const split = 'grid grid-cols-1 items-start gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:gap-14';
+
+  // Layout 0: editorial spread, text on the right, the image on the left
   if (variant === 0) {
     return (
-      <div className="w-full min-h-[calc(100vh-4rem)] grid grid-cols-1 lg:grid-cols-2 gap-0">
-        <motion.div className="relative overflow-hidden min-h-[50vh] lg:min-h-full" {...fadeIn(0)}>
-          {images.exterior ? (
-            <FitImage src={images.exterior} alt={dimensions.spaceName} className="absolute inset-0 w-full h-full" />
-          ) : (
-            <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-accent/20" />
-          )}
-          <div className="absolute inset-0 bg-gradient-to-l from-background/80 via-transparent to-transparent lg:from-background/60" />
-          <motion.div className="absolute bottom-8 right-8 left-8 lg:left-auto lg:max-w-sm" {...fadeIn(0.4)}>
-            <ProverbLabel />
-            <p className="text-2xl lg:text-3xl font-heading font-bold text-foreground/90 leading-snug drop-shadow-lg">
-              ❝{dimensions.proverb}❞
-            </p>
-          </motion.div>
-        </motion.div>
-
-        <div className="flex flex-col justify-center px-8 lg:px-16 py-12 lg:py-20 pb-32">
-          <motion.div {...fadeUp}>
-            <span className="text-xs tracking-[0.3em] uppercase text-muted-foreground mb-4 block">{dateStr}</span>
-            <h2 className="text-fluid-xl font-heading font-bold text-primary mb-4 leading-[1.1]">{dimensions.spaceName}</h2>
-            <OriginLine origin={dimensions.origin} className="mb-4" />
-            <div className="flex gap-2 flex-wrap mb-8">
-              <Badge variant="outline" className="text-sm border-primary/30">
-                {concept}
-              </Badge>
-              {otherTags(3)}
-            </div>
-          </motion.div>
-
-          <motion.div {...fadeIn(0.3)}>
-            <div className="w-16 h-[2px] bg-accent mb-6" />
-            <p className="text-lg leading-[1.9] text-foreground/85 mb-8 font-body">{dimensions.insight}</p>
-          </motion.div>
-
-          <motion.div {...fadeIn(0.5)}>
-            <InterpretationLines value={dimensions.interpretation} compact className="mb-6" />
-            <PracticeBlock practice={dimensions.practice} compact />
-          </motion.div>
-        </div>
-      </div>
-    );
-  }
-
-  // Layout 1: Full-bleed hero image with overlaid text (cinematic)
-  if (variant === 1) {
-    return (
-      <div className="w-full min-h-[calc(100vh-4rem)] relative overflow-hidden flex items-end">
-        {images.exterior ? (
-          <motion.div className="absolute inset-0" {...fadeIn(0)}>
-            <FitImage src={images.exterior} alt={dimensions.spaceName} className="h-full w-full" />
-          </motion.div>
-        ) : (
-          <div className="absolute inset-0 bg-gradient-to-br from-primary/30 to-accent/10" />
-        )}
-        <div className="absolute inset-0 bg-gradient-to-t from-background via-background/70 to-transparent" />
-
-        <div className="relative z-10 w-full px-8 lg:px-20 pb-32 pt-32">
-          <div className="max-w-4xl mx-auto">
-            <motion.div {...fadeUp}>
-              <div className="flex gap-2 flex-wrap mb-4">
-                <Badge variant="outline" className="text-sm border-primary/40 bg-background/50 backdrop-blur-sm">
-                  {concept}
-                </Badge>
-                {otherTags(2)}
-              </div>
-              <h2 className="text-fluid-xl font-heading font-bold text-primary mb-4 leading-[1.1]">{dimensions.spaceName}</h2>
-              <OriginLine origin={dimensions.origin} className="mb-6" />
-            </motion.div>
-
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16">
-              <motion.div {...fadeIn(0.3)}>
-                <p className="text-lg leading-[1.9] text-foreground/90 font-body mb-6">{dimensions.insight}</p>
-                <PracticeBlock practice={dimensions.practice} compact />
-              </motion.div>
-              <motion.div {...fadeIn(0.5)}>
-                <ProverbLabel />
-                <blockquote className="text-2xl font-heading text-accent/90 leading-snug mb-4">❝{dimensions.proverb}❞</blockquote>
-                <InterpretationLines value={dimensions.interpretation} compact />
-              </motion.div>
-            </div>
-
-            <motion.span className="block text-xs text-muted-foreground mt-8" {...fadeIn(0.7)}>
-              {dateStr}
-            </motion.span>
+      <div className={shell}>
+        <div className={split}>
+          <div className="lg:sticky lg:top-24 lg:order-last">
+            <Picture src={images.exterior} alt={dimensions.spaceName} caption={dimensions.origin.region_en} />
           </div>
-        </div>
-      </div>
-    );
-  }
-
-  // Layout 2: Two images side by side (origin | Israel) with centered text column
-  if (variant === 2) {
-    return (
-      <div className="w-full min-h-[calc(100vh-4rem)] flex flex-col">
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-1 h-[45vh]">
-          <motion.div className="relative overflow-hidden" {...fadeIn(0)}>
-            {images.exterior ? (
-              <FitImage src={images.exterior} alt="המושג בארץ המקור" className="w-full h-full" />
-            ) : (
-              <div className="w-full h-full bg-gradient-to-br from-primary/20 to-accent/10" />
-            )}
-            <span className="absolute bottom-3 right-3 text-xs bg-background/60 backdrop-blur-sm rounded px-2 py-1">
-              {dimensions.origin.region_en || 'ארץ המקור'}
-            </span>
-          </motion.div>
-          <motion.div className="relative overflow-hidden" {...fadeIn(0.2)}>
-            {images.interior ? (
-              <FitImage src={images.interior} alt="מרחב מחייה מרפא בישראל" className="w-full h-full" />
-            ) : (
-              <div className="w-full h-full bg-gradient-to-bl from-primary/20 to-accent/10" />
-            )}
-            <span className="absolute bottom-3 right-3 text-xs bg-background/60 backdrop-blur-sm rounded px-2 py-1">ישראל</span>
-          </motion.div>
-        </div>
-
-        <div className="flex-1 flex items-center justify-center px-8 lg:px-20 py-12 pb-32">
-          <div className="max-w-3xl mx-auto text-center">
-            <motion.div {...fadeUp}>
-              <span className="text-xs tracking-[0.3em] uppercase text-muted-foreground mb-3 block">
-                {dateStr} · {concept}
-              </span>
-              <h2 className="text-fluid-xl font-heading font-bold text-primary mb-4 leading-[1.1]">{dimensions.spaceName}</h2>
-              <OriginLine origin={dimensions.origin} className="justify-center mb-6" />
-              <div className="w-24 h-[2px] bg-accent mx-auto mb-8" />
+          <div className="min-w-0">
+            <Title />
+            <motion.div {...fadeIn(0.3)}>
+              <div className="mb-6 h-[2px] w-16 bg-primary" />
+              <p className="mb-8 font-body text-lg leading-[1.9] text-foreground/85">{dimensions.insight}</p>
             </motion.div>
-
-            <motion.p className="text-xl leading-[2] text-foreground/85 font-body mb-8" {...fadeIn(0.3)}>
-              {dimensions.insight}
-            </motion.p>
-
-            <motion.div {...fadeIn(0.5)}>
-              <ProverbLabel />
-              <blockquote className="text-2xl font-heading text-accent/80 leading-snug italic">❝{dimensions.proverb}❞</blockquote>
-            </motion.div>
-
-            <motion.div className="mt-4 mb-8 max-w-md mx-auto text-right" {...fadeIn(0.6)}>
+            <motion.div className="space-y-8" {...fadeIn(0.5)}>
+              <Proverb />
               <InterpretationLines value={dimensions.interpretation} compact />
-            </motion.div>
-
-            <motion.div className="text-right max-w-xl mx-auto" {...fadeIn(0.7)}>
               <PracticeBlock practice={dimensions.practice} compact />
             </motion.div>
           </div>
@@ -197,52 +117,86 @@ const MagazinePage: React.FC<MagazinePageProps> = ({ article, layoutVariant }) =
     );
   }
 
-  // Layout 3: Asymmetric — narrow image, large text block
-  return (
-    <div className="w-full min-h-[calc(100vh-4rem)] grid grid-cols-1 lg:grid-cols-3 gap-0">
-      <div className="lg:col-span-2 flex flex-col justify-center px-8 lg:px-20 py-16 pb-32 order-2 lg:order-1">
-        <motion.div {...fadeUp}>
-          <span className="text-xs tracking-[0.3em] uppercase text-muted-foreground mb-6 block">{dateStr}</span>
-          <h2 className="text-fluid-xl font-heading font-bold text-primary mb-4 leading-[1.1]">{dimensions.spaceName}</h2>
-          <OriginLine origin={dimensions.origin} className="mb-4" />
-          <div className="flex gap-2 flex-wrap mb-10">
-            <Badge variant="outline" className="text-sm border-primary/30">
-              {concept}
-            </Badge>
-            {otherTags(3)}
+  // Layout 1: the image on the right, the proverb opening the text on the left
+  if (variant === 1) {
+    return (
+      <div className={shell}>
+        <div className={split}>
+          <div className="lg:sticky lg:top-24">
+            <Picture src={images.exterior} alt={dimensions.spaceName} caption={dimensions.origin.region_en} />
           </div>
-        </motion.div>
-
-        <motion.div {...fadeIn(0.2)}>
-          <div className="w-16 h-[2px] bg-accent mb-8" />
-          <div className="columns-1 lg:columns-2 gap-12">
-            <p className="text-lg leading-[2] text-foreground/85 font-body mb-6">{dimensions.insight}</p>
-            <InterpretationLines value={dimensions.interpretation} compact />
+          <div className="min-w-0">
+            <Title tagCount={2} />
+            <motion.div className="mb-8 border-r-2 border-primary pr-5" {...fadeIn(0.2)}>
+              <Proverb size="text-3xl" />
+            </motion.div>
+            <motion.div className="space-y-8" {...fadeIn(0.4)}>
+              <p className="font-body text-lg leading-[1.9] text-foreground/90">{dimensions.insight}</p>
+              <InterpretationLines value={dimensions.interpretation} compact />
+              <PracticeBlock practice={dimensions.practice} compact />
+            </motion.div>
           </div>
-        </motion.div>
-
-        <motion.div className="mt-10 border-r-2 border-accent pr-6" {...fadeIn(0.5)}>
-          <ProverbLabel />
-          <blockquote className="text-xl font-heading text-accent/80 leading-snug">❝{dimensions.proverb}❞</blockquote>
-        </motion.div>
-
-        <motion.div className="mt-8" {...fadeIn(0.6)}>
-          <PracticeBlock practice={dimensions.practice} compact />
-        </motion.div>
+        </div>
       </div>
+    );
+  }
 
-      <motion.div className="relative overflow-hidden min-h-[40vh] lg:min-h-full order-1 lg:order-2" {...fadeIn(0)}>
-        {images.interior || images.exterior ? (
-          <FitImage
-            src={images.interior || images.exterior!}
+  // Layout 2: the two images side by side (origin | Israel), the text below
+  if (variant === 2) {
+    return (
+      <div className={shell}>
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
+          <Picture src={images.exterior} alt="המושג בארץ המקור" caption={dimensions.origin.region_en || 'ארץ המקור'} />
+          <Picture src={images.interior} alt="מרחב מחייה בישראל" caption="ישראל" />
+        </div>
+
+        <div className="mx-auto mt-12 max-w-3xl text-center">
+          <Title center />
+          <motion.p className="mb-8 font-body text-xl leading-[2] text-foreground/85" {...fadeIn(0.3)}>
+            {dimensions.insight}
+          </motion.p>
+          <motion.div {...fadeIn(0.5)}>
+            <Proverb />
+          </motion.div>
+          <motion.div className="mx-auto mt-6 mb-8 max-w-md text-right" {...fadeIn(0.6)}>
+            <InterpretationLines value={dimensions.interpretation} compact />
+          </motion.div>
+          <motion.div className="mx-auto max-w-xl text-right" {...fadeIn(0.7)}>
+            <PracticeBlock practice={dimensions.practice} compact />
+          </motion.div>
+        </div>
+      </div>
+    );
+  }
+
+  // Layout 3: a narrow image column, a wide text block in two columns
+  return (
+    <div className={shell}>
+      <div className="grid grid-cols-1 items-start gap-8 lg:grid-cols-[minmax(0,2fr)_minmax(0,1fr)] lg:gap-14">
+        <div className="lg:sticky lg:top-24 lg:order-last">
+          <Picture
+            src={images.interior || images.exterior}
             alt={dimensions.spaceName}
-            className="absolute inset-0 w-full h-full"
+            caption={images.interior ? 'המושג כמרחב בישראל' : dimensions.origin.region_en}
           />
-        ) : (
-          <div className="absolute inset-0 bg-gradient-to-br from-accent/20 to-primary/10" />
-        )}
-        <div className="absolute inset-0 bg-gradient-to-r from-background/40 to-transparent lg:from-background/30" />
-      </motion.div>
+        </div>
+        <div className="min-w-0">
+          <Title />
+          <motion.div {...fadeIn(0.2)}>
+            <div className="mb-8 h-[2px] w-16 bg-primary" />
+            <div className="columns-1 gap-12 lg:columns-2">
+              <p className="mb-6 font-body text-lg leading-[2] text-foreground/85">{dimensions.insight}</p>
+              <InterpretationLines value={dimensions.interpretation} compact />
+            </div>
+          </motion.div>
+          <motion.div className="mt-10 border-r-2 border-primary pr-6" {...fadeIn(0.5)}>
+            <Proverb size="text-xl" />
+          </motion.div>
+          <motion.div className="mt-8" {...fadeIn(0.6)}>
+            <PracticeBlock practice={dimensions.practice} compact />
+          </motion.div>
+        </div>
+      </div>
     </div>
   );
 };

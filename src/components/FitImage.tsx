@@ -22,7 +22,7 @@ interface FitImageProps {
 
 /**
  * Shows an image whole, never cropped. In a box of fixed proportions the full
- * picture sits over a blurred, darkened copy of itself, so a square image in a
+ * picture sits over a blurred copy of itself, so a square image in a
  * wide frame keeps its composition. In natural mode the frame takes the
  * image's own proportions.
  */
@@ -48,7 +48,7 @@ const FitImage: React.FC<FitImageProps> = ({
         alt=""
         aria-hidden
         loading={loading}
-        className="absolute inset-0 h-full w-full scale-110 object-cover opacity-60 blur-2xl brightness-75"
+        className="absolute inset-0 h-full w-full scale-110 object-cover opacity-70 blur-2xl"
       />
       <img
         src={src}
