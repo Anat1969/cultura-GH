@@ -11,7 +11,7 @@ import { ZoomLadder, WordAndLanguage } from '@/components/LanguageBlocks';
 import { completeArticle } from '@/lib/complete';
 import PromptStudio from '@/components/PromptStudio';
 import { OriginLine, PracticeBlock, InterpretationLines } from '@/components/CultureBlocks';
-import { getArticleById, saveArticle, ARTICLE_SAVED } from '@/lib/storage';
+import { getArticleById, saveArticle, ARTICLE_SAVED, syncArticlesFromSupabase } from '@/lib/storage';
 import { Article, articleLede } from '@/types/article';
 import { isVideo } from '@/lib/media';
 import { useToast } from '@/hooks/use-toast';
@@ -45,14 +45,26 @@ const ArticleViewPage: React.FC = () => {
 
   useEffect(() => {
     if (!id) return;
+    let alive = true;
+    const open = (found: Article) => {
+      setArticle(found);
+      // Whatever it still lacks (a stored image, the origin story) is made now.
+      void completeArticle(found);
+    };
     const found = getArticleById(id);
-    if (!found) {
-      navigate('/library', { replace: true });
-      return;
-    }
-    setArticle(found);
-    // Whatever it still lacks (a stored image, the origin story) is made now.
-    void completeArticle(found);
+    if (found) { open(found); return; }
+    // A direct link (from the Yoman inspiration page, a share, a new phone) can
+    // arrive before this browser holds the library. Load the shared library
+    // first, and only then give up and go to the library.
+    syncArticlesFromSupabase()
+      .catch(() => [])
+      .then(() => {
+        if (!alive) return;
+        const again = getArticleById(id);
+        if (again) open(again);
+        else navigate('/library', { replace: true });
+      });
+    return () => { alive = false; };
   }, [id, navigate]);
 
   // Images arrive after the text; show them as soon as they are saved.
